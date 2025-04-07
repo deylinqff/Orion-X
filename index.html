@@ -1,123 +1,128 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kirito Bot - IA</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Profesional</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #2c3e50;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+        }
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      background-color: #000;
-      color: white;
-      display: flex;
-      flex-direction: column;
-    }
+        .container {
+            text-align: center;
+            position: relative;
+        }
 
-    #chat-container {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      width: 100%;
-      background-color: #1e1e1e;
-    }
+        .letter {
+            font-size: 4rem;
+            display: inline-block;
+            opacity: 0;
+            transform: scale(0);
+            animation: explode 1s forwards;
+        }
 
-    #chat-header {
-      padding: 15px;
-      background-color: #0a84ff;
-      color: white;
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-    }
+        .magic-text {
+            font-size: 2rem;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: magic 3s forwards 1s;
+            letter-spacing: 2px;
+        }
 
-    #chat-box {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background-color: #252525;
-    }
+        @keyframes explode {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
-    .message {
-      max-width: 80%;
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 15px;
-      word-wrap: break-word;
-    }
+        @keyframes magic {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .user {
-      align-self: flex-end;
-      background-color: #0a84ff;
-      color: white;
-    }
+        .logo {
+            font-size: 5rem;
+            color: #f39c12;
+            margin-bottom: 30px;
+            animation: logoAnimation 1.5s forwards;
+        }
 
-    .bot {
-      align-self: flex-start;
-      background-color: #2e2e2e;
-      border: 1px solid #444;
-      color: white;
-    }
-
-    #chat-input {
-      display: flex;
-      padding: 10px;
-      background-color: #1e1e1e;
-      border-top: 1px solid #333;
-    }
-
-    #user-input {
-      flex: 1;
-      padding: 10px;
-      border-radius: 20px;
-      border: 1px solid #444;
-      background-color: #252525;
-      color: white;
-      outline: none;
-    }
-
-    #send-btn {
-      margin-left: 8px;
-      background-color: #0a84ff;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      padding: 10px 15px;
-      font-size: 18px;
-      cursor: pointer;
-    }
-
-    #send-btn:hover {
-      background-color: #0073e6;
-    }
-  </style>
+        @keyframes logoAnimation {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 <body>
-
-  <div id="chat-container">
-    <!-- Título -->
-    <div id="chat-header">Kirito Bot IA</div>
-
-    <!-- Mensajes -->
-    <div id="chat-box"></div>
-
-    <!-- Entrada -->
-    <div id="chat-input">
-      <input type="text" id="user-input" placeholder="Escribe un mensaje..." autocomplete="off" />
-      <button id="send-btn">➤</button>
+    <div class="container">
+        <div class="logo">Kirito AI</div>
+        <div id="letters-container">
+            <!-- Letras explotando -->
+            <span class="letter" style="animation-delay: 0.2s;">K</span>
+            <span class="letter" style="animation-delay: 0.4s;">I</span>
+            <span class="letter" style="animation-delay: 0.6s;">R</span>
+            <span class="letter" style="animation-delay: 0.8s;">I</span>
+            <span class="letter" style="animation-delay: 1s;">T</span>
+            <span class="letter" style="animation-delay: 1.2s;">O</span>
+        </div>
+        <div class="magic-text" id="magic-text"></div>
     </div>
-  </div>
 
-  <script type="module" src="./chat.js"></script>
+    <script>
+        // Función para escribir el texto con un efecto de magia
+        function writeText() {
+            const text = ' Kirito AI';
+            let index = 0;
+            const magicText = document.getElementById('magic-text');
+            const interval = setInterval(() => {
+                if (index < text.length) {
+                    magicText.innerHTML += text[index++];
+                } else {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        window.location.href = 'chat.html'; // Redirigir después de completar la animación
+                    }, 1000);
+                }
+            }, 150);
+        }
+
+        // Llamar a la función para escribir el texto
+        setTimeout(writeText, 2000); // Espera para que se inicie el efecto de escribir el texto
+    </script>
 </body>
 </html>
