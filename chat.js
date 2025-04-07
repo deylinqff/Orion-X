@@ -8,18 +8,18 @@ document.getElementById("user-input").addEventListener("keypress", function (eve
     }
 });
 
-// Función para detectar idioma y reproducir la voz, ignorando emojis, código, enlaces, etc.
+
 function speakText(text) {
-    // Eliminar bloques de código
+    
     text = text.replace(/```[\s\S]*?```/g, '');
 
-    // Eliminar enlaces (http o https)
+    
     text = text.replace(/https?:\/\/\S+/g, '');
 
-    // Eliminar emojis
+   
     text = text.replace(/[\u{1F600}-\u{1F64F}\u{1F300}-\u{1F5FF}\u{1F680}-\u{1F6FF}\u{2600}-\u{26FF}\u{1F1E6}-\u{1F1FF}]/gu, '');
 
-    // Eliminar caracteres innecesarios de markdown
+    
     text = text.replace(/[*_~`#>]/g, '');
 
     // Detectar idioma
