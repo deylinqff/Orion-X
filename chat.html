@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kirito Bot - IA</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      background-color: #000;
+      color: white;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+      background-color: #1e1e1e;
+    }
+
+    #chat-header {
+      padding: 15px;
+      background-color: #0a84ff;
+      color: white;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #chat-box {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background-color: #252525;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 15px;
+      word-wrap: break-word;
+    }
+
+    .user {
+      align-self: flex-end;
+      background-color: #0a84ff;
+      color: white;
+    }
+
+    .bot {
+      align-self: flex-start;
+      background-color: #2e2e2e;
+      border: 1px solid #444;
+      color: white;
+    }
+
+    #chat-input {
+      display: flex;
+      padding: 10px;
+      background-color: #1e1e1e;
+      border-top: 1px solid #333;
+    }
+
+    #user-input {
+      flex: 1;
+      padding: 10px;
+      border-radius: 20px;
+      border: 1px solid #444;
+      background-color: #252525;
+      color: white;
+      outline: none;
+    }
+
+    #send-btn {
+      margin-left: 8px;
+      background-color: #0a84ff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      padding: 10px 15px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    #send-btn:hover {
+      background-color: #0073e6;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="chat-container">
+    <!-- Título -->
+    <div id="chat-header">Kirito Bot IA</div>
+
+    <!-- Mensajes -->
+    <div id="chat-box"></div>
+
+    <!-- Entrada -->
+    <div id="chat-input">
+      <input type="text" id="user-input" placeholder="Escribe un mensaje..." autocomplete="off" />
+      <button id="send-btn">➤</button>
+    </div>
+  </div>
+
+  <script type="module" src="./chat.js"></script>
+</body>
+</html>
