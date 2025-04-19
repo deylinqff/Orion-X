@@ -1,7 +1,7 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #f9f9f9;
+  background-color: #f2f2f2;
 }
 
 .container {
@@ -16,20 +16,33 @@ h1 {
   margin-bottom: 20px;
 }
 
-button {
-  padding: 10px 25px;
+form {
+  margin-bottom: 30px;
+}
+
+input[type="text"] {
+  padding: 10px;
   font-size: 16px;
-  background-color: #0077cc;
+  width: 60%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #e60023;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  margin-bottom: 20px;
   transition: background 0.3s;
 }
 
 button:hover {
-  background-color: #005fa3;
+  background-color: #cc001f;
 }
 
 .gallery {
