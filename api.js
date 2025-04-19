@@ -6,7 +6,7 @@ loadBtn.addEventListener('click', async () => {
   loadBtn.textContent = 'Cargando...';
 
   try {
-    const res = await fetch('https://api.unsplash.com/photos/random?count=6&client_id=TU_API_KEY');
+    const res = await fetch('https://id.pinterest.com/resource/BaseSearchResource/get/?source_url');
     const data = await res.json();
 
     data.forEach(img => {
