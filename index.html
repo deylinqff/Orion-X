@@ -3,71 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Descarga de Imágenes</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background: #f2f2f2;
-      text-align: center;
-    }
-    .gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-    }
-    .gallery img {
-      max-width: 200px;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    button {
-      margin: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-  </style>
+  <title>Galería de Imágenes</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Descarga de Imágenes</h1>
-  <button onclick="cargarImagenes()">Obtener más imágenes</button>
-  <div class="gallery" id="galeria">
-    <!-- Imágenes predeterminadas -->
-    <img src="https://via.placeholder.com/200x150?text=Imagen+1" alt="Imagen 1" onclick="descargar(this.src)">
-    <img src="https://via.placeholder.com/200x150?text=Imagen+2" alt="Imagen 2" onclick="descargar(this.src)">
+  <div class="container">
+    <h1>Galería de Imágenes</h1>
+    <button id="load-btn">Buscar más imágenes</button>
+    <div class="gallery" id="gallery">
+      <!-- Imágenes predeterminadas -->
+      <img src="https://via.placeholder.com/300x200?text=Imagen+1" alt="Imagen 1" />
+      <img src="https://via.placeholder.com/300x200?text=Imagen+2" alt="Imagen 2" />
+    </div>
   </div>
-
-  <script>
-    async function cargarImagenes() {
-      const galeria = document.getElementById("galeria");
-      galeria.innerHTML += `<p>Cargando...</p>`;
-      try {
-        const res = await fetch("https://api.unsplash.com/photos/random?count=4&client_id=TU_API_KEY");
-        const data = await res.json();
-        data.forEach(img => {
-          const imagen = document.createElement("img");
-          imagen.src = img.urls.small;
-          imagen.alt = img.alt_description || "Imagen";
-          imagen.onclick = () => descargar(imagen.src);
-          galeria.appendChild(imagen);
-        });
-      } catch (err) {
-        alert("Error al cargar imágenes");
-      } finally {
-        galeria.querySelector("p")?.remove();
-      }
-    }
-
-    function descargar(url) {
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "imagen.jpg";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
-  </script>
+  <script src="api.js"></script>
 </body>
 </html>
