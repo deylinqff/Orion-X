@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Galería de Imágenes</title>
+  <title>Buscador de Imágenes Pinterest</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Galería de Imágenes</h1>
-    <button id="load-btn">Buscar más imágenes</button>
+    <h1>Buscador de Imágenes</h1>
+    <form id="search-form">
+      <input type="text" id="search-input" placeholder="Buscar imágenes..." required />
+      <button type="submit">Buscar</button>
+    </form>
     <div class="gallery" id="gallery">
-      <!-- Imágenes predeterminadas -->
-      <img src="https://via.placeholder.com/300x200?text=Imagen+1" alt="Imagen 1" />
-      <img src="https://via.placeholder.com/300x200?text=Imagen+2" alt="Imagen 2" />
+      <!-- Aquí se insertarán las imágenes -->
     </div>
   </div>
-  <script src="api.js"></script>
+  <script src="pinterest-api.js"></script>
 </body>
 </html>
