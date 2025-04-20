@@ -20,6 +20,13 @@ form {
   margin-bottom: 30px;
 }
 
+.loading-message {
+  color: #aaa;
+  font-size: 18px;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
 input[type="text"] {
   padding: 10px;
   font-size: 16px;
