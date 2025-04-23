@@ -11,14 +11,18 @@
   <!-- Menú lateral -->
   <div id="side-menu" class="side-menu">
     <button id="close-menu" class="close-button">✖</button>
-    <h2>Historial</h2>
-    
-    <!-- Enlace a WhatsApp -->
-    <div style="margin-top: 20px;">
-      <a href="https://wa.me/1234567890" target="_blank" class="whatsapp-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold;">
+    <h2>WhatsApp</h2>
+
+    <!-- Enlaces de WhatsApp -->
+    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
       <a href="https://wa.me/50433191934" target="_blank" class="whatsapp-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold;">
         <i class="fab fa-whatsapp" style="font-size: 20px; color: #25D366;"></i>
-        Canal WhatsApp
+        Contacto directo
+      </a>
+
+      <a href="https://whatsapp.com/channel/ejemploID" target="_blank" class="whatsapp-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold;">
+        <i class="fas fa-bullhorn" style="font-size: 20px; color: #25D366;"></i>
+        Canal de WhatsApp
       </a>
     </div>
   </div>
@@ -58,43 +62,6 @@
 
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
-
-    // Historial con localStorage
-    const playedList = document.getElementById("played-history");
-    const downloadedList = document.getElementById("downloaded-history");
-
-    function loadHistory() {
-      const played = JSON.parse(localStorage.getItem("played") || "[]");
-      const downloaded = JSON.parse(localStorage.getItem("downloaded") || "[]");
-
-      playedList.innerHTML = played.length
-        ? played.map(item => `<li>${item}</li>`).join("")
-        : "<li>No hay canciones reproducidas aún.</li>";
-
-      downloadedList.innerHTML = downloaded.length
-        ? downloaded.map(item => `<li>${item}</li>`).join("")
-        : "<li>No hay canciones descargadas aún.</li>";
-    }
-
-    function addToHistory(type, title) {
-      const key = type === "played" ? "played" : "downloaded";
-      const data = JSON.parse(localStorage.getItem(key) || "[]");
-      if (!data.includes(title)) {
-        data.unshift(title);
-        localStorage.setItem(key, JSON.stringify(data.slice(0, 50)));
-      }
-    }
-
-    // Toggle listas
-    document.getElementById("toggle-played").onclick = () => {
-      playedList.classList.toggle("visible");
-    };
-    document.getElementById("toggle-downloaded").onclick = () => {
-      downloadedList.classList.toggle("visible");
-    };
-
-    // Inicializar historial al cargar
-    loadHistory();
   </script>
 </body>
 </html>
