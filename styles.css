@@ -7,14 +7,25 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: url('https://files.catbox.moe/3tiw5y.jpg') no-repeat center center fixed;
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: #0d0d0d;
   color: #f0f0f0;
   line-height: 1.6;
   padding-bottom: 90px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "Orion-X";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 15vw;
+  color: rgba(160, 160, 160, 0.07); /* gris claro y transparente */
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .container {
