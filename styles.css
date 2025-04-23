@@ -9,6 +9,9 @@ body {
   font-family: 'Segoe UI', sans-serif;
   background: url('https://files.catbox.moe/3tiw5y.jpg') no-repeat center center fixed;
   background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #f0f0f0;
   line-height: 1.6;
   padding-bottom: 90px;
