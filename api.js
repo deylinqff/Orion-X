@@ -4,6 +4,13 @@ const musicList = document.getElementById("music-list");
 const loadingMessage = document.getElementById("loading-message");
 const audioPlayer = document.getElementById("audio-player");
 
+const videoApis = [
+  (url) => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
+  (url) => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
+  (url) => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
+  (url) => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
+];
+
 searchForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const query = searchInput.value.trim();
@@ -41,19 +48,21 @@ searchForm.addEventListener("submit", async (e) => {
       artist.className = "music-artist";
       artist.textContent = video.author.name;
 
+      // Botón de audio
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
-      playBtn.textContent = "Reproducir";
+      playBtn.textContent = "Reproducir audio";
+
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
         try {
           const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
           const audioData = await audioRes.json();
-          if (audioData && audioData.data && audioData.data.url) {
+          if (audioData?.data?.url) {
             audioPlayer.src = audioData.data.url;
             audioPlayer.style.display = "block";
             audioPlayer.play();
-            playBtn.textContent = "Reproducir";
+            playBtn.textContent = "Reproducir audio";
           } else {
             playBtn.textContent = "Error";
             alert("No se pudo obtener el audio.");
@@ -65,11 +74,40 @@ searchForm.addEventListener("submit", async (e) => {
         }
       };
 
+      // Botón de video
+      const videoBtn = document.createElement("button");
+      videoBtn.className = "download-button";
+      videoBtn.textContent = "Descargar video";
+
+      videoBtn.onclick = async () => {
+        videoBtn.textContent = "Buscando...";
+        for (let api of videoApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
+            if (videoUrl) {
+              const a = document.createElement("a");
+              a.href = videoUrl;
+              a.download = `${video.title}.mp4`;
+              a.click();
+              videoBtn.textContent = "Descargar video";
+              return;
+            }
+          } catch (e) {
+            console.warn("API falló:", e.message);
+          }
+        }
+        videoBtn.textContent = "Error";
+        alert("No se pudo obtener el video.");
+      };
+
       info.appendChild(title);
       info.appendChild(artist);
       card.appendChild(image);
       card.appendChild(info);
       card.appendChild(playBtn);
+      card.appendChild(videoBtn);
       musicList.appendChild(card);
     });
   } catch (err) {
