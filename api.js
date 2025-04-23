@@ -53,7 +53,7 @@ searchForm.addEventListener("submit", async (e) => {
       })
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 8);
+      .slice(0, 15); // Mostrar más resultados para más opciones
 
     if (resultadosFiltrados.length === 0) {
       musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
@@ -77,6 +77,13 @@ searchForm.addEventListener("submit", async (e) => {
       const artist = document.createElement("div");
       artist.className = "music-artist";
       artist.textContent = video.author.name;
+
+      const channel = document.createElement("div");
+      channel.className = "music-channel";
+      channel.textContent = `Canal: ${video.author.channel || video.author.name}`;
+      if (video.author.verified) {
+        channel.textContent += " ✔️";
+      }
 
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
@@ -132,6 +139,7 @@ searchForm.addEventListener("submit", async (e) => {
 
       info.appendChild(title);
       info.appendChild(artist);
+      info.appendChild(channel);
       card.appendChild(image);
       card.appendChild(info);
       card.appendChild(playBtn);
