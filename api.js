@@ -53,28 +53,11 @@ searchForm.addEventListener("submit", async (e) => {
       })
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 15);
+      .slice(0, 15); // Mostrar más resultados para más opciones
 
     if (resultadosFiltrados.length === 0) {
       musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
       return;
-    }
-
-    // REPRODUCIR AUTOMÁTICAMENTE EL PRIMER AUDIO
-    const primerVideo = resultadosFiltrados[0]?.video;
-    if (primerVideo) {
-      try {
-        const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(primerVideo.url)}&type=audio&quality=128kbps&apikey=GataDios`);
-        const audioData = await audioRes.json();
-        if (audioData?.data?.url) {
-          audioPlayer.src = audioData.data.url;
-          audioPlayer.style.display = "block";
-          audioPlayer.playbackRate = 1.25; // velocidad aumentada
-          await audioPlayer.play();
-        }
-      } catch (err) {
-        console.warn("No se pudo reproducir automáticamente:", err.message);
-      }
     }
 
     resultadosFiltrados.forEach(({ video }) => {
@@ -114,7 +97,6 @@ searchForm.addEventListener("submit", async (e) => {
           if (audioData?.data?.url) {
             audioPlayer.src = audioData.data.url;
             audioPlayer.style.display = "block";
-            audioPlayer.playbackRate = 1.25;
             audioPlayer.play();
             playBtn.textContent = "Reproducir audio";
           } else {
