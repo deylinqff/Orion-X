@@ -7,10 +7,11 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #0d0d0d;
+  background: url('tu-imagen.jpg') no-repeat center center fixed;
+  background-size: cover;
   color: #f0f0f0;
   line-height: 1.6;
-  padding-bottom: 90px; /* espacio para el reproductor fijo */
+  padding-bottom: 90px;
 }
 
 .container {
