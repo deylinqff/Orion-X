@@ -92,7 +92,7 @@ searchForm.addEventListener("submit", async (e) => {
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
         try {
-          const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
+          const searchResults = await fetch(`https://apis-starlights-team.koyeb.app/starlight/soundcloud-search?text=${encodeURIComponent(query)}`);
           const audioData = await audioRes.json();
           if (audioData?.data?.url) {
             audioPlayer.src = audioData.data.url;
