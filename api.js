@@ -1,16 +1,3 @@
-const searchForm = document.getElementById("search-form");
-const searchInput = document.getElementById("search-input");
-const musicList = document.getElementById("music-list");
-const loadingMessage = document.getElementById("loading-message");
-const audioPlayer = document.getElementById("audio-player");
-
-const videoApis = [
-  (url) => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
-  (url) => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
-  (url) => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
-  (url) => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
-];
-
 searchForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const query = searchInput.value.trim();
@@ -20,47 +7,76 @@ searchForm.addEventListener("submit", async (e) => {
   loadingMessage.style.display = "block";
   audioPlayer.style.display = "none";
 
-  try {
-    const searchResults = await fetch(`https://api.neoxr.eu/api/yts?q=${encodeURIComponent(query)}&apikey=GataDios`);
-    const data = await searchResults.json();
-    loadingMessage.style.display = "none";
+  const isYouTubeUrl = query.startsWith("http://") || query.startsWith("https://");
 
-    if (!data.status || !data.data || data.data.length === 0) {
-      musicList.innerHTML = `<p>No se encontraron resultados.</p>`;
-      return;
+  try {
+    let resultados = [];
+
+    if (isYouTubeUrl) {
+      // Si es una URL de YouTube, llamar a la API directamente
+      const res = await fetch(`https://delirius-apiofc.vercel.app/download/ytmp4?url=${encodeURIComponent(query)}`);
+      const data = await res.json();
+
+      if (!data?.title || !data?.thumbnail || !data?.download?.url) {
+        throw new Error("No se pudo obtener información del video.");
+      }
+
+      resultados.push({
+        video: {
+          title: data.title,
+          thumbnail: data.thumbnail,
+          url: query,
+          author: {
+            name: data.channel || "Autor desconocido",
+            channel: data.channel || "",
+            verified: false
+          }
+        },
+        score: 10
+      });
+    } else {
+      // Si es una búsqueda por texto
+      const searchResults = await fetch(`https://api.zenkey.my.id/api/search/yt?q=${encodeURIComponent(query)}&apikey=zenkey`);
+      const data = await searchResults.json();
+      loadingMessage.style.display = "none";
+
+      if (!data.status || !data.data || data.data.length === 0) {
+        musicList.innerHTML = `<p>No se encontraron resultados.</p>`;
+        return;
+      }
+
+      const normalizar = (str) =>
+        str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+      const queryNorm = normalizar(query);
+
+      resultados = data.data
+        .map(video => {
+          const tituloNorm = normalizar(video.title);
+          const autorNorm = normalizar(video.author.name);
+
+          let score = 0;
+          if (tituloNorm.includes(queryNorm)) score += 2;
+          if (autorNorm.includes(queryNorm)) score += 1;
+
+          const keywords = queryNorm.split(/\s+/);
+          for (let palabra of keywords) {
+            if (tituloNorm.includes(palabra)) score += 1;
+            if (autorNorm.includes(palabra)) score += 0.5;
+          }
+
+          return { video, score };
+        })
+        .filter(item => item.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 15);
     }
 
-    const normalizar = (str) =>
-      str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    const queryNorm = normalizar(query);
-
-    const resultadosFiltrados = data.data
-      .map(video => {
-        const tituloNorm = normalizar(video.title);
-        const autorNorm = normalizar(video.author.name);
-
-        let score = 0;
-        if (tituloNorm.includes(queryNorm)) score += 2;
-        if (autorNorm.includes(queryNorm)) score += 1;
-
-        const keywords = queryNorm.split(/\s+/);
-        for (let palabra of keywords) {
-          if (tituloNorm.includes(palabra)) score += 1;
-          if (autorNorm.includes(palabra)) score += 0.5;
-        }
-
-        return { video, score };
-      })
-      .filter(item => item.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 15); // Mostrar hasta 15 resultados relevantes
-
-    if (resultadosFiltrados.length === 0) {
+    if (resultados.length === 0) {
       musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
       return;
     }
 
-    resultadosFiltrados.forEach(({ video }) => {
+    resultados.forEach(({ video }) => {
       const card = document.createElement("div");
       card.className = "music-card";
 
@@ -92,7 +108,7 @@ searchForm.addEventListener("submit", async (e) => {
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
         try {
-          const searchResults = await fetch(`https://api.zenkey.my.id/api/search/yt?q=${encodeURIComponent(query)}&apikey=zenkey`);
+          const audioRes = await fetch(`https://api.zenkey.my.id/api/yta?url=${encodeURIComponent(video.url)}&apikey=zenkey`);
           const audioData = await audioRes.json();
           if (audioData?.data?.url) {
             audioPlayer.src = audioData.data.url;
