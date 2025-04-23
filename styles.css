@@ -20,12 +20,17 @@ body::before {
   position: fixed;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) rotate(-30deg);
-  font-size: 15vw;
-  color: rgba(160, 160, 160, 0.07); /* gris claro y transparente */
+  transform: translate(-50%, -50%) rotate(-25deg);
+  font-size: 18vw;
+  font-weight: 900;
+  font-style: italic;
+  color: rgba(255, 255, 255, 0.03); /* gris súper suave */
+  text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.05);
+  letter-spacing: 1vw;
   white-space: nowrap;
   pointer-events: none;
   z-index: 0;
+  user-select: none;
 }
 
 .container {
