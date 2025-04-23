@@ -21,7 +21,6 @@ searchForm.addEventListener("submit", async (e) => {
   audioPlayer.style.display = "none";
 
   try {
-    // CORREGIDO: cambiar 'query=' por 'q='
     const searchResults = await fetch(`https://api.neoxr.eu/api/yts?q=${encodeURIComponent(query)}&apikey=GataDios`);
     const data = await searchResults.json();
     loadingMessage.style.display = "none";
@@ -31,7 +30,37 @@ searchForm.addEventListener("submit", async (e) => {
       return;
     }
 
-    data.data.slice(0, 8).forEach(video => {
+    const normalizar = (str) =>
+      str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const queryNorm = normalizar(query);
+
+    const resultadosFiltrados = data.data
+      .map(video => {
+        const tituloNorm = normalizar(video.title);
+        const autorNorm = normalizar(video.author.name);
+
+        let score = 0;
+        if (tituloNorm.includes(queryNorm)) score += 2;
+        if (autorNorm.includes(queryNorm)) score += 1;
+
+        const keywords = queryNorm.split(/\s+/);
+        for (let palabra of keywords) {
+          if (tituloNorm.includes(palabra)) score += 1;
+          if (autorNorm.includes(palabra)) score += 0.5;
+        }
+
+        return { video, score };
+      })
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 8);
+
+    if (resultadosFiltrados.length === 0) {
+      musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
+      return;
+    }
+
+    resultadosFiltrados.forEach(({ video }) => {
       const card = document.createElement("div");
       card.className = "music-card";
 
@@ -49,7 +78,6 @@ searchForm.addEventListener("submit", async (e) => {
       artist.className = "music-artist";
       artist.textContent = video.author.name;
 
-      // Botón de audio
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
       playBtn.textContent = "Reproducir audio";
@@ -75,7 +103,6 @@ searchForm.addEventListener("submit", async (e) => {
         }
       };
 
-      // Botón de video
       const videoBtn = document.createElement("button");
       videoBtn.className = "download-button";
       videoBtn.textContent = "Descargar video";
@@ -111,6 +138,7 @@ searchForm.addEventListener("submit", async (e) => {
       card.appendChild(videoBtn);
       musicList.appendChild(card);
     });
+
   } catch (err) {
     console.error(err);
     loadingMessage.style.display = "none";
