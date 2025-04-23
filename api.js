@@ -1,128 +1,135 @@
-// JavaScript principal
-const searchForm = document.getElementById("search-form");
-const searchInput = document.getElementById("search-input");
-const musicList = document.getElementById("music-list");
-const loadingMessage = document.getElementById("loading-message");
-const audioPlayer = document.getElementById("audio-player");
 
-const videoApis = [
-  (url) => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
-  (url) => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
-  (url) => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
-  (url) => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
-];
 
-searchForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const query = searchInput.value.trim();
-  if (!query) return;
+const searchForm = document.getElementById("search-form"); const searchInput = document.getElementById("search-input"); const musicList = document.getElementById("music-list"); const loadingMessage = document.getElementById("loading-message"); const audioPlayer = document.getElementById("audio-player");
 
-  musicList.innerHTML = "";
-  loadingMessage.style.display = "block";
-  audioPlayer.style.display = "none";
+const videoApis = [ (url) => https://api.siputzx.my.id/api/d/ytmp4?url=${url}, (url) => https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}, (url) => https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}, (url) => https://delirius-apiofc.vercel.app/download/ytmp4?url=${url} ];
 
-  try {
-    const ytPromise = fetch(`https://api.neoxr.eu/api/yts?q=${encodeURIComponent(query)}&apikey=GataDios`)
-      .then(res => res.json())
-      .then(data => (data.status && data.data) ? data.data.map(video => ({
-        type: "youtube",
-        title: video.title,
-        author: video.author.name,
-        thumbnail: video.thumbnail,
-        url: video.url,
-        verified: video.author.verified
-      })) : []);
+searchForm.addEventListener("submit", async (e) => { e.preventDefault(); const query = searchInput.value.trim(); if (!query) return;
 
-    const spotifyPromise = fetch(`https://archive-ui.tanakadomp.biz.id/search/spotify?query=${encodeURIComponent(query)}`)
-      .then(res => res.json())
-      .then(data => data?.data?.length ? data.data.map(track => ({
-        type: "spotify",
-        title: track.title,
-        author: track.artist,
-        thumbnail: track.thumbnail,
-        url: track.url
-      })) : []);
+musicList.innerHTML = ""; loadingMessage.style.display = "block"; audioPlayer.style.display = "none";
 
-    const [ytResults, spResults] = await Promise.all([ytPromise, spotifyPromise]);
+try { const searchResults = await fetch(https://api.neoxr.eu/api/yts?q=${encodeURIComponent(query)}&apikey=GataDios); const data = await searchResults.json(); loadingMessage.style.display = "none";
 
-    const allResults = [...ytResults, ...spResults].slice(0, 20);
-    loadingMessage.style.display = "none";
+if (!data.status || !data.data || data.data.length === 0) {
+  musicList.innerHTML = `<p>No se encontraron resultados.</p>`;
+  return;
+}
 
-    if (!allResults.length) {
-      musicList.innerHTML = `<p>No se encontraron resultados.</p>`;
-      return;
+const normalizar = (str) =>
+  str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const queryNorm = normalizar(query);
+
+const resultadosFiltrados = data.data
+  .map(video => {
+    const tituloNorm = normalizar(video.title);
+    const autorNorm = normalizar(video.author.name);
+
+    let score = 0;
+    if (tituloNorm.includes(queryNorm)) score += 2;
+    if (autorNorm.includes(queryNorm)) score += 1;
+
+    const keywords = queryNorm.split(/\s+/);
+    for (let palabra of keywords) {
+      if (tituloNorm.includes(palabra)) score += 1;
+      if (autorNorm.includes(palabra)) score += 0.5;
     }
 
-    allResults.forEach((track) => {
-      const card = document.createElement("div");
-      card.className = "music-card";
+    return { video, score };
+  })
+  .filter(item => item.score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 15); // Mostrar más resultados para más opciones
 
-      const image = document.createElement("img");
-      image.src = track.thumbnail;
+if (resultadosFiltrados.length === 0) {
+  musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
+  return;
+}
 
-      const info = document.createElement("div");
-      info.className = "music-info";
+resultadosFiltrados.forEach(({ video }) => {
+  const card = document.createElement("div");
+  card.className = "music-card";
 
-      const title = document.createElement("div");
-      title.className = "music-title";
-      title.textContent = track.title;
+  const image = document.createElement("img");
+  image.src = video.thumbnail;
 
-      const artist = document.createElement("div");
-      artist.className = "music-artist";
-      artist.textContent = track.author;
+  const info = document.createElement("div");
+  info.className = "music-info";
 
-      info.appendChild(title);
-      info.appendChild(artist);
+  const title = document.createElement("div");
+  title.className = "music-title";
+  title.textContent = video.title;
 
-      if (track.verified) {
-        const verified = document.createElement("div");
-        verified.textContent = "✔️ Canal verificado";
-        info.appendChild(verified);
-      }
+  const artist = document.createElement("div");
+  artist.className = "music-artist";
+  artist.textContent = video.author.name;
 
-      const playBtn = document.createElement("button");
-      playBtn.className = "play-button";
-      playBtn.textContent = "Reproducir audio";
-
-      playBtn.onclick = async () => {
-        playBtn.textContent = "Cargando...";
-        try {
-          let audioUrl = null;
-          if (track.type === "youtube") {
-            const res = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(track.url)}&type=audio&quality=128kbps&apikey=GataDios`);
-            const audioData = await res.json();
-            audioUrl = audioData?.data?.url;
-          } else if (track.type === "spotify") {
-            const res = await fetch(`https://archive-ui.tanakadomp.biz.id/download/spotify?url=${track.url}`);
-            const audioData = await res.json();
-            audioUrl = audioData?.result;
-          }
-
-          if (audioUrl) {
-            audioPlayer.src = audioUrl;
-            audioPlayer.style.display = "block";
-            audioPlayer.play();
-            playBtn.textContent = "Reproducir audio";
-          } else {
-            playBtn.textContent = "Error";
-            alert("No se pudo obtener el audio.");
-          }
-        } catch (err) {
-          console.error(err);
-          playBtn.textContent = "Error";
-          alert("Ocurrió un error al reproducir.");
-        }
-      };
-
-      card.appendChild(image);
-      card.appendChild(info);
-      card.appendChild(playBtn);
-      musicList.appendChild(card);
-    });
-
-  } catch (err) {
-    console.error(err);
-    loadingMessage.style.display = "none";
-    musicList.innerHTML = `<p>Error en la búsqueda.</p>`;
+  const channel = document.createElement("div");
+  channel.className = "music-channel";
+  channel.textContent = `Canal: ${video.author.channel || video.author.name}`;
+  if (video.author.verified) {
+    channel.textContent += " ✔️";
   }
+
+  const playBtn = document.createElement("button");
+  playBtn.className = "play-button";
+  playBtn.textContent = "Reproducir audio";
+
+  playBtn.onclick = async () => {
+    playBtn.textContent = "Cargando...";
+    try {
+      const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
+      const audioData = await audioRes.json();
+      if (audioData?.data?.url) {
+        audioPlayer.src = audioData.data.url;
+        audioPlayer.style.display = "block";
+        audioPlayer.play();
+        playBtn.textContent = "Reproducir audio";
+      } else {
+        playBtn.textContent = "Error";
+        alert("No se pudo obtener el audio.");
+      }
+    } catch (err) {
+      console.error(err);
+      playBtn.textContent = "Error";
+      alert("Ocurrió un error al reproducir la música.");
+    }
+  };
+
+  const videoBtn = document.createElement("button");
+  videoBtn.className = "download-button";
+  videoBtn.textContent = "Descargar video";
+
+  videoBtn.onclick = async () => {
+    videoBtn.textContent = "Buscando...";
+    for (let api of videoApis) {
+      try {
+        const res = await fetch(api(video.url));
+        const json = await res.json();
+        const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
+        if (videoUrl) {
+          const a = document.createElement("a");
+          a.href = videoUrl;
+          a.download = `${video.title}.mp4`;
+          a.click();
+          videoBtn.textContent = "Descargar video";
+          return;
+        }
+      } catch (e) {
+        console.warn("API falló:", e.message);
+      }
+    }
+    videoBtn.textContent = "Error";
+    alert("No se pudo obtener el video.");
+  };
+
+  info.appendChild(title);
+  info.appendChild(artist);
+  info.appendChild(channel);
+  card.appendChild(image);
+  card.appendChild(info);
+  card.appendChild(playBtn);
+  card.appendChild(videoBtn);
+  musicList.appendChild(card);
 });
+
+} catch (err) { console.error(err); loadingMessage.style.display = "none"; musicList.innerHTML = <p>Ocurrió un error al buscar.</p>; } });
