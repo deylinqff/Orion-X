@@ -21,7 +21,8 @@ searchForm.addEventListener("submit", async (e) => {
   audioPlayer.style.display = "none";
 
   try {
-    const searchResults = await fetch(`https://api.neoxr.eu/api/yts?query=${encodeURIComponent(query)}&apikey=GataDios`);
+    // CORREGIDO: cambiar 'query=' por 'q='
+    const searchResults = await fetch(`https://api.neoxr.eu/api/yts?q=${encodeURIComponent(query)}&apikey=GataDios`);
     const data = await searchResults.json();
     loadingMessage.style.display = "none";
 
