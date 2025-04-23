@@ -3,12 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Buscador de Música</title>
+  <title>Orión X - Buscador de Música</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- Menú lateral -->
+  <div id="side-menu" class="side-menu">
+    <button id="close-menu" class="close-button">✖</button>
+    <h2>Historial</h2>
+    <div id="history-list">
+      <h3>Reproducidas</h3>
+      <ul id="played-history"></ul>
+      <h3>Descargadas</h3>
+      <ul id="downloaded-history"></ul>
+    </div>
+  </div>
+
+  <!-- Encabezado -->
+  <header class="header">
+    <h1>Orión X</h1>
+    <button id="menu-button" class="menu-button">☰</button>
+  </header>
+
   <div class="container">
-    <h1>Buscador de Música</h1>
     <form id="search-form">
       <input type="text" id="search-input" placeholder="🔍 Buscar canciones o artistas..." required />
       <button type="submit">Buscar</button>
@@ -28,5 +45,14 @@
   <audio id="audio-player" controls style="width: 100%; margin-top: 20px; display: none;"></audio>
 
   <script src="api.js"></script>
+  <script>
+    // Lógica del menú
+    const menuBtn = document.getElementById("menu-button");
+    const closeBtn = document.getElementById("close-menu");
+    const sideMenu = document.getElementById("side-menu");
+
+    menuBtn.onclick = () => sideMenu.classList.add("open");
+    closeBtn.onclick = () => sideMenu.classList.remove("open");
+  </script>
 </body>
 </html>
