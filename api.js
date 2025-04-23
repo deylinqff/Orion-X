@@ -92,7 +92,7 @@ searchForm.addEventListener("submit", async (e) => {
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
         try {
-          const searchResults = await fetch(`https://apis-starlights-team.koyeb.app/starlight/soundcloud-search?text=${encodeURIComponent(query)}`);
+          const searchResults = await fetch(`https://api.zenkey.my.id/api/search/yt?q=${encodeURIComponent(query)}&apikey=zenkey`);
           const audioData = await audioRes.json();
           if (audioData?.data?.url) {
             audioPlayer.src = audioData.data.url;
