@@ -12,10 +12,11 @@
     <button id="close-menu" class="close-button">✖</button>
     <h2>Historial</h2>
     <div id="history-list">
-      <h3>Reproducidas</h3>
-      <ul id="played-history"></ul>
-      <h3>Descargadas</h3>
-      <ul id="downloaded-history"></ul>
+      <h3 id="toggle-played">Reproducidas</h3>
+      <ul id="played-history" class="history-list"></ul>
+
+      <h3 id="toggle-downloaded">Descargadas</h3>
+      <ul id="downloaded-history" class="history-list"></ul>
     </div>
   </div>
 
@@ -44,15 +45,53 @@
   <!-- Reproductor de música -->
   <audio id="audio-player" controls style="width: 100%; margin-top: 20px; display: none;"></audio>
 
+  <!-- Scripts -->
   <script src="api.js"></script>
   <script>
-    // Lógica del menú
+    // Menú lateral
     const menuBtn = document.getElementById("menu-button");
     const closeBtn = document.getElementById("close-menu");
     const sideMenu = document.getElementById("side-menu");
 
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
+
+    // Historial con localStorage
+    const playedList = document.getElementById("played-history");
+    const downloadedList = document.getElementById("downloaded-history");
+
+    function loadHistory() {
+      const played = JSON.parse(localStorage.getItem("played") || "[]");
+      const downloaded = JSON.parse(localStorage.getItem("downloaded") || "[]");
+
+      playedList.innerHTML = played.length
+        ? played.map(item => `<li>${item}</li>`).join("")
+        : "<li>No hay canciones reproducidas aún.</li>";
+
+      downloadedList.innerHTML = downloaded.length
+        ? downloaded.map(item => `<li>${item}</li>`).join("")
+        : "<li>No hay canciones descargadas aún.</li>";
+    }
+
+    function addToHistory(type, title) {
+      const key = type === "played" ? "played" : "downloaded";
+      const data = JSON.parse(localStorage.getItem(key) || "[]");
+      if (!data.includes(title)) {
+        data.unshift(title);
+        localStorage.setItem(key, JSON.stringify(data.slice(0, 50)));
+      }
+    }
+
+    // Toggle listas
+    document.getElementById("toggle-played").onclick = () => {
+      playedList.classList.toggle("visible");
+    };
+    document.getElementById("toggle-downloaded").onclick = () => {
+      downloadedList.classList.toggle("visible");
+    };
+
+    // Inicializar historial al cargar
+    loadHistory();
   </script>
 </body>
 </html>
