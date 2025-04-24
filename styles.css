@@ -295,7 +295,7 @@ button:hover {
   background-color: #666;
 }
 
-/* Reproductor fijo abajo */
+/* Reproductor de audio fijo abajo */
 #audio-player {
   position: fixed;
   bottom: 0;
@@ -303,63 +303,26 @@ button:hover {
   transform: translateX(-50%);
   width: 100%;
   max-width: 800px;
-  background-color: #222;
-  padding: 12px;
+  background-color: #0f0;
+  padding: 12px 16px;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
   z-index: 1000;
-  display: none;
-}
-
-#player-modal {
-  position: fixed;
-  inset: 0;
-  background-color: #1e1e1e;
-  color: white;
   display: flex;
-  justify-content: center;
   align-items: center;
-  z-index: 1000;
-  flex-direction: column;
-  padding: 20px;
-  display: none;
+  gap: 12px;
 }
 
-.player-container {
-  text-align: center;
-}
-
-.player-image {
-  width: 300px;
+/* Estilo interno del control nativo (solo aplica en navegadores que lo permiten) */
+#audio-player::-webkit-media-controls-panel {
+  background-color: #222;
   border-radius: 12px;
-  margin-bottom: 20px;
 }
 
-.player-info h2 {
-  font-size: 24px;
-  margin-bottom: 5px;
-}
-
-.player-info p {
-  font-size: 18px;
-  color: #bbb;
-}
-
-#player-audio {
-  width: 100%;
-  margin: 20px 0;
-}
-
-#player-close {
-  background: #ff4d4d;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.player-hidden {
+/* Ocultar temporalmente si es necesario */
+#audio-player.hidden {
   display: none;
 }
+
+/* Puedes personalizar aún más con clases envolventes si usas un diseño propio */
