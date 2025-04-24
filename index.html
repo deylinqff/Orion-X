@@ -13,26 +13,19 @@
   <div id="side-menu" class="side-menu">
     <button id="close-menu" class="close-button">✖</button>
     <h2>Info</h2>
-
-    <!-- Enlaces de WhatsApp -->
     <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
       <a href="https://wa.me/50433191934" target="_blank" class="whatsapp-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold;">
-        <i class="fab fa-whatsapp" style="font-size: 20px; color: #25D366;"></i>
-        Contacto directo
+        <i class="fab fa-whatsapp" style="font-size: 20px; color: #25D366;"></i> Contacto directo
       </a>
-
       <a href="https://whatsapp.com/channel/ejemploID" target="_blank" class="whatsapp-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold;">
-        <i class="fas fa-bullhorn" style="font-size: 20px; color: #25D366;"></i>
-        Canal de WhatsApp
+        <i class="fas fa-bullhorn" style="font-size: 20px; color: #25D366;"></i> Canal de WhatsApp
       </a>
     </div>
   </div>
 
   <!-- Encabezado -->
   <header class="header">
-    <h1 class="logo">
-      <i class="fas fa-music"></i> Orion-X
-    </h1>
+    <h1 class="logo"><i class="fas fa-music"></i> Orion-X</h1>
     <button id="menu-button" class="menu-button">☰</button>
   </header>
 
@@ -42,22 +35,15 @@
       <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required />
       <button type="submit">Buscar</button>
     </form>
-
-    <!-- Mensaje de carga -->
-    <div id="loading-message" class="loading-message" style="display: none;">
-      Buscando música...
-    </div>
-
-    <!-- Lista de música -->
-    <div class="music-list" id="music-list">
-      <!-- Aquí se insertarán las canciones -->
-    </div>
+    <div id="loading-message" class="loading-message" style="display: none;">Buscando música...</div>
+    <div class="music-list" id="music-list"></div>
   </div>
 
-  <!-- Reproductor de música oculto por defecto -->
+  <!-- Reproductor de música -->
   <audio id="audio-player" controls style="width: 100%; margin-top: 20px; display: none;"></audio>
 
   <!-- Scripts -->
+  <script src="api.js"></script>
   <script>
     // Menú lateral
     const menuBtn = document.getElementById("menu-button");
@@ -66,26 +52,10 @@
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
 
-    // Función de búsqueda (simulada)
-    const searchForm = document.getElementById("search-form");
+    // Lógica del reproductor
     const musicList = document.getElementById("music-list");
     const audioPlayer = document.getElementById("audio-player");
 
-    searchForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const query = document.getElementById("search-input").value.trim();
-      if (!query) return;
-
-      // Aquí se simula un resultado. Puedes reemplazarlo por una llamada a una API.
-      musicList.innerHTML = `
-        <div class="music-item" data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" style="cursor:pointer; padding:10px; border-bottom:1px solid #ccc;">
-          <strong>Canción Ejemplo</strong><br />
-          <span>Artista Demo</span>
-        </div>
-      `;
-    });
-
-    // Clic en una canción
     musicList.addEventListener("click", function (e) {
       const item = e.target.closest(".music-item");
       if (!item) return;
