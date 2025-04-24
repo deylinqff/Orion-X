@@ -4,6 +4,13 @@ const musicList = document.getElementById("music-list");
 const loadingMessage = document.getElementById("loading-message");
 const audioPlayer = document.getElementById("audio-player");
 
+const videoApis = [
+  (url) => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
+  (url) => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
+  (url) => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
+  (url) => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
+];
+
 searchForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const query = searchInput.value.trim();
@@ -46,7 +53,7 @@ searchForm.addEventListener("submit", async (e) => {
       })
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 15);
+      .slice(0, 15); // Mostrar hasta 15 resultados relevantes
 
     if (resultadosFiltrados.length === 0) {
       musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
@@ -80,41 +87,79 @@ searchForm.addEventListener("submit", async (e) => {
 
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
-      playBtn.textContent = "Reproducir";
+      playBtn.textContent = "Reproducir audio";
 
       playBtn.onclick = async () => {
-  playBtn.textContent = "Cargando...";
-  try {
-    const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
-    const audioData = await audioRes.json();
-    if (audioData?.data?.url) {
-      // Mostrar interfaz de reproductor tipo app
-      document.getElementById("player-image").src = video.thumbnail;
-      document.getElementById("player-title").textContent = video.title;
-      document.getElementById("player-artist").textContent = video.author.name;
-      document.getElementById("player-audio").src = audioData.data.url;
-      document.getElementById("player-modal").style.display = "flex";
+        playBtn.textContent = "Cargando...";
+        try {
+          const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
+          const audioData = await audioRes.json();
+          if (audioData?.data?.url) {
+            audioPlayer.src = audioData.data.url;
+            audioPlayer.style.display = "block";
+            audioPlayer.play();
 
-      const playerAudio = document.getElementById("player-audio");
-      playerAudio.play();
+            // NUEVO: Reproductor móvil personalizado
+            document.getElementById("player-modal").style.display = "flex";
+            document.getElementById("player-image").src = video.thumbnail;
+            document.getElementById("player-title").textContent = video.title;
+            document.getElementById("player-artist").textContent = video.author.name;
+            const playerAudio = document.getElementById("player-audio");
+            playerAudio.src = audioData.data.url;
+            playerAudio.play();
 
-      playBtn.textContent = "Reproducir";
-    } else {
-      playBtn.textContent = "Error";
-      alert("No se pudo obtener el audio.");
-    }
+            playBtn.textContent = "Reproducir audio";
+          } else {
+            playBtn.textContent = "Error";
+            alert("No se pudo obtener el audio.");
+          }
+        } catch (err) {
+          console.error(err);
+          playBtn.textContent = "Error";
+          alert("Ocurrió un error al reproducir la música.");
+        }
+      };
+
+      const videoBtn = document.createElement("button");
+      videoBtn.className = "download-button";
+      videoBtn.textContent = "Descargar video";
+
+      videoBtn.onclick = async () => {
+        videoBtn.textContent = "Buscando...";
+        for (let api of videoApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
+            if (videoUrl) {
+              const a = document.createElement("a");
+              a.href = videoUrl;
+              a.download = `${video.title}.mp4`;
+              a.click();
+              videoBtn.textContent = "Descargar video";
+              return;
+            }
+          } catch (e) {
+            console.warn("API falló:", e.message);
+          }
+        }
+        videoBtn.textContent = "Error";
+        alert("No se pudo obtener el video.");
+      };
+
+      info.appendChild(title);
+      info.appendChild(artist);
+      info.appendChild(channel);
+      card.appendChild(image);
+      card.appendChild(info);
+      card.appendChild(playBtn);
+      card.appendChild(videoBtn);
+      musicList.appendChild(card);
+    });
+
   } catch (err) {
     console.error(err);
-    playBtn.textContent = "Error";
-    alert("Ocurrió un error al reproducir la música.");
+    loadingMessage.style.display = "none";
+    musicList.innerHTML = `<p>Ocurrió un error al buscar.</p>`;
   }
-};
-
-// Cerrar reproductor
-document.getElementById("player-close").onclick = () => {
-  const modal = document.getElementById("player-modal");
-  modal.style.display = "none";
-  const playerAudio = document.getElementById("player-audio");
-  playerAudio.pause();
-  playerAudio.currentTime = 0;
-};
+});
