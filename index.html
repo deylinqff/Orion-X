@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
-    /* Estilo para ocultar el reproductor al inicio */
     #audio-player {
       display: none;
       position: fixed;
@@ -82,7 +81,6 @@
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
 
-    // Función para reproducir música y mostrar el reproductor
     function reproducirCancion(url) {
       audioPlayer.src = url;
       audioPlayer.style.display = "block";
