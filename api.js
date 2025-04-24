@@ -2,6 +2,7 @@ const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const musicList = document.getElementById("music-list");
 const loadingMessage = document.getElementById("loading-message");
+const audioPlayer = document.getElementById("audio-player");
 
 const videoApis = [
   (url) => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
@@ -17,6 +18,7 @@ searchForm.addEventListener("submit", async (e) => {
 
   musicList.innerHTML = "";
   loadingMessage.style.display = "block";
+  audioPlayer.style.display = "none";
 
   try {
     const searchResults = await fetch(`https://api.neoxr.eu/api/yts?q=${encodeURIComponent(query)}&apikey=GataDios`);
@@ -51,7 +53,7 @@ searchForm.addEventListener("submit", async (e) => {
       })
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 15);
+      .slice(0, 15); // Mostrar hasta 15 resultados relevantes
 
     if (resultadosFiltrados.length === 0) {
       musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
@@ -93,15 +95,9 @@ searchForm.addEventListener("submit", async (e) => {
           const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
           const audioData = await audioRes.json();
           if (audioData?.data?.url) {
-            // Mostrar reproductor personalizado
-            document.getElementById("player-modal").style.display = "flex";
-            document.getElementById("player-image").src = video.thumbnail;
-            document.getElementById("player-title").textContent = video.title;
-            document.getElementById("player-artist").textContent = video.author.name;
-            const playerAudio = document.getElementById("player-audio");
-            playerAudio.src = audioData.data.url;
-            playerAudio.play();
-
+            audioPlayer.src = audioData.data.url;
+            audioPlayer.style.display = "block";
+            audioPlayer.play();
             playBtn.textContent = "Reproducir audio";
           } else {
             playBtn.textContent = "Error";
