@@ -6,6 +6,23 @@
   <title>Orión X - Buscador de Música</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    #audio-player {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 800px;
+      background-color: #222;
+      padding: 12px;
+      border-top-left-radius: 12px;
+      border-top-right-radius: 12px;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+    }
+  </style>
 </head>
 <body>
   <!-- Menú lateral -->
@@ -13,7 +30,6 @@
     <button id="close-menu" class="close-button">✖</button>
     <h2>Info</h2>
 
-    <!-- Enlaces de WhatsApp -->
     <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
       <a href="https://wa.me/50433191934" target="_blank" class="whatsapp-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold;">
         <i class="fab fa-whatsapp" style="font-size: 20px; color: #25D366;"></i>
@@ -42,30 +58,40 @@
       <button type="submit">Buscar</button>
     </form>
 
-    <!-- Mensaje de carga -->
     <div id="loading-message" class="loading-message" style="display: none;">
       Buscando música...
     </div>
 
-    <!-- Lista de música -->
     <div class="music-list" id="music-list">
       <!-- Aquí se insertarán las canciones -->
     </div>
   </div>
 
   <!-- Reproductor de música -->
-  <audio id="audio-player" controls style="width: 100%; margin-top: 20px; display: none;"></audio>
+  <audio id="audio-player" controls></audio>
 
   <!-- Scripts -->
-  <script src="api.js"></script>
+ <script src="api.js"></script>
   <script>
-    // Menú lateral
+        // Menú lateral
     const menuBtn = document.getElementById("menu-button");
     const closeBtn = document.getElementById("close-menu");
     const sideMenu = document.getElementById("side-menu");
 
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
+
+    function reproducirCancion(url) {
+      audioPlayer.src = url;
+      audioPlayer.style.display = "block";
+      audioPlayer.play();
+    }
+
+
+    audioPlayer.addEventListener("ended", () => {
+      audioPlayer.style.display = "none";
+    });
+
   </script>
 </body>
 </html>
