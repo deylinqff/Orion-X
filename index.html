@@ -8,6 +8,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+
   <!-- Menú lateral -->
   <div id="side-menu" class="side-menu">
     <button id="close-menu" class="close-button">✖</button>
@@ -48,13 +49,26 @@
     </div>
 
     <!-- Lista de música -->
-    <div class="music-list" id="music-list">
-      <!-- Aquí se insertarán las canciones -->
-    </div>
+    <div class="music-list" id="music-list"></div>
   </div>
 
-  <!-- Reproductor de música -->
+  <!-- Reproductor clásico -->
   <audio id="audio-player" controls style="width: 100%; margin-top: 20px; display: none;"></audio>
+
+  <!-- Interfaz móvil estilo reproductor -->
+  <div id="player-modal" class="player-hidden">
+    <div class="player-container">
+      <img id="player-image" class="player-image" src="" alt="Portada" />
+      <div class="player-info">
+        <h2 id="player-title">Título</h2>
+        <p id="player-artist">Artista</p>
+      </div>
+      <audio id="player-audio" controls></audio>
+      <div style="margin-top: 20px;">
+        <button id="player-close">Cerrar</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Scripts -->
   <script src="api.js"></script>
@@ -63,9 +77,15 @@
     const menuBtn = document.getElementById("menu-button");
     const closeBtn = document.getElementById("close-menu");
     const sideMenu = document.getElementById("side-menu");
-
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
+
+    // Cerrar reproductor modal
+    document.getElementById("player-close").onclick = () => {
+      document.getElementById("player-modal").style.display = "none";
+      document.getElementById("player-audio").pause();
+    };
   </script>
+
 </body>
 </html>
