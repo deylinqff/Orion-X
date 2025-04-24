@@ -53,44 +53,11 @@
     </div>
   </div>
 
-  <div style="display: flex; align-items: center; gap: 10px; margin-top: 20px;">
-  <audio id="audio-player" controls style="
-    flex: 1;
-    background: #1e1e1e;
-    border-radius: 10px;
-    padding: 5px;
-  "></audio>
-  <button onclick="compartirMusica()" style="
-    background: #25D366;
-    border: none;
-    color: white;
-    border-radius: 8px;
-    padding: 8px 12px;
-    cursor: pointer;
-    font-size: 16px;
-  ">
-    <i class="fas fa-share-alt"></i>
-  </button>
-</div>
+  <!-- Reproductor de música -->
+  <audio id="audio-player" controls style="width: 100%; margin-top: 20px; display: none;"></audio>
 
   <!-- Scripts -->
   <script src="api.js"></script>
-
-<script>
-function compartirMusica() {
-  const url = window.location.href;
-  if (navigator.share) {
-    navigator.share({
-      title: 'Escucha esta canción',
-      text: '¡Revisa esta música en Orion-X!',
-      url: url
-    });
-  } else {
-    alert('Tu navegador no soporta compartir directamente. Copia este enlace:\n' + url);
-  }
-}
-</script>
-
   <script>
     // Menú lateral
     const menuBtn = document.getElementById("menu-button");
