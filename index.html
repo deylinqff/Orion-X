@@ -13,14 +13,11 @@
   <div id="side-menu" class="side-menu">
     <button id="close-menu" class="close-button">✖</button>
     <h2>Info</h2>
-
-    <!-- Enlaces de WhatsApp -->
     <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
       <a href="https://wa.me/50433191934" target="_blank" class="whatsapp-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold;">
         <i class="fab fa-whatsapp" style="font-size: 20px; color: #25D366;"></i>
         Contacto directo
       </a>
-
       <a href="https://whatsapp.com/channel/ejemploID" target="_blank" class="whatsapp-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold;">
         <i class="fas fa-bullhorn" style="font-size: 20px; color: #25D366;"></i>
         Canal de WhatsApp
@@ -30,9 +27,7 @@
 
   <!-- Encabezado -->
   <header class="header">
-    <h1 class="logo">
-      <i class="fas fa-music"></i> Orion-X
-    </h1>
+    <h1 class="logo"><i class="fas fa-music"></i> Orion-X</h1>
     <button id="menu-button" class="menu-button">☰</button>
   </header>
 
@@ -43,71 +38,57 @@
       <button type="submit">Buscar</button>
     </form>
 
-    <!-- Mensaje de carga -->
-    <div id="loading-message" class="loading-message" style="display: none;">
-      Buscando música...
-    </div>
+    <div id="loading-message" class="loading-message" style="display: none;">Buscando música...</div>
 
-    <!-- Lista de música -->
-    <div class="music-list" id="music-list"></div>
+    <div class="music-list" id="music-list">
+      <!-- Canciones serán insertadas aquí -->
+    </div>
   </div>
 
-  <!-- Reproductor móvil estilo moderno -->
-  <div id="player-modal" style="
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #1e1e1e;
-    color: white;
-    padding: 10px 15px;
-    border-top: 2px solid #444;
-    z-index: 999;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
-  ">
-    <img id="player-image" src="" alt="Portada" style="
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 8px;
-    ">
-    <div style="flex: 1; min-width: 150px;">
-      <div id="player-title" style="font-size: 1em; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
-      <div id="player-artist" style="font-size: 0.85em; color: #aaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
-    </div>
-    <audio id="player-audio" controls style="flex: 1; min-width: 200px;"></audio>
-    <button id="player-close" style="
-      background: #ff5c5c;
-      color: white;
-      border: none;
-      padding: 6px 10px;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-    ">Cerrar</button>
+  <!-- Reproductor de música -->
+  <div id="player-container" style="display: none; margin: 20px 0;">
+    <audio id="audio-player" controls style="width: 100%;"></audio>
   </div>
 
   <!-- Scripts -->
-  <script src="api.js"></script>
   <script>
-    // Menú lateral
     const menuBtn = document.getElementById("menu-button");
     const closeBtn = document.getElementById("close-menu");
     const sideMenu = document.getElementById("side-menu");
+
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
 
-    // Cerrar reproductor modal
-    document.getElementById("player-close").onclick = () => {
-      document.getElementById("player-modal").style.display = "none";
-      document.getElementById("player-audio").pause();
-    };
-  </script>
+    const searchForm = document.getElementById("search-form");
+    const musicList = document.getElementById("music-list");
+    const audioPlayer = document.getElementById("audio-player");
+    const playerContainer = document.getElementById("player-container");
 
+    searchForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const query = document.getElementById("search-input").value.trim();
+      if (!query) return;
+
+      // Simulación de resultados de búsqueda
+      musicList.innerHTML = `
+        <div class="music-item" style="cursor: pointer; padding: 10px; border-bottom: 1px solid #ccc;"
+             data-audio="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+          <strong>Canción Ejemplo</strong><br />
+          <span>Artista Demo</span>
+        </div>
+      `;
+    });
+
+    musicList.addEventListener("click", function(e) {
+      const item = e.target.closest(".music-item");
+      if (!item) return;
+      const audioSrc = item.dataset.audio;
+      if (audioSrc) {
+        audioPlayer.src = audioSrc;
+        audioPlayer.play();
+        playerContainer.style.display = "block";
+      }
+    });
+  </script>
 </body>
 </html>
