@@ -25,25 +25,6 @@
   </style>
 </head>
 <body>
-  <!-- Menú lateral -->
-  <div id="side-menu" class="side-menu">
-    <button id="close-menu" class="close-button">✖</button>
-    <h2>Info</h2>
-
-    <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
-      <a href="https://wa.me/50433191934" target="_blank" class="whatsapp-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold;">
-        <i class="fab fa-whatsapp" style="font-size: 20px; color: #25D366;"></i>
-        Contacto directo
-      </a>
-
-      <a href="https://whatsapp.com/channel/ejemploID" target="_blank" class="whatsapp-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; font-weight: bold;">
-        <i class="fas fa-bullhorn" style="font-size: 20px; color: #25D366;"></i>
-        Canal de WhatsApp
-      </a>
-    </div>
-  </div>
-
-  <!-- Encabezado -->
   <header class="header">
     <h1 class="logo">
       <i class="fas fa-music"></i> Orion-X
@@ -87,7 +68,7 @@
       audioPlayer.play();
     }
 
-    
+
     audioPlayer.addEventListener("ended", () => {
       audioPlayer.style.display = "none";
     });
