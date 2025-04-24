@@ -52,22 +52,44 @@
     <div class="music-list" id="music-list"></div>
   </div>
 
-  <!-- Reproductor clásico -->
-  <audio id="audio-player" controls style="width: 100%; margin-top: 20px; display: none;"></audio>
-
-  <!-- Interfaz móvil estilo reproductor -->
-  <div id="player-modal" class="player-hidden">
-    <div class="player-container">
-      <img id="player-image" class="player-image" src="" alt="Portada" />
-      <div class="player-info">
-        <h2 id="player-title">Título</h2>
-        <p id="player-artist">Artista</p>
-      </div>
-      <audio id="player-audio" controls></audio>
-      <div style="margin-top: 20px;">
-        <button id="player-close">Cerrar</button>
-      </div>
+  <!-- Reproductor móvil estilo moderno -->
+  <div id="player-modal" style="
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #1e1e1e;
+    color: white;
+    padding: 10px 15px;
+    border-top: 2px solid #444;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
+  ">
+    <img id="player-image" src="" alt="Portada" style="
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+    ">
+    <div style="flex: 1; min-width: 150px;">
+      <div id="player-title" style="font-size: 1em; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
+      <div id="player-artist" style="font-size: 0.85em; color: #aaa; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
     </div>
+    <audio id="player-audio" controls style="flex: 1; min-width: 200px;"></audio>
+    <button id="player-close" style="
+      background: #ff5c5c;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    ">Cerrar</button>
   </div>
 
   <!-- Scripts -->
