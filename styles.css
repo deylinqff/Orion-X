@@ -311,3 +311,55 @@ button:hover {
   z-index: 1000;
   display: none;
 }
+
+#player-modal {
+  position: fixed;
+  inset: 0;
+  background-color: #1e1e1e;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  flex-direction: column;
+  padding: 20px;
+  display: none;
+}
+
+.player-container {
+  text-align: center;
+}
+
+.player-image {
+  width: 300px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.player-info h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+.player-info p {
+  font-size: 18px;
+  color: #bbb;
+}
+
+#player-audio {
+  width: 100%;
+  margin: 20px 0;
+}
+
+#player-close {
+  background: #ff4d4d;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.player-hidden {
+  display: none;
+}
