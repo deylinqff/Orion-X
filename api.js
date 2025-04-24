@@ -83,38 +83,38 @@ searchForm.addEventListener("submit", async (e) => {
       playBtn.textContent = "Reproducir";
 
       playBtn.onclick = async () => {
-        playBtn.textContent = "Cargando...";
-        try {
-          const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
-          const audioData = await audioRes.json();
-          if (audioData?.data?.url) {
-            audioPlayer.src = audioData.data.url;
-            audioPlayer.style.display = "block";
-            audioPlayer.play();
-            playBtn.textContent = "Reproducir";
-          } else {
-            playBtn.textContent = "Error";
-            alert("No se pudo obtener el audio.");
-          }
-        } catch (err) {
-          console.error(err);
-          playBtn.textContent = "Error";
-          alert("Ocurrió un error al reproducir la música.");
-        }
-      };
+  playBtn.textContent = "Cargando...";
+  try {
+    const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
+    const audioData = await audioRes.json();
+    if (audioData?.data?.url) {
+      // Mostrar interfaz de reproductor tipo app
+      document.getElementById("player-image").src = video.thumbnail;
+      document.getElementById("player-title").textContent = video.title;
+      document.getElementById("player-artist").textContent = video.author.name;
+      document.getElementById("player-audio").src = audioData.data.url;
+      document.getElementById("player-modal").style.display = "flex";
 
-      info.appendChild(title);
-      info.appendChild(artist);
-      info.appendChild(channel);
-      card.appendChild(image);
-      card.appendChild(info);
-      card.appendChild(playBtn);
-      musicList.appendChild(card);
-    });
+      const playerAudio = document.getElementById("player-audio");
+      playerAudio.play();
 
+      playBtn.textContent = "Reproducir";
+    } else {
+      playBtn.textContent = "Error";
+      alert("No se pudo obtener el audio.");
+    }
   } catch (err) {
     console.error(err);
-    loadingMessage.style.display = "none";
-    musicList.innerHTML = `<p>Ocurrió un error al buscar.</p>`;
+    playBtn.textContent = "Error";
+    alert("Ocurrió un error al reproducir la música.");
   }
-});
+};
+
+// Cerrar reproductor
+document.getElementById("player-close").onclick = () => {
+  const modal = document.getElementById("player-modal");
+  modal.style.display = "none";
+  const playerAudio = document.getElementById("player-audio");
+  playerAudio.pause();
+  playerAudio.currentTime = 0;
+};
