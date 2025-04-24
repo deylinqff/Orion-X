@@ -4,13 +4,6 @@ const musicList = document.getElementById("music-list");
 const loadingMessage = document.getElementById("loading-message");
 const audioPlayer = document.getElementById("audio-player");
 
-const videoApis = [
-  (url) => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
-  (url) => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
-  (url) => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
-  (url) => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
-];
-
 searchForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const query = searchInput.value.trim();
@@ -53,7 +46,7 @@ searchForm.addEventListener("submit", async (e) => {
       })
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 15); // Mostrar hasta 15 resultados relevantes
+      .slice(0, 15);
 
     if (resultadosFiltrados.length === 0) {
       musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
@@ -87,7 +80,7 @@ searchForm.addEventListener("submit", async (e) => {
 
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
-      playBtn.textContent = "Reproducir audio";
+      playBtn.textContent = "Reproducir";
 
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
@@ -98,7 +91,7 @@ searchForm.addEventListener("submit", async (e) => {
             audioPlayer.src = audioData.data.url;
             audioPlayer.style.display = "block";
             audioPlayer.play();
-            playBtn.textContent = "Reproducir audio";
+            playBtn.textContent = "Reproducir";
           } else {
             playBtn.textContent = "Error";
             alert("No se pudo obtener el audio.");
@@ -110,40 +103,12 @@ searchForm.addEventListener("submit", async (e) => {
         }
       };
 
-      const videoBtn = document.createElement("button");
-      videoBtn.className = "download-button";
-      videoBtn.textContent = "Descargar video";
-
-      videoBtn.onclick = async () => {
-        videoBtn.textContent = "Buscando...";
-        for (let api of videoApis) {
-          try {
-            const res = await fetch(api(video.url));
-            const json = await res.json();
-            const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
-            if (videoUrl) {
-              const a = document.createElement("a");
-              a.href = videoUrl;
-              a.download = `${video.title}.mp4`;
-              a.click();
-              videoBtn.textContent = "Descargar video";
-              return;
-            }
-          } catch (e) {
-            console.warn("API falló:", e.message);
-          }
-        }
-        videoBtn.textContent = "Error";
-        alert("No se pudo obtener el video.");
-      };
-
       info.appendChild(title);
       info.appendChild(artist);
       info.appendChild(channel);
       card.appendChild(image);
       card.appendChild(info);
       card.appendChild(playBtn);
-      card.appendChild(videoBtn);
       musicList.appendChild(card);
     });
 
