@@ -49,6 +49,14 @@
       color: white;
       cursor: pointer;
     }
+
+    #comentarios-lista div {
+      background: white;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+    }
   </style>
 </head>
 <body>
@@ -90,7 +98,11 @@
     <h3>Deja un comentario</h3>
     <textarea id="comment-text" rows="4" placeholder="Escribe tu comentario aquí..."></textarea>
     <button onclick="guardarComentario()">Enviar comentario</button>
-    <div id="comentario-status" style="margin-top:10px; color: green;"></div>
+    <div id="comentario-status" style="margin-top:10px;"></div>
+    <div id="comentarios-lista" style="margin-top: 20px;">
+      <h4>Comentarios recientes</h4>
+      <!-- Comentarios se cargarán aquí -->
+    </div>
   </div>
 
   <!-- Reproductor de música -->
@@ -100,6 +112,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="api.js"></script>
   <script>
+    // Menú
     const menuBtn = document.getElementById("menu-button");
     const closeBtn = document.getElementById("close-menu");
     const sideMenu = document.getElementById("side-menu");
@@ -118,7 +131,7 @@
       audioPlayer.style.display = "none";
     });
 
-    // Supabase config
+    // Supabase
     const supabaseUrl = 'https://kygzvydfqnnaubxyjupt.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5Z3p2eWRmcW5uYXVieHlqdXB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1NTIzNjAsImV4cCI6MjA2MTEyODM2MH0.Y0vyXh3THD8NxaR_ztHEW1JrG_6z3IhF-DsbSuXbbO4';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
@@ -143,8 +156,36 @@
         status.style.color = "green";
         status.textContent = "Comentario enviado con éxito.";
         document.getElementById('comment-text').value = "";
+        cargarComentarios();
       }
     }
+
+    async function cargarComentarios() {
+      const { data, error } = await supabase
+        .from('comentarios')
+        .select('*')
+        .order('id', { ascending: false })
+        .limit(10);
+
+      const lista = document.getElementById('comentarios-lista');
+
+      if (error) {
+        lista.innerHTML += '<p style="color: red;">No se pudieron cargar los comentarios.</p>';
+        return;
+      }
+
+      if (data.length === 0) {
+        lista.innerHTML += '<p>No hay comentarios aún. ¡Sé el primero!</p>';
+        return;
+      }
+
+      lista.innerHTML = '<h4>Comentarios recientes</h4>' + data.map(com => `
+        <div>${com.texto}</div>
+      `).join('');
+    }
+
+    // Cargar comentarios al inicio
+    window.addEventListener('DOMContentLoaded', cargarComentarios);
   </script>
 </body>
 </html>
