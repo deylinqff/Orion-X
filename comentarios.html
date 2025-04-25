@@ -1,10 +1,10 @@
+<!-- index.html (ya sin Supabase) -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Comentarios</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -66,12 +66,8 @@
   </div>
 
   <script>
-    // Supabase setup
-    const supabaseUrl = 'https://kygzvydfqnnaubxyjupt.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5Z3p2eWRmcW5uYXVieHlqdXB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1NTIzNjAsImV4cCI6MjA2MTEyODM2MH0.Y0vyXh3THD8NxaR_ztHEW1JrG_6z3IhF-DsbSuXbbO4';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    const API_URL = "https://orion-x.onrender.com"; // Cambia por tu URL
 
-    // Guardar comentario
     async function guardarComentario() {
       const texto = document.getElementById("comment-text").value.trim();
       const status = document.getElementById("comentario-status");
@@ -82,38 +78,40 @@
         return;
       }
 
-      const { error } = await supabase.from("comentarios").insert([{ texto }]);
+      const res = await fetch(`${API_URL}/comentarios`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ texto })
+      });
 
-      if (error) {
-        console.error(error);
+      const data = await res.json();
+
+      if (!res.ok) {
         status.style.color = "red";
-        status.textContent = "Error al guardar el comentario.";
+        status.textContent = data.error || "Error al guardar.";
       } else {
         status.style.color = "green";
-        status.textContent = "Comentario enviado correctamente.";
+        status.textContent = "Comentario enviado.";
         document.getElementById("comment-text").value = "";
         cargarComentarios();
       }
     }
 
-    // Cargar comentarios
     async function cargarComentarios() {
       const contenedor = document.getElementById("comentarios-contenido");
       contenedor.innerHTML = "Cargando comentarios...";
 
-      const { data, error } = await supabase
-        .from("comentarios")
-        .select("*")
-        .order("id", { ascending: false })
-        .limit(20);
+      const res = await fetch(`${API_URL}/comentarios`);
+      const data = await res.json();
 
-      if (error) {
-        console.error(error);
+      if (!res.ok || !Array.isArray(data)) {
         contenedor.innerHTML = "<p style='color:red;'>Error al cargar comentarios.</p>";
         return;
       }
 
-      if (!data || data.length === 0) {
+      if (data.length === 0) {
         contenedor.innerHTML = "<p>No hay comentarios aún.</p>";
         return;
       }
@@ -123,7 +121,6 @@
       `).join('');
     }
 
-    // Cargar al inicio
     cargarComentarios();
   </script>
 </body>
