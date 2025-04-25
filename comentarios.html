@@ -46,6 +46,10 @@
       border-left: 4px solid #222;
       border-radius: 6px;
     }
+
+    #comentarios-lista h3 {
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
@@ -55,47 +59,72 @@
     <button onclick="guardarComentario()">Enviar</button>
     <p id="comentario-status"></p>
 
-    <div id="comentarios-lista" style="margin-top: 20px;">
+    <div id="comentarios-lista">
       <h3>Comentarios recientes</h3>
+      <div id="comentarios-contenido"></div>
     </div>
   </div>
 
   <script>
-  function guardarComentario() {
-    const texto = document.getElementById("comment-text").value.trim();
-    const status = document.getElementById("comentario-status");
+    // Supabase setup
+    const supabaseUrl = 'https://kygzvydfqnnaubxyjupt.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5Z3p2eWRmcW5uYXVieHlqdXB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1NTIzNjAsImV4cCI6MjA2MTEyODM2MH0.Y0vyXh3THD8NxaR_ztHEW1JrG_6z3IhF-DsbSuXbbO4';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    if (!texto) {
-      status.style.color = "red";
-      status.textContent = "Escribe un comentario primero.";
-      return;
+    // Guardar comentario
+    async function guardarComentario() {
+      const texto = document.getElementById("comment-text").value.trim();
+      const status = document.getElementById("comentario-status");
+
+      if (!texto) {
+        status.style.color = "red";
+        status.textContent = "Escribe un comentario primero.";
+        return;
+      }
+
+      const { error } = await supabase.from("comentarios").insert([{ texto }]);
+
+      if (error) {
+        console.error(error);
+        status.style.color = "red";
+        status.textContent = "Error al guardar el comentario.";
+      } else {
+        status.style.color = "green";
+        status.textContent = "Comentario enviado correctamente.";
+        document.getElementById("comment-text").value = "";
+        cargarComentarios();
+      }
     }
 
-    let comentarios = JSON.parse(localStorage.getItem("comentarios") || "[]");
-    comentarios.unshift(texto);
-    localStorage.setItem("comentarios", JSON.stringify(comentarios));
+    // Cargar comentarios
+    async function cargarComentarios() {
+      const contenedor = document.getElementById("comentarios-contenido");
+      contenedor.innerHTML = "Cargando comentarios...";
 
-    status.style.color = "green";
-    status.textContent = "Comentario guardado localmente.";
-    document.getElementById("comment-text").value = "";
+      const { data, error } = await supabase
+        .from("comentarios")
+        .select("*")
+        .order("id", { ascending: false })
+        .limit(20);
+
+      if (error) {
+        console.error(error);
+        contenedor.innerHTML = "<p style='color:red;'>Error al cargar comentarios.</p>";
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        contenedor.innerHTML = "<p>No hay comentarios aún.</p>";
+        return;
+      }
+
+      contenedor.innerHTML = data.map(c => `
+        <div class="comentario">${c.texto}</div>
+      `).join('');
+    }
+
+    // Cargar al inicio
     cargarComentarios();
-  }
-
-  function cargarComentarios() {
-    const contenedor = document.getElementById("comentarios-lista");
-    let comentarios = JSON.parse(localStorage.getItem("comentarios") || "[]");
-
-    if (comentarios.length === 0) {
-      contenedor.innerHTML = "<p>No hay comentarios todavía.</p>";
-      return;
-    }
-
-    contenedor.innerHTML = "<h3>Comentarios recientes</h3>" + comentarios.map(c => `
-      <div class="comentario">${c}</div>
-    `).join('');
-  }
-
-  window.onload = cargarComentarios;
-</script>
+  </script>
 </body>
 </html>
