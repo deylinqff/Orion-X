@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Comentarios</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+
+    .comment-box {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #222;
+      color: white;
+      cursor: pointer;
+    }
+
+    .comentario {
+      background-color: #f9f9f9;
+      padding: 10px;
+      margin-top: 10px;
+      border-left: 4px solid #222;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="comment-box">
+    <h2>Deja tu comentario</h2>
+    <textarea id="comment-text" rows="4" placeholder="Escribe algo..."></textarea>
+    <button onclick="guardarComentario()">Enviar</button>
+    <p id="comentario-status"></p>
+
+    <div id="comentarios-lista" style="margin-top: 20px;">
+      <h3>Comentarios recientes</h3>
+    </div>
+  </div>
+
+  <script>
+    const supabaseUrl = 'https://kygzvydfqnnaubxyjupt.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5Z3p2eWRmcW5uYXVieHlqdXB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1NTIzNjAsImV4cCI6MjA2MTEyODM2MH0.Y0vyXh3THD8NxaR_ztHEW1JrG_6z3IhF-DsbSuXbbO4';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function guardarComentario() {
+      const texto = document.getElementById("comment-text").value.trim();
+      const status = document.getElementById("comentario-status");
+
+      if (!texto) {
+        status.style.color = "red";
+        status.textContent = "Escribe un comentario primero.";
+        return;
+      }
+
+      const { error } = await supabase.from("comentarios").insert([{ texto }]);
+
+      if (error) {
+        console.error(error);
+        status.style.color = "red";
+        status.textContent = "Error al guardar el comentario.";
+      } else {
+        status.style.color = "green";
+        status.textContent = "Comentario enviado.";
+        document.getElementById("comment-text").value = "";
+        cargarComentarios(); // Recargar comentarios después de guardar
+      }
+    }
+
+    async function cargarComentarios() {
+      const contenedor = document.getElementById("comentarios-lista");
+
+      const { data, error } = await supabase
+        .from("comentarios")
+        .select("*")
+        .order("id", { ascending: false })
+        .limit(10);
+
+      if (error) {
+        contenedor.innerHTML += "<p style='color:red;'>Error al cargar comentarios.</p>";
+        console.error(error);
+        return;
+      }
+
+      if (data.length === 0) {
+        contenedor.innerHTML += "<p>No hay comentarios todavía.</p>";
+        return;
+      }
+
+      contenedor.innerHTML = "<h3>Comentarios recientes</h3>" + data.map(c => `
+        <div class="comentario">${c.texto}</div>
+      `).join('');
+    }
+
+    // Al cargar la página
+    cargarComentarios();
+  </script>
+</body>
+</html>
