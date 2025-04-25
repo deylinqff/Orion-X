@@ -61,61 +61,41 @@
   </div>
 
   <script>
-    const supabaseUrl = 'https://kygzvydfqnnaubxyjupt.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt5Z3p2eWRmcW5uYXVieHlqdXB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU1NTIzNjAsImV4cCI6MjA2MTEyODM2MH0.Y0vyXh3THD8NxaR_ztHEW1JrG_6z3IhF-DsbSuXbbO4';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+  function guardarComentario() {
+    const texto = document.getElementById("comment-text").value.trim();
+    const status = document.getElementById("comentario-status");
 
-    async function guardarComentario() {
-      const texto = document.getElementById("comment-text").value.trim();
-      const status = document.getElementById("comentario-status");
-
-      if (!texto) {
-        status.style.color = "red";
-        status.textContent = "Escribe un comentario primero.";
-        return;
-      }
-
-      const { error } = await supabase.from("comentarios").insert([{ texto }]);
-
-      if (error) {
-        console.error(error);
-        status.style.color = "red";
-        status.textContent = "Error al guardar el comentario.";
-      } else {
-        status.style.color = "green";
-        status.textContent = "Comentario enviado.";
-        document.getElementById("comment-text").value = "";
-        cargarComentarios(); // Recargar comentarios después de guardar
-      }
+    if (!texto) {
+      status.style.color = "red";
+      status.textContent = "Escribe un comentario primero.";
+      return;
     }
 
-    async function cargarComentarios() {
-      const contenedor = document.getElementById("comentarios-lista");
+    let comentarios = JSON.parse(localStorage.getItem("comentarios") || "[]");
+    comentarios.unshift(texto);
+    localStorage.setItem("comentarios", JSON.stringify(comentarios));
 
-      const { data, error } = await supabase
-        .from("comentarios")
-        .select("*")
-        .order("id", { ascending: false })
-        .limit(10);
-
-      if (error) {
-        contenedor.innerHTML += "<p style='color:red;'>Error al cargar comentarios.</p>";
-        console.error(error);
-        return;
-      }
-
-      if (data.length === 0) {
-        contenedor.innerHTML += "<p>No hay comentarios todavía.</p>";
-        return;
-      }
-
-      contenedor.innerHTML = "<h3>Comentarios recientes</h3>" + data.map(c => `
-        <div class="comentario">${c.texto}</div>
-      `).join('');
-    }
-
-    // Al cargar la página
+    status.style.color = "green";
+    status.textContent = "Comentario guardado localmente.";
+    document.getElementById("comment-text").value = "";
     cargarComentarios();
-  </script>
+  }
+
+  function cargarComentarios() {
+    const contenedor = document.getElementById("comentarios-lista");
+    let comentarios = JSON.parse(localStorage.getItem("comentarios") || "[]");
+
+    if (comentarios.length === 0) {
+      contenedor.innerHTML = "<p>No hay comentarios todavía.</p>";
+      return;
+    }
+
+    contenedor.innerHTML = "<h3>Comentarios recientes</h3>" + comentarios.map(c => `
+      <div class="comentario">${c}</div>
+    `).join('');
+  }
+
+  window.onload = cargarComentarios;
+</script>
 </body>
 </html>
