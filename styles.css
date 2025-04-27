@@ -325,23 +325,26 @@ button:hover {
   display: none;
 }
 
-/*loading-message*/ 
+/*loading message*/ 
 #loading-message {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #111; /* fondo oscuro */
+  background: #111;
   padding: 30px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  width: 250px; /* ancho fijo pequeño */
-  margin: 0 auto; /* centrar el cuadro */
-  text-align: center; /* centrar texto */
+  width: 250px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
 }
 
 .loader {
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 60px;
   height: 60px;
   margin-bottom: 15px;
@@ -378,4 +381,5 @@ button:hover {
   color: #00f0ff;
   font-weight: bold;
   font-size: 16px;
+  text-align: center;
 }
