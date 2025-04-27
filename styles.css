@@ -325,4 +325,37 @@ button:hover {
   display: none;
 }
 
+.loading-message {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #ccc;
+  border-top: 5px solid #4caf50;
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#loading-text {
+  font-size: 18px;
+  color: #333;
+  animation: dots 1.5s steps(3, end) infinite;
+}
+
+@keyframes dots {
+  0% { content: "Buscando música"; }
+  33% { content: "Buscando música."; }
+  66% { content: "Buscando música.."; }
+  100% { content: "Buscando música..."; }
+}
+
 /* Puedes personalizar aún más con clases envolventes si usas un diseño propio */
