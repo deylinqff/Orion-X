@@ -342,13 +342,12 @@ button:hover {
 
 .loader {
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  margin-left: 100px; /* mueve la rueda 50px a la derecha */
   width: 60px;
   height: 60px;
   margin-bottom: 15px;
 }
-
 .loader span {
   position: absolute;
   width: 8px;
