@@ -55,7 +55,7 @@
     </form>
 
     <div id="loading-message" class="loading-message" style="display: none;">
-      Buscando música...
+      <p id="loading-text">Buscando música</p>
     </div>
 
     <div class="music-list" id="music-list">
@@ -65,9 +65,8 @@
 
   <audio id="audio-player" controls></audio>
 
- <script src="api.js"></script>
+  <script src="api.js"></script>
   <script>
-        
     const menuBtn = document.getElementById("menu-button");
     const closeBtn = document.getElementById("close-menu");
     const sideMenu = document.getElementById("side-menu");
@@ -81,11 +80,18 @@
       audioPlayer.play();
     }
 
-
     audioPlayer.addEventListener("ended", () => {
       audioPlayer.style.display = "none";
     });
 
+    // ANIMACIÓN DE CARGA (puntos ...)
+    const loadingText = document.getElementById('loading-text');
+    let dotCount = 0;
+    setInterval(() => {
+      dotCount = (dotCount + 1) % 4; // 0, 1, 2, 3
+      let dots = '.'.repeat(dotCount);
+      loadingText.textContent = `Buscando música${dots}`;
+    }, 500);
   </script>
 </body>
 </html>
