@@ -21,7 +21,7 @@ searchForm.addEventListener("submit", async (e) => {
   audioPlayer.style.display = "none";
 
   try {
-    const searchResults = await fetch(`https://api.neoxr.eu/api/yts?q=${encodeURIComponent(query)}&apikey=GataDios`);
+    const searchResults = await fetch(`https://night-api-seven.vercel.app/api/search/youtube?q=${encodeURIComponent(query)}`);
     const data = await searchResults.json();
     loadingMessage.style.display = "none";
 
