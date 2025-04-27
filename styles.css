@@ -198,31 +198,21 @@ button:hover {
   margin-bottom: 20px;
 }
 
-/* Lista de música */
+/* Lista de música para móvil */
 .music-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 25px;
-  padding: 20px 0;
-}
-
-@media (min-width: 700px) {
-  .music-list {
-    grid-template-columns: 1fr 1fr;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 16px;
 }
 
 .music-card {
-  background-color: #1a1a1a;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
+  background-color: #1a1a1a;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
   transition: transform 0.2s;
-  text-align: center;
 }
 
 .music-card:hover {
@@ -230,28 +220,68 @@ button:hover {
 }
 
 .music-card img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  border-radius: 12px;
+  width: 120px;
+  height: 120px;
   object-fit: cover;
+  flex-shrink: 0;
 }
 
 .music-info {
-  width: 100%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  overflow: hidden;
 }
 
 .music-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: #fff;
-  margin-top: 10px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .music-artist {
   font-size: 14px;
   color: #ccc;
-  margin-top: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Diseño para pantallas más grandes */
+@media (min-width: 700px) {
+  .music-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    padding: 20px 0;
+  }
+
+  .music-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .music-card img {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+
+  .music-info {
+    width: 100%;
+    padding: 10px 0 0;
+  }
+
+  .music-title {
+    font-size: 20px;
+  }
 }
 
 /* Botonera */
