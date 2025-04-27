@@ -4,6 +4,11 @@ const musicList = document.getElementById("music-list");
 const loadingMessage = document.getElementById("loading-message");
 const audioPlayer = document.getElementById("audio-player");
 
+const audioApis = [
+  (url) => `https://api.siputzx.my.id/api/d/ytmp3?url=${url}`,
+  (url) => `https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`
+];
+
 const videoApis = [
   (url) => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
   (url) => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
@@ -21,7 +26,9 @@ searchForm.addEventListener("submit", async (e) => {
   audioPlayer.style.display = "none";
 
   try {
-    const searchResults = await fetch(`https://night-api-seven.vercel.app/api/search/youtube?q=${encodeURIComponent(query)}`);
+    const proxyUrl = 'https://corsproxy.io/?';
+    const apiUrl = `https://night-api-seven.vercel.app/api/search/youtube?q=${encodeURIComponent(query)}`;
+    const searchResults = await fetch(proxyUrl + encodeURIComponent(apiUrl));
     const data = await searchResults.json();
     loadingMessage.style.display = "none";
 
@@ -37,23 +44,23 @@ searchForm.addEventListener("submit", async (e) => {
     const resultadosFiltrados = data.result
       .map(video => {
         const tituloNorm = normalizar(video.titulo);
-        const autorNorm = normalizar(video.canal);
+        const canalNorm = normalizar(video.canal);
 
         let score = 0;
         if (tituloNorm.includes(queryNorm)) score += 2;
-        if (autorNorm.includes(queryNorm)) score += 1;
+        if (canalNorm.includes(queryNorm)) score += 1;
 
         const keywords = queryNorm.split(/\s+/);
         for (let palabra of keywords) {
           if (tituloNorm.includes(palabra)) score += 1;
-          if (autorNorm.includes(palabra)) score += 0.5;
+          if (canalNorm.includes(palabra)) score += 0.5;
         }
 
         return { video, score };
       })
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 15); // Mostrar hasta 15 resultados relevantes
+      .slice(0, 15);
 
     if (resultadosFiltrados.length === 0) {
       musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
@@ -88,23 +95,24 @@ searchForm.addEventListener("submit", async (e) => {
 
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
-        try {
-          const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
-          const audioData = await audioRes.json();
-          if (audioData?.data?.url) {
-            audioPlayer.src = audioData.data.url;
-            audioPlayer.style.display = "block";
-            audioPlayer.play();
-            playBtn.textContent = "Reproducir audio";
-          } else {
-            playBtn.textContent = "Error";
-            alert("No se pudo obtener el audio.");
+        for (let api of audioApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
+            if (audioUrl) {
+              audioPlayer.src = audioUrl;
+              audioPlayer.style.display = "block";
+              audioPlayer.play();
+              playBtn.textContent = "Reproducir audio";
+              return;
+            }
+          } catch (e) {
+            console.warn("API audio falló:", e.message);
           }
-        } catch (err) {
-          console.error(err);
-          playBtn.textContent = "Error";
-          alert("Ocurrió un error al reproducir la música.");
         }
+        playBtn.textContent = "Error";
+        alert("No se pudo obtener el audio.");
       };
 
       const videoBtn = document.createElement("button");
@@ -127,7 +135,7 @@ searchForm.addEventListener("submit", async (e) => {
               return;
             }
           } catch (e) {
-            console.warn("API falló:", e.message);
+            console.warn("API video falló:", e.message);
           }
         }
         videoBtn.textContent = "Error";
