@@ -331,16 +331,20 @@ button:hover {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
   background: #111; /* fondo oscuro */
+  padding: 30px;
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  width: 250px; /* ancho fijo pequeño */
+  margin: 0 auto; /* centrar el cuadro */
+  text-align: center; /* centrar texto */
 }
 
 .loader {
   position: relative;
   width: 60px;
   height: 60px;
+  margin-bottom: 15px;
 }
 
 .loader span {
@@ -371,9 +375,7 @@ button:hover {
 }
 
 #loading-text {
-  margin-top: 10px;
   color: #00f0ff;
   font-weight: bold;
   font-size: 16px;
-  text-align: center;
 }
