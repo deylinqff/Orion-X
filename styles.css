@@ -325,7 +325,6 @@ button:hover {
   display: none;
 }
 
-/*loading message*/ 
 #loading-message {
   display: flex;
   flex-direction: column;
@@ -336,8 +335,7 @@ button:hover {
   border-radius: 12px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   width: 250px;
-  margin-left: auto; /* esto lo empuja a la derecha */
-  margin-right: 20px; /* opcional: espacio entre el borde derecho */
+  margin: 0 auto;
   text-align: center;
   position: relative;
 }
