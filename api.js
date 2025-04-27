@@ -92,9 +92,9 @@ searchForm.addEventListener("submit", async (e) => {
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
         try {
-          const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
+          const audioRes = await fetch(`https://night-api-seven.vercel.app/api/download/ytmp3?q=${encodeURIComponent(video.url)}`);
           const audioData = await audioRes.json();
-          if (audioData?.data?.url) {
+          if (audioData?.status && audioData?.data?.url) {
             audioPlayer.src = audioData.data.url;
             audioPlayer.style.display = "block";
             audioPlayer.play();
