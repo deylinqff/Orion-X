@@ -343,9 +343,9 @@ button:hover {
 }
 
 .loader {
-  display: grid;
-  place-items: center;
-  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   width: 60px;
   height: 60px;
   margin-bottom: 15px;
