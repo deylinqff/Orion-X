@@ -25,7 +25,7 @@ searchForm.addEventListener("submit", async (e) => {
     const data = await searchResults.json();
     loadingMessage.style.display = "none";
 
-    if (!data.status || !data.data || data.data.length === 0) {
+    if (!data.status || !data.result || data.result.length === 0) {
       musicList.innerHTML = `<p>No se encontraron resultados.</p>`;
       return;
     }
@@ -34,10 +34,10 @@ searchForm.addEventListener("submit", async (e) => {
       str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const queryNorm = normalizar(query);
 
-    const resultadosFiltrados = data.data
+    const resultadosFiltrados = data.result
       .map(video => {
-        const tituloNorm = normalizar(video.title);
-        const autorNorm = normalizar(video.author.name);
+        const tituloNorm = normalizar(video.titulo);
+        const autorNorm = normalizar(video.canal);
 
         let score = 0;
         if (tituloNorm.includes(queryNorm)) score += 2;
@@ -65,25 +65,22 @@ searchForm.addEventListener("submit", async (e) => {
       card.className = "music-card";
 
       const image = document.createElement("img");
-      image.src = video.thumbnail;
+      image.src = video.miniatura;
 
       const info = document.createElement("div");
       info.className = "music-info";
 
       const title = document.createElement("div");
       title.className = "music-title";
-      title.textContent = video.title;
+      title.textContent = video.titulo;
 
       const artist = document.createElement("div");
       artist.className = "music-artist";
-      artist.textContent = video.author.name;
+      artist.textContent = video.canal;
 
       const channel = document.createElement("div");
       channel.className = "music-channel";
-      channel.textContent = `Canal: ${video.author.channel || video.author.name}`;
-      if (video.author.verified) {
-        channel.textContent += " ✔️";
-      }
+      channel.textContent = `Canal: ${video.canal}`;
 
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
@@ -92,9 +89,9 @@ searchForm.addEventListener("submit", async (e) => {
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
         try {
-          const audioRes = await fetch(`https://night-api-seven.vercel.app/api/download/ytmp3?q=${encodeURIComponent(video.url)}`);
+          const audioRes = await fetch(`https://api.neoxr.eu/api/youtube?url=${encodeURIComponent(video.url)}&type=audio&quality=128kbps&apikey=GataDios`);
           const audioData = await audioRes.json();
-          if (audioData?.status && audioData?.data?.url) {
+          if (audioData?.data?.url) {
             audioPlayer.src = audioData.data.url;
             audioPlayer.style.display = "block";
             audioPlayer.play();
@@ -124,7 +121,7 @@ searchForm.addEventListener("submit", async (e) => {
             if (videoUrl) {
               const a = document.createElement("a");
               a.href = videoUrl;
-              a.download = `${video.title}.mp4`;
+              a.download = `${video.titulo}.mp4`;
               a.click();
               videoBtn.textContent = "Descargar video";
               return;
