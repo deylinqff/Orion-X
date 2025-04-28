@@ -67,7 +67,17 @@
     </div>
   </div>
 
-  <audio id="audio-player" controls></audio>
+ <div id="custom-audio-player">
+  <audio id="audio-player"></audio>
+  <div class="audio-controls">
+    <button id="play-pause-btn"><i class="fas fa-play"></i></button>
+    <div id="audio-info">
+      <span id="audio-title">Reproduciendo...</span>
+    </div>
+    <input type="range" id="seek-bar" value="0">
+    <input type="range" id="volume-bar" min="0" max="1" step="0.01" value="1">
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/browser-id3-writer@4.0.0/dist/browser-id3-writer.min.js"></script>
   <script src="api.js"></script>
