@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Orión X | Buscador de Música</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>Orión X - Buscador de Música</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -37,10 +36,6 @@
   </form>
 
   <div id="loading-message" style="display: none;">
-    <div class="loader">
-      <span></span><span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span><span></span>
-    </div>
     <p id="loading-text">Buscando música...</p>
   </div>
 
@@ -63,14 +58,13 @@
 </div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/browser-id3-writer@4.0.0/dist/browser-id3-writer.min.js"></script>
-<script src="api.js"></script>
 <script>
   const menuBtn = document.getElementById("menu-button");
   const closeBtn = document.getElementById("close-menu");
   const sideMenu = document.getElementById("side-menu");
+
   const customAudioPlayer = document.getElementById('custom-audio-player');
-  const audioPlayer = document.getElementById('audio-player');
+  const audioPlayer = document.getElementById('audio-player'); <!-- ESTA LÍNEA FALTABA -->
   const playPauseBtn = document.getElementById('play-pause-btn');
   const seekBar = document.getElementById('seek-bar');
   const volumeBar = document.getElementById('volume-bar');
@@ -118,12 +112,12 @@
     playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
   }
 
-  // Animación de carga (puntos ...)
+  // Animación de puntos
   const loadingText = document.getElementById('loading-text');
   let dotCount = 0;
   setInterval(() => {
     dotCount = (dotCount + 1) % 4;
-    let dots = '.'.repeat(dotCount);
+    let dots = '•'.repeat(dotCount);
     loadingText.textContent = `Buscando música${dots}`;
   }, 500);
 </script>
