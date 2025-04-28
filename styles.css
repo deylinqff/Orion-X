@@ -5,30 +5,16 @@
   box-sizing: border-box;
 }
 
-/* Estilo general del body */
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(45deg, #0d0d0d, #1a1a40, #0d7377, #323232, #ff0055, #00f2ff, #f0ff00, #ff7b00);
-  background-size: 400% 400%;
-  animation: moverFondo 25s ease-in-out infinite;
+  background-color: #0d0d0d;
   color: #f0f0f0;
   line-height: 1.6;
   padding-bottom: 90px;
-  min-height: 100vh;
   position: relative;
   overflow-x: hidden;
 }
 
-/* Fondo animado */
-@keyframes moverFondo {
-  0% { background-position: 0% 0%; }
-  25% { background-position: 100% 0%; }
-  50% { background-position: 100% 100%; }
-  75% { background-position: 0% 100%; }
-  100% { background-position: 0% 0%; }
-}
-
-/* Marca de agua futurista */
 body::before {
   content: "Orion-X";
   position: fixed;
@@ -38,105 +24,73 @@ body::before {
   font-size: 18vw;
   font-weight: 900;
   font-style: italic;
-  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff0000);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: moverTexto 10s ease infinite, brillar 2s ease-in-out infinite alternate;
+  color: rgba(255, 255, 255, 0.03); /* gris súper suave */
+  text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.05);
   letter-spacing: 1vw;
-  opacity: 0.1;
   white-space: nowrap;
   pointer-events: none;
-  user-select: none;
   z-index: 0;
+  user-select: none;
 }
 
-/* Animaciones de la marca de agua */
-@keyframes moverTexto {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-@keyframes brillar {
-  0% { opacity: 0.05; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
-  100% { opacity: 0.15; text-shadow: 0 0 20px rgba(255,255,255,0.4); }
-}
-
-/* Contenedor principal */
 .container {
   max-width: 1200px;
   margin: auto;
-  padding: 60px 20px;
+  padding: 40px 20px;
   text-align: center;
-  position: relative;
-  z-index: 1;
-  backdrop-filter: blur(5px);
-  background: rgba(0, 0, 0, 0.4);
-  border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
-/* Encabezado Futurista */
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: #fff;
+}
+
+/* Encabezado */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(90deg, #000428, #004e92);
-  padding: 20px 30px;
+  background-color: #111;
+  padding: 20px;
+  border-bottom: 1px solid #222;
   position: sticky;
   top: 0;
   z-index: 1001;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .header h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #00fff7;
+  font-size: 1.8rem;
+  color: #e60023;
   margin: 0;
-  letter-spacing: 2px;
-  text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7, 0 0 20px #00fff7;
-  animation: neonTitle 1.5s infinite alternate;
 }
 
-/* Botón del menú */
 .menu-button {
-  background: transparent;
-  border: 2px solid #00fff7;
-  border-radius: 50%;
-  padding: 10px;
-  color: #00fff7;
+  background-color: transparent;
+  border: none;
+  color: #fff;
   font-size: 28px;
   cursor: pointer;
-  transition: all 0.4s ease;
+  transition: transform 0.2s;
 }
 
 .menu-button:hover {
-  background-color: #00fff7;
-  color: #000;
-  transform: scale(1.2) rotate(15deg);
-  box-shadow: 0 0 15px #00fff7, 0 0 30px #00fff7;
+  transform: scale(1.2);
 }
 
-/* Animación de neón */
-@keyframes neonTitle {
-  0% { text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7; }
-  100% { text-shadow: 0 0 20px #00fff7, 0 0 40px #00fff7; }
-}
-
-/* Menú lateral derecho */
+/* Menú lateral */
 .side-menu {
   position: fixed;
   top: 0;
   right: -100%;
   height: 100%;
   width: 300px;
-  background: linear-gradient(180deg, #000428, #004e92);
+  background-color: #111;
+  color: #fff;
   padding: 30px 20px;
-  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.8);
-  transition: right 0.5s ease;
-  z-index: 2000;
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s ease;
+  z-index: 1002;
   overflow-y: auto;
 }
 
@@ -144,49 +98,45 @@ body::before {
   right: 0;
 }
 
-/* Botón de cerrar */
-.close-button {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: transparent;
-  border: 2px solid #00fff7;
-  color: #00fff7;
+.side-menu h2 {
   font-size: 24px;
-  font-weight: bold;
-  border-radius: 50%;
+  margin-bottom: 20px;
+  color: #e60023;
+}
+
+.side-menu h3 {
+  font-size: 18px;
+  margin-top: 20px;
+  color: #ccc;
+}
+
+.side-menu ul {
+  list-style: none;
+  padding-left: 0;
+  font-size: 14px;
+}
+
+.side-menu li {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 5px;
+  color: #f0f0f0;
+}
+
+/* Botón cerrar menú */
+.close-button {
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  position: absolute;
+  top: 15px;
+  right: 20px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  padding: 6px 10px;
 }
 
 .close-button:hover {
-  background: #00fff7;
-  color: #000;
-  transform: rotate(180deg);
-}
-
-/* Botones del menú lateral */
-.side-menu button {
-  width: 100%;
-  margin-top: 20px;
-  background-color: transparent;
-  border: 2px solid #00fff7;
-  color: #00fff7;
-  padding: 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 16px;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.side-menu button:hover {
-  background: #00fff7;
-  color: #000;
-  box-shadow: 0 0 15px #00fff7, 0 0 30px #00fff7;
+  color: #e60023;
 }
 
 /* Formulario */
@@ -224,7 +174,6 @@ input[type="text"]:focus {
   box-shadow: 0 0 0 2px #e60023;
 }
 
-/* Botón general */
 button {
   padding: 14px 30px;
   font-size: 16px;
@@ -252,12 +201,17 @@ button:hover {
 /* Lista de música */
 .music-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  grid-template-columns: 1fr;
   gap: 25px;
   padding: 20px 0;
 }
 
-/* Card de música */
+@media (min-width: 700px) {
+  .music-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .music-card {
   background-color: #1a1a1a;
   padding: 20px;
@@ -277,6 +231,7 @@ button:hover {
 
 .music-card img {
   width: 100%;
+  max-width: 300px;
   height: auto;
   border-radius: 12px;
   object-fit: cover;
@@ -299,57 +254,48 @@ button:hover {
   margin-top: 4px;
 }
 
-/* Botonera futurista */
+/* Botonera */
 .button-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
-  padding-top: 10px;
 }
 
 .play-button,
 .download-button {
-  padding: 12px 24px;
-  font-size: 16px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  border-radius: 12px;
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s, color 0.3s;
   width: 80%;
-  max-width: 260px;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
-  text-transform: uppercase;
+  max-width: 250px;
 }
 
-/* Botón de Play */
 .play-button {
-  background: linear-gradient(135deg, #00f0ff, #0066ff);
-  color: #fff;
-  border: 2px solid #00f0ff;
+  background-color: transparent;
+  color: #e60023;
+  border: 2px solid #e60023;
 }
 
 .play-button:hover {
-  background: linear-gradient(135deg, #0066ff, #00f0ff);
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
-  transform: scale(1.05);
-}
-
-/* Botón de Descarga */
-.download-button {
-  background: linear-gradient(135deg, #ff0066, #ff6600);
+  background-color: #e60023;
   color: #fff;
 }
 
-.download-button:hover {
-  background: linear-gradient(135deg, #ff6600, #ff0066);
-  box-shadow: 0 0 20px rgba(255, 0, 102, 0.7);
-  transform: scale(1.05);
+.download-button {
+  background-color: #444;
+  color: #fff;
+  border: none;
 }
 
-/* Reproductor de Audio */
+.download-button:hover {
+  background-color: #666;
+}
+
+/* Reproductor de audio fijo abajo */
 #audio-player {
   position: fixed;
   bottom: 0;
@@ -357,26 +303,24 @@ button:hover {
   transform: translateX(-50%);
   width: 100%;
   max-width: 800px;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 255, 0.1));
-  padding: 16px 20px;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  box-shadow: 0 -4px 20px rgba(0, 255, 255, 0.3);
+  background-color: #000;
+  padding: 12px 16px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
   z-index: 1000;
   display: flex;
   align-items: center;
-  gap: 16px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 255, 255, 0.3);
+  gap: 12px;
 }
 
-/* Controles personalizados */
+/* Estilo interno del control nativo (solo aplica en navegadores que lo permiten) */
 #audio-player::-webkit-media-controls-panel {
-  background: transparent;
-  color: #00f0ff;
+  background-color: #0f0;
+  border-radius: 12px;
 }
 
-/* Ocultar reproductor */
+/* Ocultar temporalmente si es necesario */
 #audio-player.hidden {
   display: none;
 }
@@ -436,52 +380,4 @@ button:hover {
   font-weight: bold;
   font-size: 16px;
   text-align: center;
-}
-
-#custom-audio-player {
-  display: none;
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 800px;
-  background: #1e1e1e;
-  padding: 15px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.6);
-  z-index: 1000;
-}
-
-.audio-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-#play-pause-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 24px;
-  cursor: pointer;
-}
-
-#audio-info {
-  flex-grow: 1;
-  color: white;
-  font-weight: bold;
-  padding: 0 10px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-#seek-bar {
-  flex-grow: 2;
-}
-
-#volume-bar {
-  width: 100px;
 }
