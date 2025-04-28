@@ -155,8 +155,8 @@ searchForm.addEventListener("submit", async (e) => {
             const json = await res.json();
             const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
             if (audioUrl) {
-              const mp3ArrayBuffer = await (await fetch(audioUrl)).arrayBuffer();
-              const imageArrayBuffer = await (await fetch(video.miniatura)).arrayBuffer();
+              const mp3ArrayBuffer = await (await fetch('https://corsproxy.io/?' + encodeURIComponent(audioUrl))).arrayBuffer();
+              const imageArrayBuffer = await (await fetch('https://corsproxy.io/?' + encodeURIComponent(video.miniatura))).arrayBuffer();
 
               const writer = new ID3Writer(new Uint8Array(mp3ArrayBuffer));
               writer.setFrame('TIT2', video.titulo)
