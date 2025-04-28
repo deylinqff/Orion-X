@@ -46,36 +46,56 @@ h1 {
   color: #fff;
 }
 
-/* Encabezado */
+/* Encabezado PRO */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #111;
-  padding: 20px;
-  border-bottom: 1px solid #222;
+  background: linear-gradient(90deg, #000428, #004e92);
+  padding: 20px 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   position: sticky;
   top: 0;
   z-index: 1001;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .header h1 {
-  font-size: 1.8rem;
-  color: #e60023;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #00fff7;
   margin: 0;
+  letter-spacing: 2px;
+  text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7, 0 0 20px #00fff7;
+  animation: neonTitle 1.5s infinite alternate;
 }
 
 .menu-button {
-  background-color: transparent;
-  border: none;
-  color: #fff;
+  background: transparent;
+  border: 2px solid #00fff7;
+  border-radius: 50%;
+  padding: 10px;
+  color: #00fff7;
   font-size: 28px;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: all 0.4s ease;
 }
 
 .menu-button:hover {
-  transform: scale(1.2);
+  background-color: #00fff7;
+  color: #000;
+  transform: scale(1.2) rotate(15deg);
+  box-shadow: 0 0 15px #00fff7, 0 0 30px #00fff7;
+}
+
+/* Animación de neón del título */
+@keyframes neonTitle {
+  0% {
+    text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7;
+  }
+  100% {
+    text-shadow: 0 0 20px #00fff7, 0 0 40px #00fff7;
+  }
 }
 
 /* Menú lateral */
