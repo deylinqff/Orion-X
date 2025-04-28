@@ -227,10 +227,10 @@ button:hover {
 }
 
 .music-info {
-  padding: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 10px;
   flex: 1;
   overflow: hidden;
 }
@@ -248,12 +248,55 @@ button:hover {
 .music-artist {
   font-size: 14px;
   color: #ccc;
+  margin-bottom: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* Diseño para pantallas más grandes */
+/* Contenedor de botones */
+.button-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.play-button,
+.download-button {
+  flex: 1 1 45%;
+  padding: 8px;
+  font-size: 13px;
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  border: none;
+  text-decoration: none;
+}
+
+/* Botón reproducir */
+.play-button {
+  background-color: transparent;
+  color: #e60023;
+  border: 2px solid #e60023;
+}
+
+.play-button:hover {
+  background-color: #e60023;
+  color: #fff;
+}
+
+/* Botón descargar */
+.download-button {
+  background-color: #444;
+  color: #fff;
+}
+
+.download-button:hover {
+  background-color: #666;
+}
+
+/* Diseño para pantallas grandes */
 @media (min-width: 700px) {
   .music-list {
     display: grid;
@@ -279,50 +322,16 @@ button:hover {
     padding: 10px 0 0;
   }
 
-  .music-title {
-    font-size: 20px;
+  .button-container {
+    flex-direction: column;
+    gap: 10px;
   }
-}
 
-/* Botonera */
-.button-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-}
-
-.play-button,
-.download-button {
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-  width: 80%;
-  max-width: 250px;
-}
-
-.play-button {
-  background-color: transparent;
-  color: #e60023;
-  border: 2px solid #e60023;
-}
-
-.play-button:hover {
-  background-color: #e60023;
-  color: #fff;
-}
-
-.download-button {
-  background-color: #444;
-  color: #fff;
-  border: none;
-}
-
-.download-button:hover {
-  background-color: #666;
+  .play-button,
+  .download-button {
+    width: 80%;
+    max-width: 250px;
+  }
 }
 
 /* Reproductor de audio fijo abajo */
