@@ -7,12 +7,27 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background-color: #0d0d0d;
+  background: linear-gradient(-45deg, #0d0d0d, #1a1a40, #0d7377, #323232);
+  background-size: 400% 400%;
+  animation: cambiarFondo 20s ease infinite;
   color: #f0f0f0;
   line-height: 1.6;
   padding-bottom: 90px;
   position: relative;
   overflow-x: hidden;
+  min-height: 100vh;
+}
+
+@keyframes cambiarFondo {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 body::before {
@@ -24,7 +39,7 @@ body::before {
   font-size: 18vw;
   font-weight: 900;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.03); /* gris súper suave */
+  color: rgba(255, 255, 255, 0.03);
   text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.05);
   letter-spacing: 1vw;
   white-space: nowrap;
@@ -38,6 +53,8 @@ body::before {
   margin: auto;
   padding: 40px 20px;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 h1 {
