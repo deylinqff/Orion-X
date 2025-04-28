@@ -88,8 +88,8 @@ searchForm.addEventListener("submit", async (e) => {
       const channel = document.createElement("div");
 
       const playBtn = document.createElement("button");
-      playBtn.className = "play-button";
-      playBtn.textContent = "Reproducir audio";
+playBtn.className = "play-button";
+playBtn.innerHTML = `<i class="fas fa-play"></i> Reproducir audio`;
 
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
@@ -114,8 +114,8 @@ searchForm.addEventListener("submit", async (e) => {
       };
 
       const videoBtn = document.createElement("button");
-      videoBtn.className = "download-button";
-      videoBtn.textContent = "Descargar video";
+videoBtn.className = "download-button";
+videoBtn.innerHTML = `<i class="fas fa-video"></i> Descargar video`;
 
       videoBtn.onclick = async () => {
         videoBtn.textContent = "Buscando...";
