@@ -6,9 +6,7 @@
   <title>Orión X - Buscador de Música</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
   <style>
-    /* Audio player */
     #audio-player {
       display: none;
       position: fixed;
@@ -24,23 +22,19 @@
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
       z-index: 1000;
     }
-
-    /* Estilos del input con botón micrófono */
     .search-container {
       position: relative;
       width: 100%;
       max-width: 500px;
       margin: 0 auto;
     }
-
     .search-container input {
       width: 100%;
-      padding: 10px 50px 10px 15px; /* espacio a la derecha para el micrófono */
+      padding: 10px 50px 10px 15px;
       border: 1px solid #ccc;
       border-radius: 25px;
       font-size: 16px;
     }
-
     .search-container button#voice-button {
       position: absolute;
       right: 15px;
@@ -52,8 +46,6 @@
       color: #555;
       font-size: 20px;
     }
-
-    /* Botón de buscar */
     #search-form button[type="submit"] {
       margin-top: 10px;
       padding: 10px 20px;
@@ -64,25 +56,19 @@
       border-radius: 8px;
       cursor: pointer;
     }
-
   </style>
 </head>
-
 <body>
 
 <!-- Menú lateral -->
 <div id="side-menu" class="side-menu">
   <button id="close-menu" class="close-button">✖</button>
   <h2>Info</h2>
-
   <button onclick="window.location.href='https://wa.me/50433191934'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px;">
-    <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
-    Contacto directo
+    <i class="fab fa-whatsapp" style="font-size: 20px;"></i> Contacto directo
   </button>
-
   <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-    <i class="fas fa-bullhorn" style="font-size: 20px;"></i>
-    Canal de WhatsApp
+    <i class="fas fa-bullhorn" style="font-size: 20px;"></i> Canal de WhatsApp
   </button>
 </div>
 
@@ -148,38 +134,38 @@
 
   if (SpeechRecognition) {
     const recognition = new SpeechRecognition();
-    recognition.lang = 'es-ES'; // puedes cambiarlo según tu país
+    recognition.lang = 'es-ES'; // Español (puedes cambiarlo si quieres)
     recognition.continuous = false;
     recognition.interimResults = false;
 
     voiceBtn.addEventListener('click', () => {
       recognition.start();
+      console.log("Escuchando...");
     });
 
     recognition.addEventListener('result', (event) => {
       const texto = event.results[0][0].transcript;
+      console.log("Texto reconocido:", texto);
       searchInput.value = texto;
-      // Opcional: auto-enviar la búsqueda cuando termine de hablar
       searchForm.requestSubmit();
     });
 
     recognition.addEventListener('error', (event) => {
       console.error('Error en el reconocimiento de voz:', event.error);
-      alert('No se pudo reconocer la voz. Inténtalo de nuevo.');
+      alert('No se pudo reconocer la voz. Intenta de nuevo.');
     });
 
   } else {
-    voiceBtn.style.display = 'none'; // Ocultamos el micrófono si no hay soporte
+    voiceBtn.style.display = 'none'; // Ocultamos micrófono si no soporta
     console.log("Reconocimiento de voz no soportado en este navegador.");
   }
 
-  // Animación de carga (puntos ...)
+  // Animación de carga (...)
   const loadingText = document.getElementById('loading-text');
   let dotCount = 0;
   setInterval(() => {
     dotCount = (dotCount + 1) % 4;
-    let dots = '.'.repeat(dotCount);
-    loadingText.textContent = `Buscando música${dots}`;
+    loadingText.textContent = `Buscando música${'.'.repeat(dotCount)}`;
   }, 500);
 
 </script>
