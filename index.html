@@ -76,6 +76,37 @@
 
   <script src="api.js"></script>
   <script>
+  const voiceBtn = document.getElementById('voice-button');
+  const searchInput = document.getElementById('search-input');
+
+  // Verificamos compatibilidad
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+  if (SpeechRecognition) {
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'es-ES'; // Español de España, puedes cambiar a 'es-419' para Latinoamérica
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    voiceBtn.addEventListener('click', () => {
+      recognition.start();
+    });
+
+    recognition.addEventListener('result', (event) => {
+      const texto = event.results[0][0].transcript;
+      searchInput.value = texto;
+    });
+
+    recognition.addEventListener('error', (event) => {
+      console.error('Error en el reconocimiento de voz:', event.error);
+      alert('No se pudo reconocer la voz. Inténtalo de nuevo.');
+    });
+
+  } else {
+    voiceBtn.style.display = 'none'; // Ocultamos el botón si no hay soporte
+    console.log("Reconocimiento de voz no soportado en este navegador.");
+  }
+
     const menuBtn = document.getElementById("menu-button");
     const closeBtn = document.getElementById("close-menu");
     const sideMenu = document.getElementById("side-menu");
