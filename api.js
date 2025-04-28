@@ -86,6 +86,8 @@ searchForm.addEventListener("submit", async (e) => {
       artist.textContent = video.canal;
 
       const channel = document.createElement("div");
+      channel.className = "music-channel";
+      channel.textContent = `Canal: ${video.canal}`;
 
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
@@ -140,6 +142,49 @@ searchForm.addEventListener("submit", async (e) => {
         alert("No se pudo obtener el video.");
       };
 
+      // BOTÓN NUEVO: Descargar música con carátula
+      const audioDownloadBtn = document.createElement("button");
+      audioDownloadBtn.className = "download-button";
+      audioDownloadBtn.textContent = "Descargar música";
+
+      audioDownloadBtn.onclick = async () => {
+        audioDownloadBtn.textContent = "Preparando...";
+        for (let api of audioApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
+            if (audioUrl) {
+              const mp3ArrayBuffer = await (await fetch(audioUrl)).arrayBuffer();
+              const imageArrayBuffer = await (await fetch(video.miniatura)).arrayBuffer();
+
+              const writer = new ID3Writer(new Uint8Array(mp3ArrayBuffer));
+              writer.setFrame('TIT2', video.titulo)
+                    .setFrame('TPE1', [video.canal])
+                    .setFrame('APIC', {
+                      type: 3,
+                      data: new Uint8Array(imageArrayBuffer),
+                      description: 'Cover'
+                    });
+              writer.addTag();
+
+              const taggedBlob = writer.getBlob();
+              const a = document.createElement('a');
+              a.href = URL.createObjectURL(taggedBlob);
+              a.download = `${video.titulo}.mp3`;
+              a.click();
+
+              audioDownloadBtn.textContent = "Descargar música";
+              return;
+            }
+          } catch (e) {
+            console.warn("API audio falló:", e.message);
+          }
+        }
+        audioDownloadBtn.textContent = "Error";
+        alert("No se pudo obtener el audio.");
+      };
+
       info.appendChild(title);
       info.appendChild(artist);
       info.appendChild(channel);
@@ -147,6 +192,7 @@ searchForm.addEventListener("submit", async (e) => {
       card.appendChild(info);
       card.appendChild(playBtn);
       card.appendChild(videoBtn);
+      card.appendChild(audioDownloadBtn); // <-- Agregamos el nuevo botón
       musicList.appendChild(card);
     });
 
