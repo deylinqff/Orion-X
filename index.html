@@ -26,20 +26,20 @@
 </head>
 <body>
   <!-- Menú lateral -->
-<div id="side-menu" class="side-menu">
-  <button id="close-menu" class="close-button">✖</button>
-  <h2>Info</h2>
+  <div id="side-menu" class="side-menu">
+    <button id="close-menu" class="close-button">✖</button>
+    <h2>Info</h2>
 
-  <button onclick="window.location.href='https://wa.me/50433191934'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px;">
-    <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
-    Contacto directo
-  </button>
+    <button onclick="window.location.href='https://wa.me/50433191934'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px;">
+      <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
+      Contacto directo
+    </button>
 
-  <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-    <i class="fas fa-bullhorn" style="font-size: 20px;"></i>
-    Canal de WhatsApp
-  </button>
-</div>
+    <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+      <i class="fas fa-bullhorn" style="font-size: 20px;"></i>
+      Canal de WhatsApp
+    </button>
+  </div>
 
   <header class="header">
     <h1 class="logo">
@@ -55,12 +55,12 @@
     </form>
 
     <div id="loading-message" style="display: none;">
-  <div class="loader">
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-  </div>
-  <p id="loading-text">Buscando música...</p>
-</div>
+      <div class="loader">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <p id="loading-text">Buscando música...</p>
+    </div>
 
     <div class="music-list" id="music-list">
       <!-- Aquí se insertarán las canciones -->
@@ -74,6 +74,7 @@
     const menuBtn = document.getElementById("menu-button");
     const closeBtn = document.getElementById("close-menu");
     const sideMenu = document.getElementById("side-menu");
+    const audioPlayer = document.getElementById("audio-player");
 
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
@@ -96,6 +97,32 @@
       let dots = '.'.repeat(dotCount);
       loadingText.textContent = `Buscando música${dots}`;
     }, 500);
+
+    // FUNCIÓN PARA CREAR LAS TARJETAS DE CANCIONES
+    function crearTarjetaCancion(cancion) {
+      const tarjeta = document.createElement('div');
+      tarjeta.className = 'music-card';
+
+      tarjeta.innerHTML = `
+        <img src="${cancion.thumbnail}" alt="Cover del álbum">
+        <div class="music-info">
+          <div>
+            <div class="music-title">${cancion.title}</div>
+            <div class="music-artist">${cancion.artist}</div>
+          </div>
+          <div class="button-container">
+            <button class="play-button" onclick="reproducirCancion('${cancion.audio}')">
+              ▶ Reproducir
+            </button>
+            <a class="download-button" href="${cancion.video}" download>
+              ⬇ Descargar
+            </a>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('music-list').appendChild(tarjeta);
+    }
   </script>
 </body>
 </html>
