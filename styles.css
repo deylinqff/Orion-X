@@ -7,33 +7,12 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(45deg, #0d0d0d, #1a1a40, #0d7377, #323232, #ff0055, #00f2ff, #f0ff00, #ff7b00);
-  background-size: 400% 400%;
-  animation: moverFondo 25s ease-in-out infinite;
+  background-color: #0d0d0d;
   color: #f0f0f0;
   line-height: 1.6;
   padding-bottom: 90px;
   position: relative;
   overflow-x: hidden;
-  min-height: 100vh;
-}
-
-@keyframes moverFondo {
-  0% {
-    background-position: 0% 0%;
-  }
-  25% {
-    background-position: 100% 0%;
-  }
-  50% {
-    background-position: 100% 100%;
-  }
-  75% {
-    background-position: 0% 100%;
-  }
-  100% {
-    background-position: 0% 0%;
-  }
 }
 
 body::before {
@@ -45,80 +24,102 @@ body::before {
   font-size: 18vw;
   font-weight: 900;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.03);
-  text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.05);
+  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff0000);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: moverTexto 10s ease infinite, brillar 2s ease-in-out infinite alternate;
   letter-spacing: 1vw;
   white-space: nowrap;
   pointer-events: none;
   z-index: 0;
   user-select: none;
+  opacity: 0.1;
+}
+
+@keyframes moverTexto {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes brillar {
+  0% {
+    opacity: 0.95;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    opacity: 0.15;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  }
 }
 
 .container {
   max-width: 1200px;
   margin: auto;
-  padding: 40px 20px;
+  padding: 60px 20px;
   text-align: center;
   position: relative;
   z-index: 1;
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 30px;
-  color: #fff;
+  color: #ffffff;
+  text-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff;
+  animation: vibrar 1s infinite alternate;
 }
 
-/* Encabezado PRO */
+@keyframes vibrar {
+  0% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(2px);
+  }
+}
+
+/* Encabezado */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(90deg, #000428, #004e92);
-  padding: 20px 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background-color: #111;
+  padding: 20px;
+  border-bottom: 1px solid #222;
   position: sticky;
   top: 0;
   z-index: 1001;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .header h1 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #00fff7;
+  font-size: 1.8rem;
+  color: #e60023;
   margin: 0;
-  letter-spacing: 2px;
-  text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7, 0 0 20px #00fff7;
-  animation: neonTitle 1.5s infinite alternate;
 }
 
 .menu-button {
-  background: transparent;
-  border: 2px solid #00fff7;
-  border-radius: 50%;
-  padding: 10px;
-  color: #00fff7;
+  background-color: transparent;
+  border: none;
+  color: #fff;
   font-size: 28px;
   cursor: pointer;
-  transition: all 0.4s ease;
+  transition: transform 0.2s;
 }
 
 .menu-button:hover {
-  background-color: #00fff7;
-  color: #000;
-  transform: scale(1.2) rotate(15deg);
-  box-shadow: 0 0 15px #00fff7, 0 0 30px #00fff7;
-}
-
-/* Animación de neón del título */
-@keyframes neonTitle {
-  0% {
-    text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7;
-  }
-  100% {
-    text-shadow: 0 0 20px #00fff7, 0 0 40px #00fff7;
-  }
+  transform: scale(1.2);
 }
 
 /* Menú lateral */
