@@ -5,6 +5,7 @@
   box-sizing: border-box;
 }
 
+/* Estilo general del body */
 body {
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(45deg, #0d0d0d, #1a1a40, #0d7377, #323232, #ff0055, #00f2ff, #f0ff00, #ff7b00);
@@ -13,29 +14,21 @@ body {
   color: #f0f0f0;
   line-height: 1.6;
   padding-bottom: 90px;
+  min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  min-height: 100vh;
 }
 
+/* Fondo animado */
 @keyframes moverFondo {
-  0% {
-    background-position: 0% 0%;
-  }
-  25% {
-    background-position: 100% 0%;
-  }
-  50% {
-    background-position: 100% 100%;
-  }
-  75% {
-    background-position: 0% 100%;
-  }
-  100% {
-    background-position: 0% 0%;
-  }
+  0% { background-position: 0% 0%; }
+  25% { background-position: 100% 0%; }
+  50% { background-position: 100% 100%; }
+  75% { background-position: 0% 100%; }
+  100% { background-position: 0% 0%; }
 }
 
+/* Marca de agua futurista */
 body::before {
   content: "Orion-X";
   position: fixed;
@@ -51,36 +44,26 @@ body::before {
   -webkit-text-fill-color: transparent;
   animation: moverTexto 10s ease infinite, brillar 2s ease-in-out infinite alternate;
   letter-spacing: 1vw;
+  opacity: 0.1;
   white-space: nowrap;
   pointer-events: none;
-  z-index: 0;
   user-select: none;
-  opacity: 0.1;
+  z-index: 0;
 }
 
+/* Animaciones de la marca de agua */
 @keyframes moverTexto {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 @keyframes brillar {
-  0% {
-    opacity: 0.05;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-  }
-  100% {
-    opacity: 0.15;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-  }
+  0% { opacity: 0.05; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
+  100% { opacity: 0.15; text-shadow: 0 0 20px rgba(255,255,255,0.4); }
 }
 
+/* Contenedor principal */
 .container {
   max-width: 1200px;
   margin: auto;
@@ -94,31 +77,13 @@ body::before {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
-h1 {
-  font-size: 3rem;
-  margin-bottom: 30px;
-  color: #ffffff;
-  text-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff;
-  animation: vibrar 1s infinite alternate;
-}
-
-@keyframes vibrar {
-  0% {
-    transform: translateX(-2px);
-  }
-  100% {
-    transform: translateX(2px);
-  }
-}
-
-/* Encabezado PRO */
+/* Encabezado Futurista */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(90deg, #000428, #004e92);
   padding: 20px 30px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   position: sticky;
   top: 0;
   z-index: 1001;
@@ -135,6 +100,7 @@ h1 {
   animation: neonTitle 1.5s infinite alternate;
 }
 
+/* Botón del menú */
 .menu-button {
   background: transparent;
   border: 2px solid #00fff7;
@@ -153,57 +119,54 @@ h1 {
   box-shadow: 0 0 15px #00fff7, 0 0 30px #00fff7;
 }
 
-/* Animación de neón del título */
+/* Animación de neón */
 @keyframes neonTitle {
-  0% {
-    text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7;
-  }
-  100% {
-    text-shadow: 0 0 20px #00fff7, 0 0 40px #00fff7;
-  }
+  0% { text-shadow: 0 0 5px #00fff7, 0 0 10px #00fff7; }
+  100% { text-shadow: 0 0 20px #00fff7, 0 0 40px #00fff7; }
 }
 
-/* Menú lateral PRO */
+/* Menú lateral derecho */
 .side-menu {
   position: fixed;
   top: 0;
-  left: -300px;
-  width: 280px;
+  right: -100%;
   height: 100%;
+  width: 300px;
   background: linear-gradient(180deg, #000428, #004e92);
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.8);
-  padding: 40px 20px;
-  transition: left 0.5s ease;
+  padding: 30px 20px;
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.8);
+  transition: right 0.5s ease;
   z-index: 2000;
   overflow-y: auto;
 }
 
 .side-menu.open {
-  left: 0;
+  right: 0;
 }
 
+/* Botón de cerrar */
 .close-button {
   position: absolute;
   top: 20px;
   right: 20px;
-  background: #00fff7;
-  color: #000;
-  border: none;
+  background: transparent;
+  border: 2px solid #00fff7;
+  color: #00fff7;
   font-size: 24px;
   font-weight: bold;
-  padding: 5px 10px;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 0 10px #00fff7;
   transition: all 0.3s ease;
+  padding: 6px 10px;
 }
 
 .close-button:hover {
+  background: #00fff7;
+  color: #000;
   transform: rotate(180deg);
-  background: #fff;
 }
 
-/* Botones dentro del menú */
+/* Botones del menú lateral */
 .side-menu button {
   width: 100%;
   margin-top: 20px;
@@ -224,67 +187,6 @@ h1 {
   background: #00fff7;
   color: #000;
   box-shadow: 0 0 15px #00fff7, 0 0 30px #00fff7;
-}
-
-/* Menú lateral */
-.side-menu {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  height: 100%;
-  width: 300px;
-  background-color: #111;
-  color: #fff;
-  padding: 30px 20px;
-  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.5);
-  transition: right 0.3s ease;
-  z-index: 1002;
-  overflow-y: auto;
-}
-
-.side-menu.open {
-  right: 0;
-}
-
-.side-menu h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-  color: #e60023;
-}
-
-.side-menu h3 {
-  font-size: 18px;
-  margin-top: 20px;
-  color: #ccc;
-}
-
-.side-menu ul {
-  list-style: none;
-  padding-left: 0;
-  font-size: 14px;
-}
-
-.side-menu li {
-  margin-bottom: 10px;
-  border-bottom: 1px solid #333;
-  padding-bottom: 5px;
-  color: #f0f0f0;
-}
-
-/* Botón cerrar menú */
-.close-button {
-  background-color: transparent;
-  border: none;
-  color: #fff;
-  font-size: 22px;
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  cursor: pointer;
-}
-
-.close-button:hover {
-  color: #e60023;
 }
 
 /* Formulario */
@@ -322,6 +224,7 @@ input[type="text"]:focus {
   box-shadow: 0 0 0 2px #e60023;
 }
 
+/* Botón general */
 button {
   padding: 14px 30px;
   font-size: 16px;
@@ -354,6 +257,7 @@ button:hover {
   padding: 20px 0;
 }
 
+/* Card de música */
 .music-card {
   background-color: #1a1a1a;
   padding: 20px;
@@ -395,7 +299,7 @@ button:hover {
   margin-top: 4px;
 }
 
-/* Botonera Futurista */
+/* Botonera futurista */
 .button-container {
   display: flex;
   flex-direction: column;
@@ -437,7 +341,6 @@ button:hover {
 .download-button {
   background: linear-gradient(135deg, #ff0066, #ff6600);
   color: #fff;
-  border: none;
 }
 
 .download-button:hover {
@@ -446,7 +349,7 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* Reproductor de Audio Futurista */
+/* Reproductor de Audio */
 #audio-player {
   position: fixed;
   bottom: 0;
@@ -467,19 +370,13 @@ button:hover {
   border: 1px solid rgba(0, 255, 255, 0.3);
 }
 
-/* Personalizar los controles de audio */
+/* Controles personalizados */
 #audio-player::-webkit-media-controls-panel {
   background: transparent;
   color: #00f0ff;
 }
 
-/* Estilo interno del control nativo (solo aplica en navegadores que lo permiten) */
-#audio-player::-webkit-media-controls-panel {
-  background-color: #0f0;
-  border-radius: 12px;
-}
-
-/* Ocultar temporalmente si es necesario */
+/* Ocultar reproductor */
 #audio-player.hidden {
   display: none;
 }
