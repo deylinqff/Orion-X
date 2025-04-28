@@ -1,5 +1,4 @@
-<script src="https://cdn.jsdelivr.net/npm/browser-id3-writer@4.0.0/dist/browser-id3-writer.min.js"></script>
-<script>
+"https://cdn.jsdelivr.net/npm/browser-id3-writer@4.0.0/dist/browser-id3-writer.min.js"
 const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const musicList = document.getElementById("music-list");
@@ -208,4 +207,3 @@ searchForm.addEventListener("submit", async (e) => {
     musicList.innerHTML = `<p>Ocurrió un error al buscar.</p>`;
   }
 });
-</script>
