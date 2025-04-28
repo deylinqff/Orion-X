@@ -392,3 +392,51 @@ button:hover {
   font-size: 16px;
   text-align: center;
 }
+
+#custom-audio-player {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 800px;
+  background: #1e1e1e;
+  padding: 15px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+}
+
+.audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#play-pause-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+#audio-info {
+  flex-grow: 1;
+  color: white;
+  font-weight: bold;
+  padding: 0 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#seek-bar {
+  flex-grow: 2;
+}
+
+#volume-bar {
+  width: 100px;
+}
