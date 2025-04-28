@@ -89,15 +89,51 @@
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
 
-    function reproducirCancion(url) {
-      audioPlayer.src = url;
-      audioPlayer.style.display = "block";
-      audioPlayer.play();
-    }
+    const customAudioPlayer = document.getElementById('custom-audio-player');
+const playPauseBtn = document.getElementById('play-pause-btn');
+const seekBar = document.getElementById('seek-bar');
+const volumeBar = document.getElementById('volume-bar');
+const audioTitle = document.getElementById('audio-title');
 
-    audioPlayer.addEventListener("ended", () => {
-      audioPlayer.style.display = "none";
-    });
+audioPlayer.addEventListener('loadedmetadata', () => {
+  seekBar.max = audioPlayer.duration;
+});
+
+audioPlayer.addEventListener('timeupdate', () => {
+  seekBar.value = audioPlayer.currentTime;
+});
+
+seekBar.addEventListener('input', () => {
+  audioPlayer.currentTime = seekBar.value;
+});
+
+volumeBar.addEventListener('input', () => {
+  audioPlayer.volume = volumeBar.value;
+});
+
+playPauseBtn.addEventListener('click', () => {
+  if (audioPlayer.paused) {
+    audioPlayer.play();
+    playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
+  } else {
+    audioPlayer.pause();
+    playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`;
+  }
+});
+
+audioPlayer.addEventListener('ended', () => {
+  customAudioPlayer.style.display = 'none';
+  playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`;
+});
+
+// Cuando reproduces una nueva canción
+function reproducirCancion(url, titulo = "Reproduciendo...") {
+  audioPlayer.src = url;
+  customAudioPlayer.style.display = 'block';
+  audioTitle.textContent = titulo;
+  audioPlayer.play();
+  playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
+}
 
     // ANIMACIÓN DE CARGA (puntos ...)
     const loadingText = document.getElementById('loading-text');
