@@ -247,45 +247,55 @@ button:hover {
   margin-top: 4px;
 }
 
-/* Botonera */
+/* Botonera Futurista */
 .button-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
+  padding-top: 10px;
 }
 
 .play-button,
 .download-button {
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s, color 0.3s;
+  transition: all 0.3s ease;
   width: 80%;
-  max-width: 250px;
+  max-width: 260px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  text-transform: uppercase;
 }
 
+/* Botón de Play */
 .play-button {
-  background-color: transparent;
-  color: #e60023;
-  border: 2px solid #e60023;
+  background: linear-gradient(135deg, #00f0ff, #0066ff);
+  color: #fff;
+  border: 2px solid #00f0ff;
 }
 
 .play-button:hover {
-  background-color: #e60023;
-  color: #fff;
+  background: linear-gradient(135deg, #0066ff, #00f0ff);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+  transform: scale(1.05);
 }
 
+/* Botón de Descarga */
 .download-button {
-  background-color: #444;
+  background: linear-gradient(135deg, #ff0066, #ff6600);
   color: #fff;
   border: none;
 }
 
 .download-button:hover {
-  background-color: #666;
+  background: linear-gradient(135deg, #ff6600, #ff0066);
+  box-shadow: 0 0 20px rgba(255, 0, 102, 0.7);
+  transform: scale(1.05);
 }
 
 /* Reproductor de audio fijo abajo */
