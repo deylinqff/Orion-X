@@ -7,9 +7,9 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(-45deg, #0d0d0d, #1a1a40, #0d7377, #323232);
+  background: linear-gradient(45deg, #0d0d0d, #1a1a40, #0d7377, #323232, #ff0055, #00f2ff, #f0ff00, #ff7b00);
   background-size: 400% 400%;
-  animation: cambiarFondo 20s ease infinite;
+  animation: moverFondo 25s ease-in-out infinite;
   color: #f0f0f0;
   line-height: 1.6;
   padding-bottom: 90px;
@@ -18,15 +18,21 @@ body {
   min-height: 100vh;
 }
 
-@keyframes cambiarFondo {
+@keyframes moverFondo {
   0% {
-    background-position: 0% 50%;
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
   }
   50% {
-    background-position: 100% 50%;
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
   }
   100% {
-    background-position: 0% 50%;
+    background-position: 0% 0%;
   }
 }
 
