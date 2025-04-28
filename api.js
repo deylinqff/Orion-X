@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/browser-id3-writer@4.0.0/dist/browser-id3-writer.min.js"></script>
+<script>
 const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const musicList = document.getElementById("music-list");
@@ -86,8 +88,6 @@ searchForm.addEventListener("submit", async (e) => {
       artist.textContent = video.canal;
 
       const channel = document.createElement("div");
-      channel.className = "music-channel";
-      channel.textContent = `Canal: ${video.canal}`;
 
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
@@ -113,6 +113,55 @@ searchForm.addEventListener("submit", async (e) => {
         }
         playBtn.textContent = "Error";
         alert("No se pudo obtener el audio.");
+      };
+
+      const downloadAudioBtn = document.createElement("button");
+      downloadAudioBtn.className = "download-button";
+      downloadAudioBtn.textContent = "Descargar MP3";
+
+      downloadAudioBtn.onclick = async () => {
+        downloadAudioBtn.textContent = "Preparando...";
+        for (let api of audioApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
+            if (audioUrl) {
+              const audioBlob = await (await fetch(audioUrl)).blob();
+              const imgBlob = await (await fetch(video.miniatura)).blob();
+              const audioArrayBuffer = await audioBlob.arrayBuffer();
+              const imgArrayBuffer = await imgBlob.arrayBuffer();
+
+              const writer = new ID3Writer(new Uint8Array(audioArrayBuffer));
+              writer.setFrame('TIT2', video.titulo)
+                    .setFrame('TPE1', [video.canal])
+                    .setFrame('APIC', {
+                      type: 3,
+                      data: new Uint8Array(imgArrayBuffer),
+                      description: 'Cover'
+                    });
+              writer.addTag();
+
+              const taggedBlob = writer.getBlob();
+              const url = URL.createObjectURL(taggedBlob);
+
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `${video.titulo}.mp3`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+
+              downloadAudioBtn.textContent = "Descargar MP3";
+              return;
+            }
+          } catch (e) {
+            console.warn("Error al preparar MP3:", e.message);
+          }
+        }
+        downloadAudioBtn.textContent = "Error";
+        alert("No se pudo descargar el audio.");
       };
 
       const videoBtn = document.createElement("button");
@@ -142,57 +191,14 @@ searchForm.addEventListener("submit", async (e) => {
         alert("No se pudo obtener el video.");
       };
 
-      // BOTÓN NUEVO: Descargar música con carátula
-      const audioDownloadBtn = document.createElement("button");
-      audioDownloadBtn.className = "download-button";
-      audioDownloadBtn.textContent = "Descargar música";
-
-      audioDownloadBtn.onclick = async () => {
-        audioDownloadBtn.textContent = "Preparando...";
-        for (let api of audioApis) {
-          try {
-            const res = await fetch(api(video.url));
-            const json = await res.json();
-            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
-            if (audioUrl) {
-              const mp3ArrayBuffer = await (await fetch('https://corsproxy.io/?' + encodeURIComponent(audioUrl))).arrayBuffer();
-              const imageArrayBuffer = await (await fetch('https://corsproxy.io/?' + encodeURIComponent(video.miniatura))).arrayBuffer();
-
-              const writer = new ID3Writer(new Uint8Array(mp3ArrayBuffer));
-              writer.setFrame('TIT2', video.titulo)
-                    .setFrame('TPE1', [video.canal])
-                    .setFrame('APIC', {
-                      type: 3,
-                      data: new Uint8Array(imageArrayBuffer),
-                      description: 'Cover'
-                    });
-              writer.addTag();
-
-              const taggedBlob = writer.getBlob();
-              const a = document.createElement('a');
-              a.href = URL.createObjectURL(taggedBlob);
-              a.download = `${video.titulo}.mp3`;
-              a.click();
-
-              audioDownloadBtn.textContent = "Descargar música";
-              return;
-            }
-          } catch (e) {
-            console.warn("API audio falló:", e.message);
-          }
-        }
-        audioDownloadBtn.textContent = "Error";
-        alert("No se pudo obtener el audio.");
-      };
-
       info.appendChild(title);
       info.appendChild(artist);
       info.appendChild(channel);
       card.appendChild(image);
       card.appendChild(info);
       card.appendChild(playBtn);
+      card.appendChild(downloadAudioBtn);
       card.appendChild(videoBtn);
-      card.appendChild(audioDownloadBtn); // <-- Agregamos el nuevo botón
       musicList.appendChild(card);
     });
 
@@ -202,3 +208,4 @@ searchForm.addEventListener("submit", async (e) => {
     musicList.innerHTML = `<p>Ocurrió un error al buscar.</p>`;
   }
 });
+</script>
