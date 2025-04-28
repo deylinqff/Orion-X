@@ -298,7 +298,7 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* Reproductor de audio fijo abajo */
+/* Reproductor de Audio Futurista */
 #audio-player {
   position: fixed;
   bottom: 0;
@@ -306,15 +306,23 @@ button:hover {
   transform: translateX(-50%);
   width: 100%;
   max-width: 800px;
-  background-color: #000;
-  padding: 12px 16px;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 255, 255, 0.1));
+  padding: 16px 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  box-shadow: 0 -4px 20px rgba(0, 255, 255, 0.3);
   z-index: 1000;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+/* Personalizar los controles de audio */
+#audio-player::-webkit-media-controls-panel {
+  background: transparent;
+  color: #00f0ff;
 }
 
 /* Estilo interno del control nativo (solo aplica en navegadores que lo permiten) */
