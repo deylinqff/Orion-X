@@ -3,71 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Orión X - Buscador de Música</title>
+  <title>Orión X | Buscador de Música</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <style>
-    #audio-player {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 800px;
-      background-color: #222;
-      padding: 12px;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
-      z-index: 1000;
-    }
-  </style>
 </head>
 <body>
-  <!-- Menú lateral -->
+
+<!-- Menú lateral -->
 <div id="side-menu" class="side-menu">
   <button id="close-menu" class="close-button">✖</button>
   <h2>Info</h2>
-
-  <button onclick="window.location.href='https://wa.me/50433191934'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px;">
-    <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
-    Contacto directo
+  <button onclick="window.location.href='https://wa.me/50433191934'">
+    <i class="fab fa-whatsapp"></i> Contacto directo
   </button>
-
-  <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-    <i class="fas fa-bullhorn" style="font-size: 20px;"></i>
-    Canal de WhatsApp
+  <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'">
+    <i class="fas fa-bullhorn"></i> Canal de WhatsApp
   </button>
 </div>
 
-  <header class="header">
-    <h1 class="logo">
-      <i class="fas fa-music"></i> Orion-X
-    </h1>
-    <button id="menu-button" class="menu-button">☰</button>
-  </header>
+<!-- Encabezado -->
+<header class="header">
+  <h1 class="logo">
+    <i class="fas fa-music"></i> Orion-X
+  </h1>
+  <button id="menu-button" class="menu-button">☰</button>
+</header>
 
-  <div class="container">
-    <form id="search-form">
-      <input type="text" id="search-input" placeholder=" Buscar canciones o artistas..." required />
-      <button type="submit">Buscar</button>
-    </form>
+<!-- Contenedor principal -->
+<div class="container">
+  <form id="search-form">
+    <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required />
+    <button type="submit">Buscar</button>
+  </form>
 
-    <div id="loading-message" style="display: none;">
-  <div class="loader">
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-  </div>
-  <p id="loading-text">Buscando música...</p>
-</div>
-
-    <div class="music-list" id="music-list">
-      <!-- Aquí se insertarán las canciones -->
+  <div id="loading-message" style="display: none;">
+    <div class="loader">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
     </div>
+    <p id="loading-text">Buscando música...</p>
   </div>
 
- <div id="custom-audio-player">
+  <div class="music-list" id="music-list">
+    <!-- Aquí se insertarán las canciones -->
+  </div>
+</div>
+
+<!-- Reproductor de música -->
+<div id="custom-audio-player" style="display: none;">
   <audio id="audio-player"></audio>
   <div class="audio-controls">
     <button id="play-pause-btn"><i class="fas fa-play"></i></button>
@@ -79,70 +62,71 @@
   </div>
 </div>
 
+<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/browser-id3-writer@4.0.0/dist/browser-id3-writer.min.js"></script>
-  <script src="api.js"></script>
-  <script>
-    const menuBtn = document.getElementById("menu-button");
-    const closeBtn = document.getElementById("close-menu");
-    const sideMenu = document.getElementById("side-menu");
+<script src="api.js"></script>
+<script>
+  const menuBtn = document.getElementById("menu-button");
+  const closeBtn = document.getElementById("close-menu");
+  const sideMenu = document.getElementById("side-menu");
+  const customAudioPlayer = document.getElementById('custom-audio-player');
+  const audioPlayer = document.getElementById('audio-player');
+  const playPauseBtn = document.getElementById('play-pause-btn');
+  const seekBar = document.getElementById('seek-bar');
+  const volumeBar = document.getElementById('volume-bar');
+  const audioTitle = document.getElementById('audio-title');
 
-    menuBtn.onclick = () => sideMenu.classList.add("open");
-    closeBtn.onclick = () => sideMenu.classList.remove("open");
+  menuBtn.onclick = () => sideMenu.classList.add("open");
+  closeBtn.onclick = () => sideMenu.classList.remove("open");
 
-    const customAudioPlayer = document.getElementById('custom-audio-player');
-const playPauseBtn = document.getElementById('play-pause-btn');
-const seekBar = document.getElementById('seek-bar');
-const volumeBar = document.getElementById('volume-bar');
-const audioTitle = document.getElementById('audio-title');
+  audioPlayer.addEventListener('loadedmetadata', () => {
+    seekBar.max = audioPlayer.duration;
+  });
 
-audioPlayer.addEventListener('loadedmetadata', () => {
-  seekBar.max = audioPlayer.duration;
-});
+  audioPlayer.addEventListener('timeupdate', () => {
+    seekBar.value = audioPlayer.currentTime;
+  });
 
-audioPlayer.addEventListener('timeupdate', () => {
-  seekBar.value = audioPlayer.currentTime;
-});
+  seekBar.addEventListener('input', () => {
+    audioPlayer.currentTime = seekBar.value;
+  });
 
-seekBar.addEventListener('input', () => {
-  audioPlayer.currentTime = seekBar.value;
-});
+  volumeBar.addEventListener('input', () => {
+    audioPlayer.volume = volumeBar.value;
+  });
 
-volumeBar.addEventListener('input', () => {
-  audioPlayer.volume = volumeBar.value;
-});
+  playPauseBtn.addEventListener('click', () => {
+    if (audioPlayer.paused) {
+      audioPlayer.play();
+      playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
+    } else {
+      audioPlayer.pause();
+      playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`;
+    }
+  });
 
-playPauseBtn.addEventListener('click', () => {
-  if (audioPlayer.paused) {
+  audioPlayer.addEventListener('ended', () => {
+    customAudioPlayer.style.display = 'none';
+    playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`;
+  });
+
+  function reproducirCancion(url, titulo = "Reproduciendo...") {
+    audioPlayer.src = url;
+    customAudioPlayer.style.display = 'block';
+    audioTitle.textContent = titulo;
     audioPlayer.play();
     playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
-  } else {
-    audioPlayer.pause();
-    playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`;
   }
-});
 
-audioPlayer.addEventListener('ended', () => {
-  customAudioPlayer.style.display = 'none';
-  playPauseBtn.innerHTML = `<i class="fas fa-play"></i>`;
-});
+  // Animación de carga (puntos ...)
+  const loadingText = document.getElementById('loading-text');
+  let dotCount = 0;
+  setInterval(() => {
+    dotCount = (dotCount + 1) % 4;
+    let dots = '.'.repeat(dotCount);
+    loadingText.textContent = `Buscando música${dots}`;
+  }, 500);
+</script>
 
-// Cuando reproduces una nueva canción
-function reproducirCancion(url, titulo = "Reproduciendo...") {
-  audioPlayer.src = url;
-  customAudioPlayer.style.display = 'block';
-  audioTitle.textContent = titulo;
-  audioPlayer.play();
-  playPauseBtn.innerHTML = `<i class="fas fa-pause"></i>`;
-}
-
-    // ANIMACIÓN DE CARGA (puntos ...)
-    const loadingText = document.getElementById('loading-text');
-    let dotCount = 0;
-    setInterval(() => {
-      dotCount = (dotCount + 1) % 4; // 0, 1, 2, 3
-      let dots = '.'.repeat(dotCount);
-      loadingText.textContent = `Buscando música${dots}`;
-    }, 500);
-  </script>
 </body>
 </html>
