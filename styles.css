@@ -45,28 +45,70 @@ body::before {
   font-size: 18vw;
   font-weight: 900;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.03);
-  text-shadow: 2px 2px 8px rgba(255, 255, 255, 0.05);
+  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff0000);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: moverTexto 10s ease infinite, brillar 2s ease-in-out infinite alternate;
   letter-spacing: 1vw;
   white-space: nowrap;
   pointer-events: none;
   z-index: 0;
   user-select: none;
+  opacity: 0.1;
+}
+
+@keyframes moverTexto {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes brillar {
+  0% {
+    opacity: 0.05;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+  }
+  100% {
+    opacity: 0.15;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  }
 }
 
 .container {
   max-width: 1200px;
   margin: auto;
-  padding: 40px 20px;
+  padding: 60px 20px;
   text-align: center;
   position: relative;
   z-index: 1;
+  backdrop-filter: blur(5px);
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   margin-bottom: 30px;
-  color: #fff;
+  color: #ffffff;
+  text-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff;
+  animation: vibrar 1s infinite alternate;
+}
+
+@keyframes vibrar {
+  0% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(2px);
+  }
 }
 
 /* Encabezado */
