@@ -86,8 +86,6 @@ searchForm.addEventListener("submit", async (e) => {
       artist.textContent = video.canal;
 
       const channel = document.createElement("div");
-      channel.className = "music-channel";
-      channel.textContent = `Canal: ${video.canal}`;
 
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
