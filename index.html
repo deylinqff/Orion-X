@@ -3,31 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Orión X - Buscador de Música</title>
 
   <!-- SEO básico -->
   <meta name="description" content="Orion X es un potente buscador de música que te permite encontrar, reproducir y disfrutar tus canciones favoritas al instante.">
   <meta name="keywords" content="Orion X, buscador de música, escuchar música, mp3, canciones online, música gratis, música rápida">
   <meta name="author" content="Orion X">
-  <meta name="google-site-verification" content="Jq3BfRqUzkFAriFIlMQHfhLqa3qlEJObkviaDOdh7E4" />
+
+  <!-- Verificación de Google Search Console -->
+<meta name="google-site-verification" content="Jq3BfRqUzkFAriFIlMQHfhLqa3qlEJObkviaDOdh7E4" />
+
   <meta name="google-site-verification" content="S2c1UAy1iEwlq4yGKvxzj2dwANjNRqj2sjW1YhF0G9o" />
 
-  <!-- Favicon y PWA -->
+  <!-- Favicon personalizado -->
   <link rel="icon" href="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png" type="image/png">
-  <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#222222" />
 
-  <!-- Open Graph -->
+  <!-- Open Graph para compartir mejor en redes y buscadores -->
   <meta property="og:title" content="Orion X - Buscador de Música">
   <meta property="og:description" content="Encuentra, escucha y descarga tu música favorita con Orion X. ¡Fácil, rápido y gratis!">
   <meta property="og:image" content="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png">
   <meta property="og:type" content="website">
-  <meta name="image" content="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png">
+  <meta property="og:image" content="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png">
+<meta name="image" content="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png">
 
-  <!-- CSS -->
+  <!-- CSS y librerías -->
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
   <style>
     #audio-player {
       display: none;
@@ -46,22 +48,27 @@
     }
   </style>
 </head>
-
 <body>
   <!-- Menú lateral -->
-  <div id="side-menu" class="side-menu">
-    <button id="close-menu" class="close-button">✖</button>
-    <h2>Info</h2>
-    <button onclick="window.location.href='https://wa.me/50433191934'" style="...">
-      <i class="fab fa-whatsapp"></i> Contacto directo
-    </button>
-    <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'" style="...">
-      <i class="fas fa-bullhorn"></i> Canal de WhatsApp
-    </button>
-  </div>
+<div id="side-menu" class="side-menu">
+  <button id="close-menu" class="close-button">✖</button>
+  <h2>Info</h2>
+
+  <button onclick="window.location.href='https://wa.me/50433191934'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px;">
+    <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
+    Contacto directo
+  </button>
+
+  <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+    <i class="fas fa-bullhorn" style="font-size: 20px;"></i>
+    Canal de WhatsApp
+  </button>
+</div>
 
   <header class="header">
-    <h1 class="logo"><i class="fas fa-music"></i> Orion-X</h1>
+    <h1 class="logo">
+      <i class="fas fa-music"></i> Orion-X
+    </h1>
     <button id="menu-button" class="menu-button">☰</button>
   </header>
 
@@ -72,14 +79,16 @@
     </form>
 
     <div id="loading-message" style="display: none;">
-      <div class="loader">
-        <span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span>
-      </div>
-      <p id="loading-text">Buscando música...</p>
-    </div>
+  <div class="loader">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <p id="loading-text">Buscando música...</p>
+</div>
 
-    <div class="music-list" id="music-list"></div>
+    <div class="music-list" id="music-list">
+      <!-- Aquí se insertarán las canciones -->
+    </div>
   </div>
 
   <audio id="audio-player" controls></audio>
@@ -94,29 +103,23 @@
     closeBtn.onclick = () => sideMenu.classList.remove("open");
 
     function reproducirCancion(url) {
-      const audioPlayer = document.getElementById('audio-player');
       audioPlayer.src = url;
       audioPlayer.style.display = "block";
       audioPlayer.play();
     }
 
-    document.getElementById('audio-player').addEventListener("ended", () => {
-      document.getElementById('audio-player').style.display = "none";
+    audioPlayer.addEventListener("ended", () => {
+      audioPlayer.style.display = "none";
     });
 
+    // ANIMACIÓN DE CARGA (puntos ...)
     const loadingText = document.getElementById('loading-text');
     let dotCount = 0;
     setInterval(() => {
-      dotCount = (dotCount + 1) % 4;
-      loadingText.textContent = `Buscando música${'.'.repeat(dotCount)}`;
+      dotCount = (dotCount + 1) % 4; // 0, 1, 2, 3
+      let dots = '.'.repeat(dotCount);
+      loadingText.textContent = `Buscando música${dots}`;
     }, 500);
-
-    // Service Worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('Service Worker registrado correctamente.'))
-        .catch(err => console.error('Error al registrar el Service Worker:', err));
-    }
   </script>
 </body>
 </html>
