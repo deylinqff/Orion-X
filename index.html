@@ -75,9 +75,14 @@
 
   <div class="container">
     <form id="search-form">
-      <input type="text" id="search-input" placeholder="|■ Buscar canciones o artistas..." required />
-      <button type="submit">Buscar</button>
-    </form>
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <input type="text" id="search-input" placeholder="|■ Buscar canciones o artistas..." required />
+    <button type="button" id="voice-btn" style="background: none; border: none; cursor: pointer;">
+      <i class="fas fa-microphone" style="font-size: 20px; color: #6200ea;"></i>
+    </button>
+    <button type="submit">Buscar</button>
+  </div>
+</form>
 
     <div id="loading-message" style="display: none;">
   <div class="loader">
@@ -116,6 +121,25 @@
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
+
+// Función de reconocimiento de voz
+document.getElementById('voice-btn').onclick = () => {
+  const reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  reconocimiento.lang = 'es-ES';
+  reconocimiento.interimResults = false;
+
+  reconocimiento.onresult = (e) => {
+    const texto = e.results[0][0].transcript;
+    document.getElementById('search-input').value = texto;
+    document.getElementById('search-form').dispatchEvent(new Event('submit')); // dispara búsqueda
+  };
+
+  reconocimiento.onerror = (e) => {
+    alert("Error al reconocer la voz: " + e.error);
+  };
+
+  reconocimiento.start();
+};
 
     // ANIMACIÓN DE CARGA (puntos ...)
     const loadingText = document.getElementById('loading-text');
