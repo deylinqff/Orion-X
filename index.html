@@ -30,7 +30,6 @@
   <!-- CSS y librerías -->
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
   <style>
     #audio-player {
       display: none;
@@ -49,26 +48,23 @@
     }
   </style>
 </head>
-
 <body>
-
   <!-- Menú lateral -->
-  <div id="side-menu" class="side-menu">
-    <button id="close-menu" class="close-button">✖</button>
-    <h2>Info</h2>
+<div id="side-menu" class="side-menu">
+  <button id="close-menu" class="close-button">✖</button>
+  <h2>Info</h2>
 
-    <button onclick="window.location.href='https://wa.me/50433191934'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px;">
-      <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
-      Contacto directo
-    </button>
+  <button onclick="window.location.href='https://wa.me/50433191934'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px;">
+    <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
+    Contacto directo
+  </button>
 
-    <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-      <i class="fas fa-bullhorn" style="font-size: 20px;"></i>
-      Canal de WhatsApp
-    </button>
-  </div>
+  <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+    <i class="fas fa-bullhorn" style="font-size: 20px;"></i>
+    Canal de WhatsApp
+  </button>
+</div>
 
-  <!-- Header -->
   <header class="header">
     <h1 class="logo">
       <i class="fas fa-music"></i> Orion-X
@@ -76,30 +72,27 @@
     <button id="menu-button" class="menu-button">☰</button>
   </header>
 
-  <!-- Contenido principal -->
   <div class="container">
     <form id="search-form">
-      <input type="text" id="search-input" placeholder="● Buscar canciones o artistas..." required />
+      <input type="text" id="search-input" placeholder=" Buscar canciones o artistas..." required />
       <button type="submit">Buscar</button>
     </form>
 
     <div id="loading-message" style="display: none;">
-      <div class="loader">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <p id="loading-text">Buscando música...</p>
-    </div>
+  <div class="loader">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <p id="loading-text">Buscando música...</p>
+</div>
 
     <div class="music-list" id="music-list">
       <!-- Aquí se insertarán las canciones -->
     </div>
   </div>
 
-  <!-- Reproductor de audio -->
   <audio id="audio-player" controls></audio>
 
-  <!-- Scripts -->
   <script src="api.js"></script>
   <script>
     const menuBtn = document.getElementById("menu-button");
@@ -108,8 +101,6 @@
 
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
-
-    const audioPlayer = document.getElementById('audio-player');
 
     function reproducirCancion(url) {
       audioPlayer.src = url;
@@ -121,15 +112,14 @@
       audioPlayer.style.display = "none";
     });
 
-    // Animación de carga (puntos ...)
+    // ANIMACIÓN DE CARGA (puntos ...)
     const loadingText = document.getElementById('loading-text');
     let dotCount = 0;
     setInterval(() => {
-      dotCount = (dotCount + 1) % 4;
+      dotCount = (dotCount + 1) % 4; // 0, 1, 2, 3
       let dots = '.'.repeat(dotCount);
       loadingText.textContent = `Buscando música${dots}`;
     }, 500);
   </script>
-
 </body>
 </html>
