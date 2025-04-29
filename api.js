@@ -88,8 +88,12 @@ searchForm.addEventListener("submit", async (e) => {
       const channel = document.createElement("div");
 
       const playBtn = document.createElement("button");
-playBtn.className = "play-button";
-playBtn.innerHTML = `<i class="fas fa-play"></i> Reproducir audio`;
+      playBtn.className = "play-button";
+      playBtn.innerHTML = `<i class="fas fa-play"></i> Reproducir audio`;
+
+      const downloadAudioBtn = document.createElement("button");
+      downloadAudioBtn.className = "download-button";
+      downloadAudioBtn.innerHTML = `<i class="fas fa-music"></i> Descargar audio`;
 
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
@@ -113,9 +117,32 @@ playBtn.innerHTML = `<i class="fas fa-play"></i> Reproducir audio`;
         alert("No se pudo obtener el audio.");
       };
 
+      downloadAudioBtn.onclick = async () => {
+        downloadAudioBtn.textContent = "Buscando...";
+        for (let api of audioApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
+            if (audioUrl) {
+              const a = document.createElement("a");
+              a.href = audioUrl;
+              a.download = `${video.titulo}.mp3`;
+              a.click();
+              downloadAudioBtn.textContent = "Descargar audio";
+              return;
+            }
+          } catch (e) {
+            console.warn("API audio (descarga) falló:", e.message);
+          }
+        }
+        downloadAudioBtn.textContent = "Error";
+        alert("No se pudo descargar el audio.");
+      };
+
       const videoBtn = document.createElement("button");
-videoBtn.className = "download-button";
-videoBtn.innerHTML = `<i class="fas fa-video"></i> Descargar video`;
+      videoBtn.className = "download-button";
+      videoBtn.innerHTML = `<i class="fas fa-video"></i> Descargar video`;
 
       videoBtn.onclick = async () => {
         videoBtn.textContent = "Buscando...";
@@ -146,6 +173,7 @@ videoBtn.innerHTML = `<i class="fas fa-video"></i> Descargar video`;
       card.appendChild(image);
       card.appendChild(info);
       card.appendChild(playBtn);
+      card.appendChild(downloadAudioBtn);
       card.appendChild(videoBtn);
       musicList.appendChild(card);
     });
