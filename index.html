@@ -18,6 +18,7 @@
 
   <!-- Favicon personalizado -->
   <link rel="icon" href="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png" type="image/png">
+<link rel="manifest" href="manifest.json" />
 
   <!-- Open Graph para compartir mejor en redes y buscadores -->
   <meta property="og:title" content="Orion X - Buscador de Música">
@@ -111,6 +112,10 @@
     audioPlayer.addEventListener("ended", () => {
       audioPlayer.style.display = "none";
     });
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
 
     // ANIMACIÓN DE CARGA (puntos ...)
     const loadingText = document.getElementById('loading-text');
