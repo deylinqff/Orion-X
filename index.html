@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Orión X - Buscador de Música</title>
 
@@ -11,18 +11,23 @@
   <meta name="keywords" content="Orion X, buscador de música, escuchar música, mp3, canciones online, música gratis, música rápida">
   <meta name="author" content="Orion X">
 
+  <!-- Verificación de Google Search Console -->
+  <meta name="google-site-verification" content="S2c1UAy1iEwlq4yGKvxzj2dwANjNRqj2sjW1YhF0G9o" />
+
   <!-- Favicon personalizado -->
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-  <!-- Open Graph (para mejor vista en redes y buscadores) -->
+  <!-- Open Graph para compartir mejor en redes y buscadores -->
   <meta property="og:title" content="Orion X - Buscador de Música">
   <meta property="og:description" content="Encuentra, escucha y descarga tu música favorita con Orion X. ¡Fácil, rápido y gratis!">
   <meta property="og:url" content="https://tu-dominio.vercel.app">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="https://tu-dominio.vercel.app/preview.jpg"> <!-- Reemplaza con tu imagen -->
+  <meta property="og:image" content="https://tu-dominio.vercel.app/preview.jpg"> <!-- Cambia el link a tu imagen -->
 
+  <!-- CSS y librerías -->
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
   <style>
     #audio-player {
       display: none;
@@ -41,24 +46,26 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- Menú lateral -->
-<div id="side-menu" class="side-menu">
-  <button id="close-menu" class="close-button">✖</button>
-  <h2>Info</h2>
+  <div id="side-menu" class="side-menu">
+    <button id="close-menu" class="close-button">✖</button>
+    <h2>Info</h2>
 
-  <button onclick="window.location.href='https://wa.me/50433191934'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px;">
-    <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
-    Contacto directo
-  </button>
+    <button onclick="window.location.href='https://wa.me/50433191934'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px;">
+      <i class="fab fa-whatsapp" style="font-size: 20px;"></i>
+      Contacto directo
+    </button>
 
-  <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
-    <i class="fas fa-bullhorn" style="font-size: 20px;"></i>
-    Canal de WhatsApp
-  </button>
-</div>
+    <button onclick="window.location.href='https://whatsapp.com/channel/0029VawF8fBBvvsktcInIz3m'" style="display: flex; align-items: center; gap: 8px; padding: 10px 20px; background-color: #25D366; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">
+      <i class="fas fa-bullhorn" style="font-size: 20px;"></i>
+      Canal de WhatsApp
+    </button>
+  </div>
 
+  <!-- Header -->
   <header class="header">
     <h1 class="logo">
       <i class="fas fa-music"></i> Orion-X
@@ -66,6 +73,7 @@
     <button id="menu-button" class="menu-button">☰</button>
   </header>
 
+  <!-- Contenido principal -->
   <div class="container">
     <form id="search-form">
       <input type="text" id="search-input" placeholder="● Buscar canciones o artistas..." required />
@@ -73,20 +81,22 @@
     </form>
 
     <div id="loading-message" style="display: none;">
-  <div class="loader">
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-  </div>
-  <p id="loading-text">Buscando música...</p>
-</div>
+      <div class="loader">
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <p id="loading-text">Buscando música...</p>
+    </div>
 
     <div class="music-list" id="music-list">
       <!-- Aquí se insertarán las canciones -->
     </div>
   </div>
 
+  <!-- Reproductor de audio -->
   <audio id="audio-player" controls></audio>
 
+  <!-- Scripts -->
   <script src="api.js"></script>
   <script>
     const menuBtn = document.getElementById("menu-button");
@@ -95,6 +105,8 @@
 
     menuBtn.onclick = () => sideMenu.classList.add("open");
     closeBtn.onclick = () => sideMenu.classList.remove("open");
+
+    const audioPlayer = document.getElementById('audio-player');
 
     function reproducirCancion(url) {
       audioPlayer.src = url;
@@ -106,14 +118,15 @@
       audioPlayer.style.display = "none";
     });
 
-    // ANIMACIÓN DE CARGA (puntos ...)
+    // Animación de carga (puntos ...)
     const loadingText = document.getElementById('loading-text');
     let dotCount = 0;
     setInterval(() => {
-      dotCount = (dotCount + 1) % 4; // 0, 1, 2, 3
+      dotCount = (dotCount + 1) % 4;
       let dots = '.'.repeat(dotCount);
       loadingText.textContent = `Buscando música${dots}`;
     }, 500);
   </script>
+
 </body>
 </html>
