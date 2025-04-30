@@ -209,13 +209,32 @@ input[type="text"] {
   border: none;
   background-color: #222;
   color: #fff;
-  box-shadow: 0 0 0 2px #333;
   outline: none;
+  position: relative;
+  z-index: 1;
   transition: box-shadow 0.3s;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.3);
+  background-image: linear-gradient(#222, #222), 
+    linear-gradient(120deg, #ff00c8, #00f0ff, #ff00c8);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border: 3px solid transparent;
+  animation: neon-border 4s linear infinite;
 }
 
-input[type="text"]:focus {
-  box-shadow: 0 0 0 2px #e60023;
+@keyframes neon-border {
+  0% {
+    background-image: linear-gradient(#222, #222), 
+      linear-gradient(120deg, #ff00c8, #00f0ff, #ff00c8);
+  }
+  50% {
+    background-image: linear-gradient(#222, #222), 
+      linear-gradient(120deg, #00f0ff, #ff00c8, #00f0ff);
+  }
+  100% {
+    background-image: linear-gradient(#222, #222), 
+      linear-gradient(120deg, #ff00c8, #00f0ff, #ff00c8);
+  }
 }
 
 button {
