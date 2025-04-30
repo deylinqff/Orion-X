@@ -237,6 +237,16 @@ input[type="text"] {
   }
 }
 
+button#voice-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 button {
   padding: 14px 30px;
   font-size: 16px;
