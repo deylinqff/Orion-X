@@ -122,24 +122,45 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
 
-// Función de reconocimiento de voz
-document.getElementById('voice-btn').onclick = () => {
-  const reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-  reconocimiento.lang = 'es-ES';
-  reconocimiento.interimResults = false;
+  const micIcon = document.getElementById('mic-icon');
+  const voiceBtn = document.getElementById('voice-btn');
+  let isRecording = false;
+  let reconocimiento;
 
-  reconocimiento.onresult = (e) => {
-    const texto = e.results[0][0].transcript;
-    document.getElementById('search-input').value = texto;
-    document.getElementById('search-form').dispatchEvent(new Event('submit')); // dispara búsqueda
+  voiceBtn.onclick = () => {
+    if (isRecording) {
+      reconocimiento.stop(); // detener si ya estaba grabando
+      return;
+    }
+
+    reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    reconocimiento.lang = 'es-ES';
+    reconocimiento.interimResults = false;
+
+    reconocimiento.onstart = () => {
+      isRecording = true;
+      micIcon.classList.remove('fa-microphone');
+      micIcon.classList.add('fa-microphone-lines');
+    };
+
+    reconocimiento.onresult = (e) => {
+      const texto = e.results[0][0].transcript;
+      document.getElementById('search-input').value = texto;
+      document.getElementById('search-form').dispatchEvent(new Event('submit')); // dispara búsqueda
+    };
+
+    reconocimiento.onerror = (e) => {
+      alert("Error al reconocer la voz: " + e.error);
+    };
+
+    reconocimiento.onend = () => {
+      isRecording = false;
+      micIcon.classList.remove('fa-microphone-lines');
+      micIcon.classList.add('fa-microphone');
+    };
+
+    reconocimiento.start();
   };
-
-  reconocimiento.onerror = (e) => {
-    alert("Error al reconocer la voz: " + e.error);
-  };
-
-  reconocimiento.start();
-};
 
     // ANIMACIÓN DE CARGA (puntos ...)
     const loadingText = document.getElementById('loading-text');
