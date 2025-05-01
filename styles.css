@@ -235,7 +235,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px; /* Reduced gap */
+  gap: 1px; /* Reduced gap */
   transition: transform 0.2s;
   text-align: center;
 }
