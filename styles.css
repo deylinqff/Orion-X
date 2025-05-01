@@ -217,39 +217,46 @@ button:hover {
 .music-list {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 25px;
-  padding: 20px 0;
+  gap: 24px;
+  padding: 24px 16px;
 }
 
-@media (min-width: 150px) {
+@media (min-width: 600px) {
   .music-list {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .music-list {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 .music-card {
-  background-color: #000000; /* Light background for the cards */
-  padding: 15px; /* Slightly less padding */
-  border-radius: 12px; /* Softer rounded corners */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1px; /* Reduced gap */
-  transition: transform 0.2s;
+  gap: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
 }
 
 .music-card:hover {
-  transform: scale(1.01); /* Less intense hover scale */
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .music-card img {
-  width: 120px; /* Consistent image width */
-  height: 120px; /* Consistent image height */
-  border-radius: 8px; /* Rounded corners for images */
-  object-fit: cover; /* Ensure images fill the container without distortion */
-  margin-bottom: 10px; /* Space between image and text */
+  width: 140px;
+  height: 140px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 12px;
 }
 
 .music-info {
@@ -257,17 +264,16 @@ button:hover {
 }
 
 .music-title {
-  font-size: 16px; /* Slightly smaller title */
-  font-weight: bold;
-  color: #999999; /* Darker text color */
-  margin-top: 0; /* Less top margin */
-  margin-bottom: 5px; /* Space below title */
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 6px;
 }
 
 .music-artist {
-  font-size: 12px; /* Smaller artist name */
-  color: #999999; /* Muted artist color */
-  margin-top: 0;
+  font-size: 14px;
+  color: #bbbbbb;
+  margin: 0;
 }
 
 /* Botonera */
