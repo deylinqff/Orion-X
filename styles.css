@@ -267,14 +267,14 @@ button:hover {
   margin-bottom: 20px;
 }
 
-/* Lista de música como carrusel horizontal */
+/* Lista de música tipo grid dinámico */
 .music-list {
-  display: flex;
-  overflow-x: auto;
-  gap: 20px;
-  padding: 20px;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none; /* Oculta barra en Firefox */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 30px 10px;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .music-list::-webkit-scrollbar {
