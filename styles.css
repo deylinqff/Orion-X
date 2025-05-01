@@ -267,21 +267,24 @@ button:hover {
   margin-bottom: 20px;
 }
 
-/* Lista de música */
+/* Lista de música como carrusel horizontal */
 .music-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 25px;
-  padding: 20px 0;
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 20px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none; /* Oculta barra en Firefox */
 }
 
-@media (min-width: 700px) {
-  .music-list {
-    grid-template-columns: 1fr 1fr;
-  }
+.music-list::-webkit-scrollbar {
+  display: none; /* Oculta barra en Chrome/Safari */
 }
 
 .music-card {
+  flex: 0 0 auto;
+  width: 280px;
+  scroll-snap-align: center;
   background: linear-gradient(145deg, #1c1c1c, #121212);
   border: 1px solid rgba(0, 255, 255, 0.1);
   padding: 22px;
