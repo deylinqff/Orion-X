@@ -221,7 +221,7 @@ button:hover {
   padding: 20px 0;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 500px) {
   .music-list {
     grid-template-columns: 1fr 1fr;
   }
