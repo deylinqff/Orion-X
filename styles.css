@@ -259,7 +259,7 @@ button:hover {
 .music-title {
   font-size: 16px; /* Slightly smaller title */
   font-weight: bold;
-  color: #333; /* Darker text color */
+  color: #999999; /* Darker text color */
   margin-top: 0; /* Less top margin */
   margin-bottom: 5px; /* Space below title */
 }
