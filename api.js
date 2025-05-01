@@ -77,9 +77,9 @@ searchForm.addEventListener("submit", async (e) => {
       const info = document.createElement("div");
       info.className = "music-info";
 
-      /*const title = document.createElement("div");
+      const title = document.createElement("div");
       title.className = "music-title";
-      title.textContent = video.titulo;*/
+      title.textContent = video.titulo;
 
       const artist = document.createElement("div");
       artist.className = "music-artist";
