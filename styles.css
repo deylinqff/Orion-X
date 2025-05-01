@@ -228,7 +228,7 @@ button:hover {
 }
 
 .music-card {
-  background-color: #f8f9fa; /* Light background for the cards */
+  background-color: #ffff; /* Light background for the cards */
   padding: 15px; /* Slightly less padding */
   border-radius: 12px; /* Softer rounded corners */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
