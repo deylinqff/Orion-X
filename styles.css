@@ -266,7 +266,7 @@ button:hover {
 
 .music-artist {
   font-size: 12px; /* Smaller artist name */
-  color: #6c757d; /* Muted artist color */
+  color: #999999; /* Muted artist color */
   margin-top: 0;
 }
 
