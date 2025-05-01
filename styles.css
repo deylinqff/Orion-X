@@ -228,28 +228,28 @@ button:hover {
 }
 
 .music-card {
-  background-color: #1a1a1a;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  background-color: #f8f9fa; /* Light background for the cards */
+  padding: 15px; /* Slightly less padding */
+  border-radius: 12px; /* Softer rounded corners */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 10px; /* Reduced gap */
   transition: transform 0.2s;
   text-align: center;
 }
 
 .music-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.01); /* Less intense hover scale */
 }
 
 .music-card img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  border-radius: 12px;
-  object-fit: cover;
+  width: 120px; /* Consistent image width */
+  height: 120px; /* Consistent image height */
+  border-radius: 8px; /* Rounded corners for images */
+  object-fit: cover; /* Ensure images fill the container without distortion */
+  margin-bottom: 10px; /* Space between image and text */
 }
 
 .music-info {
@@ -257,58 +257,150 @@ button:hover {
 }
 
 .music-title {
-  font-size: 20px;
+  font-size: 16px; /* Slightly smaller title */
   font-weight: bold;
-  color: #fff;
-  margin-top: 10px;
+  color: #333; /* Darker text color */
+  margin-top: 0; /* Less top margin */
+  margin-bottom: 5px; /* Space below title */
 }
 
 .music-artist {
-  font-size: 14px;
-  color: #ccc;
-  margin-top: 4px;
+  font-size: 12px; /* Smaller artist name */
+  color: #6c757d; /* Muted artist color */
+  margin-top: 0;
 }
 
 /* Botonera */
 .button-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  align-items: stretch; /* Make buttons take full width of container */
+  gap: 8px; /* Smaller gap between buttons */
   width: 100%;
+  margin-top: 10px; /* Space above buttons */
 }
 
-.play-button,
-.download-button {
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 8px;
+.card-button {
+  padding: 8px 15px;
+  font-size: 12px; /* Smaller button text */
+  border-radius: 6px; /* Slightly less rounded buttons */
   cursor: pointer;
   transition: background 0.3s, color 0.3s;
-  width: 80%;
-  max-width: 250px;
+  text-align: center;
+  white-space: nowrap;
+  border: none; /* Remove default button border */
 }
 
-.play-button {
+.primary-button {
+  background-color: #007bff; /* Blue primary button */
+  color: #fff;
+}
+
+.primary-button:hover {
+  background-color: #0056b3;
+}
+
+.secondary-button {
+  background-color: #6c757d; /* Grey secondary button */
+  color: #fff;
+}
+
+.secondary-button:hover {
+  background-color: #545b62;
+}
+
+.view-more-button {
   background-color: transparent;
-  color: #e60023;
-  border: 2px solid #e60023;
+  color: #007bff;
+  border: 1px solid #007bff;
 }
 
-.play-button:hover {
-  background-color: #e60023;
+.view-more-button:hover {
+  background-color: #e7f3ff; /* Light blue hover for view more */
+  color: #0056b3;
+}
+
+.price-button {
+  background-color: #28a745; /* Green price button */
   color: #fff;
 }
 
-.download-button {
-  background-color: #444;
-  color: #fff;
-  border: none;
+.price-button:hover {
+  background-color: #1e7e34;
 }
 
-.download-button:hover {
-  background-color: #666;
+.group-button {
+  background-color: #ffc107; /* Yellow/Amber group button */
+  color: #212529; /* Dark text for contrast */
 }
+
+.group-button:hover {
+  background-color: #e0a800;
+}
+
+/* Specific styling to match the image more closely */
+.music-card:nth-child(1) .card-button:first-child, /* "Personalizado 10$" Bot 1 */
+.music-card:nth-child(6) .card-button:first-child { /* "Personalizado 10$" Vegeta */
+  background-color: #007bff;
+  color: #fff;
+}
+
+.music-card:nth-child(1) .card-button:last-child, /* "Grupo 5$" Bot 1 */
+.music-card:nth-child(5) .card-button:last-child, /* "Grupo 5$" Barboza */
+.music-card:nth-child(6) .card-button:last-child { /* "Grupo 5$" Vegeta */
+  background-color: #28a745; /* Green for "Grupo" */
+  color: #fff;
+}
+
+.music-card:nth-child(2) .card-button:first-child { /* "Personal 5$" Bot Personal */
+  background-color: #007bff;
+  color: #fff;
+}
+
+.music-card:nth-child(3) .card-button:first-child, /* "VER MAS" Mafer */
+.music-card:nth-child(4) .card-button:first-child { /* "VER MAS" Bots Personalizados */
+  background-color: transparent;
+  color: #007bff;
+  border: 1px solid #007bff;
+}
+
+.music-card:nth-child(5) .card-button:first-child { /* "Personalizado 26$" Barboza */
+  background-color: #dc3545; /* Red for this specific personalized price */
+  color: #fff;
+}
+
+.music-card:nth-child(7) .card-button:first-child { /* "Personalizado 20$" August */
+  background-color: #ffc107; /* Yellow for this specific personalized price */
+  color: #212529;
+}
+
+/* Adjustments for the "imgbb.com" cards as they seem different */
+.music-card:nth-child(7),
+.music-card:nth-child(8) {
+  background-color: #e9ecef; /* Lighter background for these */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+}
+
+.music-card:nth-child(7) img,
+.music-card:nth-child(8) img {
+  background-color: #dee2e6; /* Placeholder background for broken images */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #6c757d;
+  font-size: 0.8em;
+}
+
+.music-card:nth-child(7) .music-title,
+.music-card:nth-child(8) .music-title {
+  color: #495057;
+}
+
+.music-card:nth-child(7) .card-button:first-child { /* "Personalizado 20$" August - restyled */
+  background-color: #ffc107;
+  color: #212529;
+}
+
 
 /* Reproductor de audio fijo abajo */
 #audio-player {
