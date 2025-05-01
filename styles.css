@@ -322,7 +322,7 @@ button:hover {
 }
 
 .button-container button {
-  flex: 1 1 120px; /* ajusta el tamaño base de los botones */
+  flex: 1 1 12px; /* ajusta el tamaño base de los botones */
   max-width: 160px;
 }
 
@@ -344,6 +344,12 @@ button:hover {
 
 .download-button:hover {
   background: #666;
+}
+
+form button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 8px;
 }
 
 form button {
