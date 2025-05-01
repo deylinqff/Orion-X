@@ -84,13 +84,6 @@
 
   <script src="api.js"></script>
   <script>
-    const menuBtn = document.getElementById("menu-button");
-    const closeBtn = document.getElementById("close-menu");
-    const sideMenu = document.getElementById("side-menu");
-
-    menuBtn.onclick = () => sideMenu.classList.add("open");
-    closeBtn.onclick = () => sideMenu.classList.remove("open");
-
     function reproducirCancion(url) {
       audioPlayer.src = url;
       audioPlayer.style.display = "block";
