@@ -282,45 +282,74 @@ button:hover {
 }
 
 .music-card {
-  background-color: #1a1a1a;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  background: linear-gradient(145deg, #1c1c1c, #121212);
+  border: 1px solid rgba(0, 255, 255, 0.1);
+  padding: 22px;
+  border-radius: 20px;
+  box-shadow: 0 8px 20px rgba(0, 255, 255, 0.08), 0 0 8px rgba(0, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
-  transition: transform 0.2s;
+  gap: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.music-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle at center, rgba(0, 255, 255, 0.05), transparent 60%);
+  animation: pulse 6s infinite;
+  z-index: 0;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.5; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 .music-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.03);
+  box-shadow: 0 12px 24px rgba(0, 255, 255, 0.2), 0 0 15px rgba(0, 255, 255, 0.1);
 }
 
 .music-card img {
   width: 100%;
-  max-width: 300px;
+  max-width: 280px;
   height: auto;
-  border-radius: 12px;
+  border-radius: 14px;
   object-fit: cover;
+  border: 2px solid #00ffe7;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+  z-index: 1;
 }
 
 .music-info {
   width: 100%;
+  z-index: 1;
 }
 
 .music-title {
-  font-size: 20px;
-  font-weight: bold;
-  color: #fff;
+  font-size: 22px;
+  font-weight: 600;
+  color: #00ffe7;
   margin-top: 10px;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
 }
 
 .music-artist {
-  font-size: 14px;
-  color: #ccc;
+  font-size: 15px;
+  color: #b0f0ff;
   margin-top: 4px;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 3px rgba(0, 255, 255, 0.2);
 }
 
 /* Botonera */
