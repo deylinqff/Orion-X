@@ -94,67 +94,6 @@ h1 {
   color: #00f0ff;
 }
 
-/* BOTÓN MENU */
-.menu-button {
-  background: none;
-  border: none;
-  color: #00f0ff;
-  font-size: 28px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.menu-button:hover {
-  transform: scale(1.2);
-}
-
-/* MENÚ LATERAL */
-.side-menu {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: 300px;
-  height: 100%;
-  background-color: #0a0a0f;
-  color: #fff;
-  padding: 30px 20px;
-  transition: right 0.3s ease;
-  z-index: 1002;
-  overflow-y: auto;
-  box-shadow: -4px 0 12px rgba(0, 255, 255, 0.1);
-}
-
-.side-menu.open {
-  right: 0;
-}
-
-.side-menu h2 {
-  color: #00f0ff;
-  margin-bottom: 20px;
-}
-
-.side-menu li {
-  border-bottom: 1px solid #333;
-  padding-bottom: 8px;
-  margin-bottom: 10px;
-}
-
-/* BOTÓN CERRAR */
-.close-button {
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 22px;
-  color: #fff;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.close-button:hover {
-  color: #ff0066;
-}
-
 /* FORMULARIO */
 form {
   display: flex;
@@ -199,12 +138,12 @@ input[type="text"]:focus {
 #voice-btn {
   position: absolute;
   top: 50%;
-  right: 10px;
+  right: 12px;
   transform: translateY(-50%);
   background: none;
   border: none;
   color: #00f0ff;
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
   z-index: 2;
 }
@@ -223,6 +162,14 @@ button {
 button:hover {
   background: #00cce6;
   transform: scale(1.05);
+}
+
+/* AJUSTES AL BOTÓN DE BÚSQUEDA */
+form button {
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  min-width: 100px;
 }
 
 /* MENSAJE DE CARGA */
@@ -317,13 +264,13 @@ button:hover {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 12px; /* aumenta el espacio entre botones */
-  margin-top: 12px;
+  gap: 16px;
+  margin-top: 16px;
 }
 
 .button-container button {
-  flex: 1 1 12px; /* ajusta el tamaño base de los botones */
-  max-width: 160px;
+  flex: 1 1 140px;
+  max-width: 180px;
 }
 
 .play-button {
@@ -344,18 +291,6 @@ button:hover {
 
 .download-button:hover {
   background: #666;
-}
-
-form button {
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 8px;
-}
-
-form button {
-  padding: 10px 20px;
-  font-size: 14px;
-  border-radius: 8px;
 }
 
 /* REPRODUCTOR DE AUDIO */
