@@ -74,7 +74,7 @@ searchForm.addEventListener("submit", async (e) => {
       const image = document.createElement("img");
       image.src = video.miniatura;
 
-      const info = document.createElement("div");
+     // const info = document.createElement("div");
       info.className = "music-info";
 
       const title = document.createElement("div");
