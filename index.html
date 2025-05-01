@@ -10,47 +10,27 @@
   <meta name="keywords" content="Orion X, buscador de música, escuchar música, mp3, canciones online, música gratis, música rápida">
   <meta name="author" content="Orion X">
 
-  <meta name="google-site-verification" content="Jq3BfRqUzkFAriFIlMQHfhLqa3qlEJObkviaDOdh7E4" />
+
+<meta name="google-site-verification" content="Jq3BfRqUzkFAriFIlMQHfhLqa3qlEJObkviaDOdh7E4" />
+
   <meta name="google-site-verification" content="S2c1UAy1iEwlq4yGKvxzj2dwANjNRqj2sjW1YhF0G9o" />
 
+
   <link rel="icon" href="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png" type="image/png">
-  <link rel="manifest" href="manifest.json" />
+<link rel="manifest" href="manifest.json" />
+
 
   <meta property="og:title" content="Orion X - Buscador de Música">
   <meta property="og:description" content="Encuentra, escucha y descarga tu música favorita con Orion X. ¡Fácil, rápido y gratis!">
   <meta property="og:image" content="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png">
   <meta property="og:type" content="website">
-  <meta name="image" content="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png">
+  <meta property="og:image" content="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png">
+<meta name="image" content="https://i.postimg.cc/W3k093V9/file-00000000825061f79225a78cad0c7961.png">
+
 
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
   <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      background-color: #f4f4f4;
-      color: #333;
-    }
-
-    .header {
-      background-color: #222;
-      color: white;
-      padding: 16px;
-      text-align: center;
-    }
-
-    .logo {
-      margin: 0;
-      font-size: 1.8em;
-    }
-
-    .container {
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
-    }
-
     #audio-player {
       display: none;
       position: fixed;
@@ -78,22 +58,22 @@
 
   <div class="container">
     <form id="search-form">
-      <div style="position: relative; display: inline-block; width: 100%;">
-        <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
-        <button type="button" id="voice-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
-          <i class="fas fa-microphone" id="mic-icon"></i>
-        </button>
-      </div>
-      <button type="submit">Buscar</button>
-    </form>
+  <div style="position: relative; display: inline-block; width: 100%;">
+    <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
+    <button type="button" id="voice-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
+      <i class="fas fa-microphone" id="mic-icon"></i>
+    </button>
+  </div>
+  <button type="submit">Buscar</button>
+</form>
 
     <div id="loading-message" style="display: none;">
-      <div class="loader">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <p id="loading-text">Buscando música...</p>
-    </div>
+  <div class="loader">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <p id="loading-text">Buscando música...</p>
+</div>
 
     <div class="music-list" id="music-list">
       <!-- Aquí se insertarán las canciones -->
@@ -104,6 +84,13 @@
 
   <script src="api.js"></script>
   <script>
+    const menuBtn = document.getElementById("menu-button");
+    const closeBtn = document.getElementById("close-menu");
+    const sideMenu = document.getElementById("side-menu");
+
+    menuBtn.onclick = () => sideMenu.classList.add("open");
+    closeBtn.onclick = () => sideMenu.classList.remove("open");
+
     function reproducirCancion(url) {
       audioPlayer.src = url;
       audioPlayer.style.display = "block";
@@ -114,55 +101,57 @@
       audioPlayer.style.display = "none";
     });
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+
+  const micIcon = document.getElementById('mic-icon');
+  const voiceBtn = document.getElementById('voice-btn');
+  let isRecording = false;
+  let reconocimiento;
+
+  voiceBtn.onclick = () => {
+    if (isRecording) {
+      reconocimiento.stop(); // detener si ya estaba grabando
+      return;
     }
 
-    const micIcon = document.getElementById('mic-icon');
-    const voiceBtn = document.getElementById('voice-btn');
-    let isRecording = false;
-    let reconocimiento;
+    reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    reconocimiento.lang = 'es-ES';
+    reconocimiento.interimResults = false;
 
-    voiceBtn.onclick = () => {
-      if (isRecording) {
-        reconocimiento.stop();
-        return;
-      }
-
-      reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      reconocimiento.lang = 'es-ES';
-      reconocimiento.interimResults = false;
-
-      reconocimiento.onstart = () => {
-        isRecording = true;
-        micIcon.classList.remove('fa-microphone');
-        micIcon.classList.add('fa-microphone-lines');
-      };
-
-      reconocimiento.onresult = (e) => {
-        const texto = e.results[0][0].transcript;
-        document.getElementById('search-input').value = texto;
-        document.getElementById('search-form').dispatchEvent(new Event('submit'));
-      };
-
-      reconocimiento.onerror = (e) => {
-        alert("Error al reconocer la voz: " + e.error);
-      };
-
-      reconocimiento.onend = () => {
-        isRecording = false;
-        micIcon.classList.remove('fa-microphone-lines');
-        micIcon.classList.add('fa-microphone');
-      };
-
-      reconocimiento.start();
+    reconocimiento.onstart = () => {
+      isRecording = true;
+      micIcon.classList.remove('fa-microphone');
+      micIcon.classList.add('fa-microphone-lines');
     };
 
+    reconocimiento.onresult = (e) => {
+      const texto = e.results[0][0].transcript;
+      document.getElementById('search-input').value = texto;
+      document.getElementById('search-form').dispatchEvent(new Event('submit')); // dispara búsqueda
+    };
+
+    reconocimiento.onerror = (e) => {
+      alert("Error al reconocer la voz: " + e.error);
+    };
+
+    reconocimiento.onend = () => {
+      isRecording = false;
+      micIcon.classList.remove('fa-microphone-lines');
+      micIcon.classList.add('fa-microphone');
+    };
+
+    reconocimiento.start();
+  };
+
+    // ANIMACIÓN DE CARGA (puntos ...)
     const loadingText = document.getElementById('loading-text');
     let dotCount = 0;
     setInterval(() => {
-      dotCount = (dotCount + 1) % 4;
-      loadingText.textContent = `Buscando música${'.'.repeat(dotCount)}`;
+      dotCount = (dotCount + 1) % 4; // 0, 1, 2, 3
+      let dots = '.'.repeat(dotCount);
+      loadingText.textContent = `Buscando música${dots}`;
     }, 500);
   </script>
 </body>
