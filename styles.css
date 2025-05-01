@@ -52,46 +52,28 @@ body::before {
   }
 }
 
-/* CONTAINER PRINCIPAL */
+/* CONTENEDOR PRINCIPAL */
 .container {
   max-width: 1200px;
   margin: auto;
-  padding: 60px 20px;
+  padding: 40px 20px;
+  text-align: center;
   position: relative;
   z-index: 1;
-  text-align: center;
 }
 
-/* TITULO PRINCIPAL */
-h1 {
-  font-size: 3rem;
-  margin-bottom: 30px;
-  color: #ffffff;
-  text-shadow: 0 0 15px #00f0ff;
-  animation: vibrar 1.5s infinite alternate;
-}
-
-@keyframes vibrar {
-  0% { transform: translateX(-1.5px); }
-  100% { transform: translateX(1.5px); }
-}
-
-/* HEADER */
+/* ENCABEZADO */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background-color: #0f0f13;
   padding: 20px;
   border-bottom: 1px solid #222;
-  position: sticky;
-  top: 0;
-  z-index: 1001;
+  text-align: center;
 }
 
 .header h1 {
-  font-size: 1.6rem;
+  font-size: 2rem;
   color: #00f0ff;
+  text-shadow: 0 0 15px #00f0ff;
 }
 
 /* FORMULARIO */
@@ -99,13 +81,12 @@ form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 15px;
-  position: relative;
+  gap: 12px;
   max-width: 600px;
-  margin: 0 auto 40px;
+  margin: 0 auto 30px;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 500px) {
   form {
     flex-direction: row;
     align-items: center;
@@ -119,7 +100,7 @@ form {
 
 input[type="text"] {
   width: 100%;
-  padding: 14px 50px 14px 20px;
+  padding: 14px 50px 14px 16px;
   font-size: 16px;
   border-radius: 10px;
   border: none;
@@ -127,7 +108,6 @@ input[type="text"] {
   color: #fff;
   box-shadow: 0 0 0 2px #333;
   outline: none;
-  transition: box-shadow 0.3s;
 }
 
 input[type="text"]:focus {
@@ -138,100 +118,45 @@ input[type="text"]:focus {
 #voice-btn {
   position: absolute;
   top: 50%;
-  right: 12px;
+  right: 10px;
   transform: translateY(-50%);
   background: none;
   border: none;
   color: #00f0ff;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
   z-index: 2;
 }
 
-button {
-  padding: 14px 30px;
-  font-size: 16px;
+/* BOTÓN BUSCAR */
+form button[type="submit"] {
+  padding: 12px 24px;
+  font-size: 15px;
   background: #00f0ff;
   color: #000;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition: background 0.3s;
 }
 
-button:hover {
+form button[type="submit"]:hover {
   background: #00cce6;
-  transform: scale(1.05);
-}
-
-/* AJUSTES AL BOTÓN DE BÚSQUEDA */
-form button {
-  padding: 10px 16px;
-  font-size: 14px;
-  border-radius: 8px;
-  min-width: 100px;
-}
-
-/* MENSAJE DE CARGA */
-#loading-message {
-  background: #111;
-  padding: 30px;
-  border-radius: 12px;
-  text-align: center;
-  max-width: 300px;
-  margin: 0 auto;
-}
-
-#loading-text {
-  color: #00f0ff;
-  font-weight: bold;
-  font-size: 16px;
-}
-
-/* ANIMACIÓN DE CARGA */
-.loader {
-  margin: 0 auto 15px;
-  width: 60px;
-  height: 60px;
-  position: relative;
-}
-
-.loader span {
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #00f0ff;
-  border-radius: 50%;
-  animation: loaderAnim 1.2s linear infinite;
-}
-
-@keyframes loaderAnim {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-.loader span:nth-child(n) {
-  transform: rotate(calc(30deg * (var(--i)))) translate(25px);
-  animation-delay: calc(0.1s * var(--i));
 }
 
 /* LISTA DE MÚSICA */
 .music-list {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  padding: 10px;
 }
 
-@media (min-width: 700px) {
-  .music-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
+/* TARJETAS DE MÚSICA */
 .music-card {
   background-color: #14141b;
-  padding: 20px;
-  border-radius: 16px;
+  padding: 16px;
+  border-radius: 14px;
   box-shadow: 0 4px 20px rgba(0, 255, 255, 0.06);
   transition: transform 0.2s ease;
   text-align: center;
@@ -242,37 +167,42 @@ form button {
 }
 
 .music-card img {
-  max-width: 100%;
-  border-radius: 12px;
+  width: 100%;
+  border-radius: 10px;
   object-fit: cover;
 }
 
 .music-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: #fff;
   margin-top: 10px;
 }
 
 .music-artist {
-  font-size: 14px;
+  font-size: 13px;
   color: #aaa;
+  margin-bottom: 10px;
 }
 
-/* BOTONES DENTRO DE CARDS */
+/* BOTONES DE ACCIÓN */
 .button-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 16px;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .button-container button {
-  flex: 1 1 140px;
-  max-width: 180px;
+  padding: 10px 12px;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: background 0.3s;
 }
 
+/* BOTÓN REPRODUCIR */
 .play-button {
   background: transparent;
   border: 2px solid #00f0ff;
@@ -284,16 +214,17 @@ form button {
   color: #000;
 }
 
+/* BOTONES DESCARGAR */
 .download-button {
-  background: #444;
+  background: #333;
   color: #fff;
 }
 
 .download-button:hover {
-  background: #666;
+  background: #555;
 }
 
-/* REPRODUCTOR DE AUDIO */
+/* REPRODUCTOR FIJO */
 #audio-player {
   position: fixed;
   bottom: 0;
@@ -306,8 +237,6 @@ form button {
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   box-shadow: 0 -2px 10px rgba(0, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  text-align: center;
   z-index: 1000;
 }
