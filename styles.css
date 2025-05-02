@@ -1,41 +1,40 @@
-/* Lista de música - Neumorfismo en 2 columnas fijas */
+/* Lista de música */
 .music-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Siempre 2 columnas */
-  gap: 28px;
-  padding: 40px 20px;
-  background: #e0e5ec;
-  min-height: 100vh;
+  grid-template-columns: 1fr;
+  gap: 25px;
+  padding: 20px 0;
 }
 
-/* Resto del estilo sigue igual */
+@media (min-width: 700px) {
+  .music-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 .music-card {
-  background: #e0e5ec;
-  border-radius: 18px;
-  padding: 24px;
-  box-shadow:
-    8px 8px 16px #babecc,
-    -8px -8px 16px #ffffff;
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 15px;
+  transition: transform 0.2s;
   text-align: center;
-  transition: transform 0.3s ease;
 }
 
 .music-card:hover {
-  transform: scale(1.015);
+  transform: scale(1.02);
 }
 
 .music-card img {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  border-radius: 12px;
   object-fit: cover;
-  box-shadow:
-    inset 6px 6px 12px #babecc,
-    inset -6px -6px 12px #ffffff;
 }
 
 .music-info {
@@ -43,103 +42,57 @@
 }
 
 .music-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #3c3c3c;
-  margin: 0 0 6px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  margin-top: 10px;
 }
 
 .music-artist {
   font-size: 14px;
-  color: #707070;
-  margin: 0;
+  color: #ccc;
+  margin-top: 4px;
 }
-
-.button-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  margin-top: 12px;
-}
-
-.card-button {
-  padding: 10px;
-  font-size: 13px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  color: #3c3c3c;
-  background: #e0e5ec;
-  box-shadow:
-    6px 6px 12px #babecc,
-    -6px -6px 12px #ffffff;
-  transition: all 0.3s ease;
-}
-
-.card-button:hover {
-  box-shadow:
-    inset 6px 6px 12px #babecc,
-    inset -6px -6px 12px #ffffff;
-  color: #000;
-}
-
-.primary-button { color: #1a73e8; }
-.secondary-button { color: #555; }
-.view-more-button { color: #17a2b8; }
-.price-button { color: #28a745; }
-.group-button { color: #ffc107; }
 
 /* Botonera */
 .button-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
   width: 100%;
-  margin-top: 12px;
 }
 
-.card-button {
-  padding: 10px;
-  font-size: 13px;
-  border-radius: 12px;
-  border: none;
+.play-button,
+.download-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 600;
-  color: #3c3c3c;
-  background: #e0e5ec;
-  box-shadow:
-    6px 6px 12px #babecc,
-    -6px -6px 12px #ffffff;
-  transition: all 0.3s ease;
+  transition: background 0.3s, color 0.3s;
+  width: 80%;
+  max-width: 250px;
 }
 
-.card-button:hover {
-  box-shadow:
-    inset 6px 6px 12px #babecc,
-    inset -6px -6px 12px #ffffff;
-  color: #000;
+.play-button {
+  background-color: transparent;
+  color: #e60023;
+  border: 2px solid #e60023;
 }
 
-.primary-button {
-  color: #1a73e8;
+.play-button:hover {
+  background-color: #e60023;
+  color: #fff;
 }
 
-.secondary-button {
-  color: #555;
+.download-button {
+  background-color: #444;
+  color: #fff;
+  border: none;
 }
 
-.view-more-button {
-  color: #17a2b8;
-}
-
-.price-button {
-  color: #28a745;
-}
-
-.group-button {
-  color: #ffc107;
+.download-button:hover {
+  background-color: #666;
 }
 
 /* RESET BÁSICO */
