@@ -6,35 +6,35 @@
   padding: 20px 0;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 150px) {
   .music-list {
     grid-template-columns: 1fr 1fr;
   }
 }
 
 .music-card {
-  background-color: #1a1a1a;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+  background-color: #000000; /* Light background for the cards */
+  padding: 15px; /* Slightly less padding */
+  border-radius: 12px; /* Softer rounded corners */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* Subtle shadow */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 1px; /* Reduced gap */
   transition: transform 0.2s;
   text-align: center;
 }
 
 .music-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.01); /* Less intense hover scale */
 }
 
 .music-card img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  border-radius: 12px;
-  object-fit: cover;
+  width: 120px; /* Consistent image width */
+  height: 120px; /* Consistent image height */
+  border-radius: 8px; /* Rounded corners for images */
+  object-fit: cover; /* Ensure images fill the container without distortion */
+  margin-bottom: 10px; /* Space between image and text */
 }
 
 .music-info {
@@ -42,16 +42,17 @@
 }
 
 .music-title {
-  font-size: 20px;
+  font-size: 16px; /* Slightly smaller title */
   font-weight: bold;
-  color: #fff;
-  margin-top: 10px;
+  color: #999999; /* Darker text color */
+  margin-top: 0; /* Less top margin */
+  margin-bottom: 5px; /* Space below title */
 }
 
 .music-artist {
-  font-size: 14px;
-  color: #ccc;
-  margin-top: 4px;
+  font-size: 12px; /* Smaller artist name */
+  color: #999999; /* Muted artist color */
+  margin-top: 0;
 }
 
 /* Botonera */
