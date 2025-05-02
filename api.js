@@ -89,7 +89,7 @@ searchForm.addEventListener("submit", async (e) => {
 
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
-      playBtn.innerHTML = `<i class="fas fa-play"></i> audio`;
+      playBtn.innerHTML = `<i class="fas fa-play"></i> Play`;
 
       const downloadAudioBtn = document.createElement("button");
       downloadAudioBtn.className = "download-button";
