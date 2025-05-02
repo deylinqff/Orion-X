@@ -89,11 +89,11 @@ searchForm.addEventListener("submit", async (e) => {
 
       const playBtn = document.createElement("button");
       playBtn.className = "play-button";
-      playBtn.innerHTML = `<i class="fas fa-play"></i> Reproducir audio`;
+      playBtn.innerHTML = `<i class="fas fa-play"></i> audio`;
 
       const downloadAudioBtn = document.createElement("button");
       downloadAudioBtn.className = "download-button";
-      downloadAudioBtn.innerHTML = `<i class="fas fa-music"></i> Descargar audio`;
+      downloadAudioBtn.innerHTML = `<i class="fas fa-music"></i> audio`;
 
       playBtn.onclick = async () => {
         playBtn.textContent = "Cargando...";
