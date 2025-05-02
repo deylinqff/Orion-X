@@ -96,7 +96,7 @@ searchForm.addEventListener("submit", async (e) => {
       downloadAudioBtn.innerHTML = `<i class="fas fa-music"></i> audio`;
 
       playBtn.onclick = async () => {
-        playBtn.textContent = "Cargando...";
+        playBtn.textContent = "Carg...";
         for (let api of audioApis) {
           try {
             const res = await fetch(api(video.url));
