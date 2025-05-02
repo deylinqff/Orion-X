@@ -67,9 +67,6 @@ searchForm.addEventListener("submit", async (e) => {
       return;
     }
 
-    const truncate = (text, maxLength = 30) =>
-      text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-
     resultadosFiltrados.forEach(({ video }) => {
       const card = document.createElement("div");
       card.className = "music-card";
@@ -82,11 +79,11 @@ searchForm.addEventListener("submit", async (e) => {
 
       const title = document.createElement("div");
       title.className = "music-title";
-      title.textContent = truncate(video.titulo);
+      title.textContent = video.titulo;
 
       const artist = document.createElement("div");
       artist.className = "music-artist";
-      artist.textContent = truncate(video.canal);
+      artist.textContent = video.canal;
 
       const channel = document.createElement("div");
 
@@ -106,7 +103,9 @@ searchForm.addEventListener("submit", async (e) => {
             const json = await res.json();
             const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
             if (audioUrl) {
-              audioPlayer.src = audioUrl;
+              const proxyUrl = `https://servidor-d5a0.onrender.com/proxy-mp3`;
+              const finalUrl = `${proxyUrl}?audioUrl=${encodeURIComponent(audioUrl)}&imageUrl=${encodeURIComponent(video.miniatura)}`;
+              audioPlayer.src = finalUrl;
               audioPlayer.style.display = "block";
               audioPlayer.play();
               playBtn.textContent = "audio";
@@ -128,8 +127,10 @@ searchForm.addEventListener("submit", async (e) => {
             const json = await res.json();
             const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
             if (audioUrl) {
+              const proxyUrl = `https://servidor-d5a0.onrender.com/proxy-mp3`;
+              const finalUrl = `${proxyUrl}?audioUrl=${encodeURIComponent(audioUrl)}&imageUrl=${encodeURIComponent(video.miniatura)}`;
               const a = document.createElement("a");
-              a.href = audioUrl;
+              a.href = finalUrl;
               a.download = `${video.titulo}.mp3`;
               a.click();
               downloadAudioBtn.textContent = "audio";
