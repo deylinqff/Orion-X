@@ -1,25 +1,14 @@
-/* Lista de música - Neumorfismo Moderno */
+/* Lista de música - Neumorfismo en 2 columnas fijas */
 .music-list {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr); /* Siempre 2 columnas */
   gap: 28px;
   padding: 40px 20px;
-  background: #e0e5ec; /* Neumorphic background */
+  background: #e0e5ec;
   min-height: 100vh;
 }
 
-@media (min-width: 640px) {
-  .music-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .music-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
+/* Resto del estilo sigue igual */
 .music-card {
   background: #e0e5ec;
   border-radius: 18px;
@@ -65,6 +54,42 @@
   color: #707070;
   margin: 0;
 }
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.card-button {
+  padding: 10px;
+  font-size: 13px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #3c3c3c;
+  background: #e0e5ec;
+  box-shadow:
+    6px 6px 12px #babecc,
+    -6px -6px 12px #ffffff;
+  transition: all 0.3s ease;
+}
+
+.card-button:hover {
+  box-shadow:
+    inset 6px 6px 12px #babecc,
+    inset -6px -6px 12px #ffffff;
+  color: #000;
+}
+
+.primary-button { color: #1a73e8; }
+.secondary-button { color: #555; }
+.view-more-button { color: #17a2b8; }
+.price-button { color: #28a745; }
+.group-button { color: #ffc107; }
 
 /* Botonera */
 .button-container {
