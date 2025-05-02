@@ -106,7 +106,7 @@ searchForm.addEventListener("submit", async (e) => {
               audioPlayer.src = audioUrl;
               audioPlayer.style.display = "block";
               audioPlayer.play();
-              playBtn.textContent = "Reproducir audio";
+              playBtn.textContent = "audio";
               return;
             }
           } catch (e) {
@@ -118,7 +118,7 @@ searchForm.addEventListener("submit", async (e) => {
       };
 
       downloadAudioBtn.onclick = async () => {
-        downloadAudioBtn.textContent = "Buscando...";
+        downloadAudioBtn.textContent = "Busc...";
         for (let api of audioApis) {
           try {
             const res = await fetch(api(video.url));
@@ -129,7 +129,7 @@ searchForm.addEventListener("submit", async (e) => {
               a.href = audioUrl;
               a.download = `${video.titulo}.mp3`;
               a.click();
-              downloadAudioBtn.textContent = "Descargar audio";
+              downloadAudioBtn.textContent = "audio";
               return;
             }
           } catch (e) {
@@ -142,10 +142,10 @@ searchForm.addEventListener("submit", async (e) => {
 
       const videoBtn = document.createElement("button");
       videoBtn.className = "download-button";
-      videoBtn.innerHTML = `<i class="fas fa-video"></i> Descargar video`;
+      videoBtn.innerHTML = `<i class="fas fa-video"></i> video`;
 
       videoBtn.onclick = async () => {
-        videoBtn.textContent = "Buscando...";
+        videoBtn.textContent = "Busc...";
         for (let api of videoApis) {
           try {
             const res = await fetch(api(video.url));
@@ -156,7 +156,7 @@ searchForm.addEventListener("submit", async (e) => {
               a.href = videoUrl;
               a.download = `${video.titulo}.mp4`;
               a.click();
-              videoBtn.textContent = "Descargar video";
+              videoBtn.textContent = "video";
               return;
             }
           } catch (e) {
