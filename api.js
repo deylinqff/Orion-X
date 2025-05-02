@@ -67,6 +67,9 @@ searchForm.addEventListener("submit", async (e) => {
       return;
     }
 
+    const truncate = (text, maxLength = 30) =>
+      text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
+
     resultadosFiltrados.forEach(({ video }) => {
       const card = document.createElement("div");
       card.className = "music-card";
@@ -79,11 +82,11 @@ searchForm.addEventListener("submit", async (e) => {
 
       const title = document.createElement("div");
       title.className = "music-title";
-      title.textContent = video.titulo;
+      title.textContent = truncate(video.titulo);
 
       const artist = document.createElement("div");
       artist.className = "music-artist";
-      artist.textContent = video.canal;
+      artist.textContent = truncate(video.canal);
 
       const channel = document.createElement("div");
 
