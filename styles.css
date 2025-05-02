@@ -1,3 +1,122 @@
+/* Lista de música - Neumorfismo Moderno */
+.music-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  padding: 40px 20px;
+  background: #e0e5ec; /* Neumorphic background */
+  min-height: 100vh;
+}
+
+@media (min-width: 640px) {
+  .music-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .music-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.music-card {
+  background: #e0e5ec;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow:
+    8px 8px 16px #babecc,
+    -8px -8px 16px #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.music-card:hover {
+  transform: scale(1.015);
+}
+
+.music-card img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow:
+    inset 6px 6px 12px #babecc,
+    inset -6px -6px 12px #ffffff;
+}
+
+.music-info {
+  width: 100%;
+}
+
+.music-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #3c3c3c;
+  margin: 0 0 6px;
+}
+
+.music-artist {
+  font-size: 14px;
+  color: #707070;
+  margin: 0;
+}
+
+/* Botonera */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.card-button {
+  padding: 10px;
+  font-size: 13px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #3c3c3c;
+  background: #e0e5ec;
+  box-shadow:
+    6px 6px 12px #babecc,
+    -6px -6px 12px #ffffff;
+  transition: all 0.3s ease;
+}
+
+.card-button:hover {
+  box-shadow:
+    inset 6px 6px 12px #babecc,
+    inset -6px -6px 12px #ffffff;
+  color: #000;
+}
+
+.primary-button {
+  color: #1a73e8;
+}
+
+.secondary-button {
+  color: #555;
+}
+
+.view-more-button {
+  color: #17a2b8;
+}
+
+.price-button {
+  color: #28a745;
+}
+
+.group-button {
+  color: #ffc107;
+}
+
 /* RESET BÁSICO */
 * {
   margin: 0;
@@ -212,163 +331,6 @@ button:hover {
   font-style: italic;
   margin-bottom: 20px;
 }
-
-/* Lista de música con estilo moderno único */
-.music-list {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-  padding: 32px 20px;
-  background: linear-gradient(to bottom, #0f0f0f, #1c1c1c);
-  min-height: 100vh;
-}
-
-@media (min-width: 600px) {
-  .music-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .music-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.music-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 24px;
-  border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  text-align: center;
-}
-
-.music-card:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-}
-
-.music-card img {
-  width: 150px;
-  height: 150px;
-  border-radius: 16px;
-  object-fit: cover;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
-.music-info {
-  width: 100%;
-}
-
-.music-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #ffffff;
-  margin: 0 0 6px;
-  letter-spacing: 0.5px;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-}
-
-.music-artist {
-  font-size: 14px;
-  color: #c2c2c2;
-  margin: 0;
-  font-style: italic;
-}
-
-/* Botonera */
-.button-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  margin-top: 12px;
-}
-
-.card-button {
-  padding: 10px 18px;
-  font-size: 13px;
-  border-radius: 10px;
-  cursor: pointer;
-  text-align: center;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  border: none;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.card-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
-}
-
-.primary-button {
-  background: linear-gradient(135deg, #4facfe, #00f2fe);
-  color: #fff;
-}
-
-.secondary-button {
-  background: linear-gradient(135deg, #868f96, #596164);
-  color: #fff;
-}
-
-.view-more-button {
-  background: transparent;
-  color: #00f2fe;
-  border: 1px solid #00f2fe;
-}
-
-.view-more-button:hover {
-  background-color: rgba(0, 242, 254, 0.1);
-}
-
-.price-button {
-  background: linear-gradient(135deg, #28a745, #218838);
-  color: #fff;
-}
-
-.group-button {
-  background: linear-gradient(135deg, #ffc107, #ffcd38);
-  color: #212529;
-}
-
-/* Colores personalizados únicos para tarjetas específicas */
-.music-card:nth-child(5) .card-button:first-child {
-  background: linear-gradient(135deg, #dc3545, #b52b38);
-  color: #fff;
-}
-
-.music-card:nth-child(7),
-.music-card:nth-child(8) {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  color: #212529;
-}
-
-.music-card:nth-child(7) img,
-.music-card:nth-child(8) img {
-  background-color: #dee2e6;
-  color: #6c757d;
-}
-
-.music-card:nth-child(7) .music-title,
-.music-card:nth-child(8) .music-title {
-  color: #343a40;
-}
-
-.music-card:nth-child(7) .card-button:first-child {
-  background: linear-gradient(135deg, #ffd700, #ffea00);
-  color: #212529;
-}
-
-
 
 /* Reproductor de audio fijo abajo */
 #audio-player {
