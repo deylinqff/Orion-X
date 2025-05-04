@@ -1,1 +1,1 @@
-(orion)[https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg]
+[![tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg](https://i.postimg.cc/Bn1rXWhx/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg)](https://postimg.cc/JsM62FCn)
