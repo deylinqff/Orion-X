@@ -37,7 +37,8 @@ Un motor de búsqueda de música moderno y eficiente, diseñado para ofrecer vel
 
 ## 📷 Captura:
 
-![Orion-x Preview](./screenshot.png)
+<a href="https://orion-x.vercel.app"><img src="https://orion-x.vercel.app.png" width="130" height="130" alt="
+avaricia"/></a>
 
 ---
 
