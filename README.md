@@ -22,14 +22,5 @@ Orion-X es una plataforma futurista para buscar música al instante. Inspirado e
 ---
 
 ## 🚀 Visítalo ahora:
-[**https://orion-x.vercel.app**](https://orion-x.vercel.app)
+[**orion-x potente**](https://orion-x.vercel.app)
 
----
-
-## 📦 Instalación rápida:
-
-```bash
-git clone https://github.com/tuusuario/orion-x.git
-cd orion-x
-npm install
-npm start
