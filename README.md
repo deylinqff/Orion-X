@@ -1,1 +1,1 @@
-h
+  <meta property="og:image" content="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
