@@ -1,43 +1,144 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PWA en TV</title>
-    <script>
-        // Función para detectar si el dispositivo es compatible con la instalación de PWA
-        function isInstallableDevice() {
-            const userAgent = navigator.userAgent.toLowerCase();
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Descargar Orion X</title>
+  <meta name="description" content="Descarga el archivo manifest.json para Orion X - Buscador de Música">
+  <meta name="keywords" content="Orion X, descargar manifest.json, instalación PWA, buscador de música">
+  <meta name="author" content="Orion X">
+  <link rel="icon" href="https://i.postimg.cc/jSV7cH1J/favicon-32x32.png" type="image/png">
 
-            // Comprobamos si el dispositivo es Android o Windows
-            if (userAgent.includes("android") || userAgent.includes("windows")) {
-                return true;
-            }
-
-            // Otros dispositivos que podrían soportar PWAs
-            return false;
-        }
-
-        // Función para mostrar u ocultar el botón de descarga
-        function toggleInstallButton() {
-            const downloadButton = document.getElementById("installButton");
-            if (isInstallableDevice()) {
-                downloadButton.style.display = "block"; // Mostrar el botón en dispositivos compatibles
-            } else {
-                downloadButton.style.display = "none"; // Ocultar el botón en dispositivos no compatibles (como TVs)
-            }
-        }
-
-        // Ejecutar cuando el contenido de la página haya cargado
-        window.onload = toggleInstallButton;
-    </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #111;
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #installAppBtn {
+      background-color: #28a745;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      display: none;
+      align-items: center;
+      gap: 6px;
+    }
+    #installAppBtn i {
+      font-size: 16px;
+    }
+    #downloadBtn {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 14px;
+      display: none;
+      align-items: center;
+      gap: 6px;
+    }
+    #downloadBtn i {
+      font-size: 16px;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Aquí va el contenido de la página -->
+  <header>
+    <h1>Orion X - Buscador de Música</h1>
+    <a href="#" id="installAppBtn">
+      <i class="fas fa-download"></i> Instalar App
+    </a>
+  </header>
 
-    <!-- Botón de descarga (solo aparecerá en dispositivos compatibles) -->
-    <a id="installButton" href="manifest.json" download="manifest.json" style="display:none; padding: 10px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Descargar Orion X</a>
+  <div style="text-align: center; margin-top: 50px;">
+    <h2>Descargar Orion X</h2>
+    <p>Haz clic en el botón para descargar el archivo de instalación (manifest.json) de Orion X.</p>
+
+    <!-- Botón para descargar el archivo manifest.json -->
+    <a id="downloadBtn" href="manifest.json" download="manifest.json">
+      <i class="fas fa-download"></i> Descargar Manifesto Orion X
+    </a>
+  </div>
+
+  <script>
+    // Función para detectar si el dispositivo es compatible con la instalación de PWA
+    function isInstallableDevice() {
+      const userAgent = navigator.userAgent.toLowerCase();
+
+      // Comprobamos si el dispositivo es Android o Windows
+      if (userAgent.includes("android") || userAgent.includes("windows")) {
+        return true;
+      }
+
+      // Otros dispositivos que podrían soportar PWAs
+      return false;
+    }
+
+    // Función para mostrar u ocultar los botones de instalación
+    function toggleButtons() {
+      const installBtn = document.getElementById('installAppBtn');
+      const downloadBtn = document.getElementById('downloadBtn');
+
+      if (isInstallableDevice()) {
+        // Mostrar el botón de instalación en dispositivos compatibles
+        installBtn.style.display = 'flex';
+        downloadBtn.style.display = 'none';  // Ocultar el botón de descarga de manifest
+      } else {
+        // Mostrar el botón de descarga del archivo manifest.json en dispositivos no compatibles
+        installBtn.style.display = 'none';
+        downloadBtn.style.display = 'block';
+      }
+    }
+
+    // Ejecutar cuando el contenido de la página haya cargado
+    window.onload = toggleButtons;
+
+    // INSTALACIÓN PWA
+    let deferredPrompt;
+    const installBtn = document.getElementById('installAppBtn');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      installBtn.style.display = 'flex';
+
+      installBtn.addEventListener('click', () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+              console.log('Usuario aceptó instalar la app');
+            } else {
+              console.log('Usuario canceló la instalación');
+            }
+            deferredPrompt = null;
+          });
+        }
+      });
+    });
+
+    // Asegura ocultar si ya está instalada
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      installBtn.style.display = 'none';
+    }
+  </script>
+
+  <!-- Cargar Font Awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
 
 </body>
 </html>
