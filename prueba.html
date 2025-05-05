@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orion X - Buscador de Música</title>
+  <title>Orion X - Descargador de Música y Videos</title>
 
-  <meta name="description" content="Orion X es un potente buscador de música que te permite encontrar, reproducir y disfrutar tus canciones favoritas al instante.">
-  <meta name="keywords" content="Orion X, buscador de música, escuchar música, mp3, canciones online, música gratis, música rápida">
+  <meta name="description" content="Orion X te permite descargar música y videos de YouTube de manera rápida y fácil. Disfruta de tus canciones y videos favoritos sin conexión.">
+  <meta name="keywords" content="Orion X, descargar música, descargar videos, YouTube, música online, videos gratis, música rápida">
   <meta name="author" content="Orion X">
   <meta name="google-site-verification" content="Jq3BfRqUzkFAriFIlMQHfhLqa3qlEJObkviaDOdh7E4" />
   <meta name="google-site-verification" content="S2c1UAy1iEwlq4yGKvxzj2dwANjNRqj2sjW1YhF0G9o" />
@@ -15,8 +15,8 @@
   <link rel="manifest" href="manifest.json" />
 
   <!-- Open Graph (OG) tags -->
-  <meta property="og:title" content="Orion X - Buscador de Música">
-  <meta property="og:description" content="Encuentra, escucha y descarga tu música favorita con Orion X. ¡Fácil, rápido y gratis!">
+  <meta property="og:title" content="Orion X - Descargador de Música y Videos">
+  <meta property="og:description" content="Descarga música y videos de YouTube de manera rápida y fácil. ¡Escucha y ve tus canciones favoritas sin conexión!">
   <meta property="og:image" content="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://orion-x.vercel.app/">
@@ -35,6 +35,7 @@
       margin: 0;
       padding: 0;
     }
+
     header {
       background-color: #1c1c1c;
       color: white;
@@ -44,14 +45,17 @@
       align-items: center;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
+
     header h1 {
       margin: 0;
       font-size: 24px;
     }
+
     header .logo {
       font-size: 26px;
       font-weight: bold;
     }
+
     header .logo i {
       margin-right: 10px;
     }
@@ -62,7 +66,7 @@
       margin: 0 auto;
     }
 
-    .download-btn, #installAppBtn, #downloadBtn {
+    .download-btn, #installAppBtn {
       background-color: #28a745;
       color: white;
       padding: 10px 20px;
@@ -77,11 +81,11 @@
       transition: background-color 0.3s ease;
     }
 
-    .download-btn:hover, #installAppBtn:hover, #downloadBtn:hover {
+    .download-btn:hover, #installAppBtn:hover {
       background-color: #218838;
     }
 
-    .download-btn i, #installAppBtn i, #downloadBtn i {
+    .download-btn i, #installAppBtn i {
       font-size: 18px;
     }
 
@@ -105,31 +109,14 @@
       100% { transform: rotate(360deg); }
     }
 
-    .music-list {
+    .description {
       margin-top: 40px;
+      font-size: 18px;
     }
 
-    #search-form input {
-      padding: 12px;
-      font-size: 16px;
-      width: 100%;
-      border: none;
-      border-radius: 6px;
-      background-color: #333;
-      color: white;
-    }
-
-    #search-form button {
-      padding: 12px 20px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-
-    #search-form button:hover {
-      background-color: #0056b3;
+    .description h2 {
+      font-size: 22px;
+      color: #28a745;
     }
 
     @media screen and (max-width: 768px) {
@@ -159,40 +146,24 @@
 
   <div class="container">
     <h2>Bienvenido a Orion X</h2>
-    <p>Orion X es el buscador de música que te permite encontrar, escuchar y disfrutar tus canciones favoritas de manera rápida y fácil. ¡No necesitas más que una búsqueda para empezar a escuchar!</p>
+    <p>Orion X es la aplicación definitiva para descargar música y videos de YouTube. Puedes buscar y descargar tus canciones y videos favoritos de manera rápida y fácil. ¡Disfruta de tus contenidos sin conexión en cualquier momento y lugar!</p>
 
-    <h3>Buscar música</h3>
-    <form id="search-form">
-      <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required>
-      <button type="submit">Buscar</button>
-    </form>
-
-    <div id="loading-message" style="display: none;">
-      <div class="loader"></div>
-      <p>Buscando música...</p>
+    <div class="description">
+      <h2>Características principales:</h2>
+      <ul>
+        <li>Descarga música y videos de YouTube.</li>
+        <li>Escucha música directamente desde la app.</li>
+        <li>Reproduce videos de YouTube sin conexión.</li>
+        <li>Fácil de usar y sin complicaciones.</li>
+      </ul>
     </div>
 
-    <div class="music-list" id="music-list">
-      <!-- Aquí se insertarán las canciones -->
-    </div>
-
-    <a href="manifest.json" id="downloadBtn" download="manifest.json">
+    <a href="manifest.json" id="downloadBtn" download="manifest.json" class="download-btn">
       <i class="fas fa-download"></i> Descargar Manifesto Orion X
     </a>
   </div>
 
   <script>
-    function reproducirCancion(url) {
-      // Reproducir música cuando se elige una canción
-      let audioPlayer = document.getElementById("audio-player");
-      audioPlayer.src = url;
-      audioPlayer.play();
-    }
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
-
     // Función para detectar si el dispositivo es compatible con la instalación de PWA
     function isInstallableDevice() {
       const userAgent = navigator.userAgent.toLowerCase();
