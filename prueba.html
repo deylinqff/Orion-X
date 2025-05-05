@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA en TV</title>
+    <script>
+        // Función para detectar si el dispositivo es compatible con la instalación de PWA
+        function isInstallableDevice() {
+            const userAgent = navigator.userAgent.toLowerCase();
+
+            // Comprobamos si el dispositivo es Android o Windows
+            if (userAgent.includes("android") || userAgent.includes("windows")) {
+                return true;
+            }
+
+            // Otros dispositivos que podrían soportar PWAs
+            return false;
+        }
+
+        // Función para mostrar u ocultar el botón de descarga
+        function toggleInstallButton() {
+            const downloadButton = document.getElementById("installButton");
+            if (isInstallableDevice()) {
+                downloadButton.style.display = "block"; // Mostrar el botón en dispositivos compatibles
+            } else {
+                downloadButton.style.display = "none"; // Ocultar el botón en dispositivos no compatibles (como TVs)
+            }
+        }
+
+        // Ejecutar cuando el contenido de la página haya cargado
+        window.onload = toggleInstallButton;
+    </script>
+</head>
+<body>
+
+    <!-- Aquí va el contenido de la página -->
+
+    <!-- Botón de descarga (solo aparecerá en dispositivos compatibles) -->
+    <a id="installButton" href="manifest.json" download style="display:none; padding: 10px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 5px;">Descargar Orion X</a>
+
+</body>
+</html>
