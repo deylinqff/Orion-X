@@ -16,32 +16,30 @@
         <!-- Los resultados se generarán aquí -->
     </main>
 
-    <script>
-        // Obtener el término de búsqueda de la URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const query = urlParams.get('q');
-        document.getElementById('query-text').textContent = query;
+    <script src="api.js"></script>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get('q');
+    document.getElementById('query-text').textContent = query;
 
-        // Simulación de resultados de búsqueda (Aquí es donde agregarías tus resultados dinámicos)
-        const results = [
-            { title: "Canción 1", thumbnail: "thumbnail1.jpg", url: "reproduc.html?video_id=1" },
-            { title: "Canción 2", thumbnail: "thumbnail2.jpg", url: "reproduc.html?video_id=2" },
-            { title: "Canción 3", thumbnail: "thumbnail3.jpg", url: "reproduc.html?video_id=3" }
-        ];
+    const resultsContainer = document.getElementById("results-container");
 
-        const resultsContainer = document.getElementById("results-container");
-
-        // Generar los elementos de los resultados
+    // Llamar a la API para buscar música
+    buscarMusica(query).then(results => {
         results.forEach(result => {
             const div = document.createElement("div");
             div.classList.add("result-item");
             div.innerHTML = `
                 <img src="${result.thumbnail}" alt="${result.title}">
                 <p>${result.title}</p>
-                <a href="${result.url}">Ver más</a>
+                <a href="reproduc.html?video_id=${result.id}">Ver más</a>
             `;
             resultsContainer.appendChild(div);
         });
-    </script>
+    }).catch(error => {
+        resultsContainer.innerHTML = `<p>Error al buscar resultados.</p>`;
+        console.error(error);
+    });
+</script>
 </body>
 </html>
