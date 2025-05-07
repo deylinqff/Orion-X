@@ -289,6 +289,19 @@ const textoParaGuardar = document.getElementById('mi-otro-input').value;
 localStorage.setItem('textoCompartido', textoParaGuardar);
 // O sessionStorage.setItem('textoCompartido', textoParaGuardar);
 
+if (e.key === "Enter") {
+  e.preventDefault();
+  const value = input.value.trim();
+  if (value) {
+    localStorage.setItem('textoCompartido', value);
+    window.location.href = `results.html`;
+  }
+}
+el.addEventListener("click", () => {
+  const suggestionText = el.getAttribute("data-suggestion");
+  localStorage.setItem('textoCompartido', suggestionText);
+  window.location.href = `results.html`; // sin `?q=` aquí, lo manejará la segunda página
+});
   </script>
 
 </body>
