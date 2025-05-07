@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SnapTube - Página de Entrada</title>
     <link rel="stylesheet" href="styles.css">
+https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css
 </head>
 <body>
     <header>
@@ -38,6 +39,59 @@ function search() {
         alert("Por favor ingresa un término de búsqueda.");
     }
 }
+      function reproducirCancion(url) {
+      audioPlayer.src = url;
+      audioPlayer.style.display = "block";
+      audioPlayer.play();
+    }
+
+    audioPlayer.addEventListener("ended", () => {
+      audioPlayer.style.display = "none";
+    });
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+
+  const micIcon = document.getElementById('mic-icon');
+  const voiceBtn = document.getElementById('voice-btn');
+  let isRecording = false;
+  let reconocimiento;
+
+  voiceBtn.onclick = () => {
+    if (isRecording) {
+      reconocimiento.stop(); // detener si ya estaba grabando
+      return;
+    }
+
+    reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    reconocimiento.lang = 'es-ES';
+    reconocimiento.interimResults = false;
+
+    reconocimiento.onstart = () => {
+      isRecording = true;
+      micIcon.classList.remove('fa-microphone');
+      micIcon.classList.add('fa-microphone-lines');
+    };
+
+    reconocimiento.onresult = (e) => {
+      const texto = e.results[0][0].transcript;
+      document.getElementById('search-input').value = texto;
+      document.getElementById('search-form').dispatchEvent(new Event('submit')); // dispara búsqueda
+    };
+
+    reconocimiento.onerror = (e) => {
+      alert("Error al reconocer la voz: " + e.error);
+    };
+
+    reconocimiento.onend = () => {
+      isRecording = false;
+      micIcon.classList.remove('fa-microphone-lines');
+      micIcon.classList.add('fa-microphone');
+    };
+
+    reconocimiento.start();
+  };
     </script>
 </body>
 </html>
