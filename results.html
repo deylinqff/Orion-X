@@ -97,110 +97,108 @@
   <audio id="audio-player" controls></audio>
 
   <script>
-  
-    window.onload = function() {
-  const textoRecibido = localStorage.getItem('textoCompartido');
-  if (textoRecibido) {
-    const searchInput = document.getElementById('search-input');
-    searchInput.value = textoRecibido;
-    document.getElementById('search-form').dispatchEvent(new Event('submit'));
+  window.onload = function() {
+    const textoRecibido = localStorage.getItem('textoCompartido');
+    if (textoRecibido) {
+      const searchInput = document.getElementById('search-input');
+      searchInput.value = textoRecibido;
+      document.getElementById('search-form').dispatchEvent(new Event('submit'));
+    }
+  };
+
+  const audioPlayer = document.getElementById("audio-player");
+
+  function reproducirCancion(url) {
+    audioPlayer.src = url;
+    audioPlayer.style.display = "block";
+    audioPlayer.play();
   }
-};
 
+  audioPlayer.addEventListener("ended", () => {
+    audioPlayer.style.display = "none";
+  });
 
-    const audioPlayer = document.getElementById("audio-player");
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js');
+  }
 
-    function reproducirCancion(url) {
-      audioPlayer.src = url;
-      audioPlayer.style.display = "block";
-      audioPlayer.play();
+  const micIcon = document.getElementById('mic-icon');
+  const voiceBtn = document.getElementById('voice-btn');
+  let isRecording = false;
+  let reconocimiento;
+
+  voiceBtn.onclick = () => {
+    if (isRecording) {
+      reconocimiento.stop();
+      return;
     }
 
-    audioPlayer.addEventListener("ended", () => {
-      audioPlayer.style.display = "none";
-    });
+    reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    reconocimiento.lang = 'es-ES';
+    reconocimiento.interimResults = false;
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
-
-    const micIcon = document.getElementById('mic-icon');
-    const voiceBtn = document.getElementById('voice-btn');
-    let isRecording = false;
-    let reconocimiento;
-
-    voiceBtn.onclick = () => {
-      if (isRecording) {
-        reconocimiento.stop();
-        return;
-      }
-
-      reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      reconocimiento.lang = 'es-ES';
-      reconocimiento.interimResults = false;
-
-      reconocimiento.onstart = () => {
-        isRecording = true;
-        micIcon.classList.remove('fa-microphone');
-        micIcon.classList.add('fa-microphone-lines');
-      };
-
-      reconocimiento.onresult = (e) => {
-        const texto = e.results[0][0].transcript;
-        document.getElementById('search-input').value = texto;
-        document.getElementById('search-form').dispatchEvent(new Event('submit'));
-      };
-
-      reconocimiento.onerror = (e) => {
-        alert("Error al reconocer la voz: " + e.error);
-      };
-
-      reconocimiento.onend = () => {
-        isRecording = false;
-        micIcon.classList.remove('fa-microphone-lines');
-        micIcon.classList.add('fa-microphone');
-      };
-
-      reconocimiento.start();
+    reconocimiento.onstart = () => {
+      isRecording = true;
+      micIcon.classList.remove('fa-microphone');
+      micIcon.classList.add('fa-microphone-lines');
     };
 
-    const loadingText = document.getElementById('loading-text');
-    let dotCount = 0;
-    setInterval(() => {
-      dotCount = (dotCount + 1) % 4;
-      loadingText.textContent = `Buscando música${'.'.repeat(dotCount)}`;
-    }, 500);
+    reconocimiento.onresult = (e) => {
+      const texto = e.results[0][0].transcript;
+      document.getElementById('search-input').value = texto;
+      document.getElementById('search-form').dispatchEvent(new Event('submit'));
+    };
 
-    // Autocompletado YouTube
-    const input = document.getElementById("search-input");
-    const suggestionsBox = document.getElementById("suggestionsBox");
+    reconocimiento.onerror = (e) => {
+      alert("Error al reconocer la voz: " + e.error);
+    };
 
-    input.addEventListener("input", async () => {
-      const query = input.value.trim();
-      if (!query) return suggestionsBox.innerHTML = "";
+    reconocimiento.onend = () => {
+      isRecording = false;
+      micIcon.classList.remove('fa-microphone-lines');
+      micIcon.classList.add('fa-microphone');
+    };
 
-      try {
-        const proxyUrl = "https://corsproxy.io/?";
-        const youtubeSuggestUrl = `https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(query)}`;
-        const res = await fetch(proxyUrl + youtubeSuggestUrl);
-        const data = await res.json();
+    reconocimiento.start();
+  };
 
-        suggestionsBox.innerHTML = data[1].map(s =>
-          `<div class="suggestion">${s}</div>`
-        ).join("");
+  const loadingText = document.getElementById('loading-text');
+  let dotCount = 0;
+  setInterval(() => {
+    dotCount = (dotCount + 1) % 4;
+    loadingText.textContent = `Buscando música${'.'.repeat(dotCount)}`;
+  }, 500);
 
-        document.querySelectorAll(".suggestion").forEach(el => {
-          el.addEventListener("click", () => {
-            input.value = el.textContent;
-            suggestionsBox.innerHTML = "";
-            document.getElementById('search-form').dispatchEvent(new Event('submit'));
-          });
+  // Autocompletado YouTube
+  const input = document.getElementById("search-input");
+  const suggestionsBox = document.getElementById("suggestionsBox");
+
+  input.addEventListener("input", async () => {
+    const query = input.value.trim();
+    if (!query) return suggestionsBox.innerHTML = "";
+
+    try {
+      const proxyUrl = "https://corsproxy.io/?";
+      const youtubeSuggestUrl = `https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(query)}`;
+      const res = await fetch(proxyUrl + youtubeSuggestUrl);
+      const data = await res.json();
+
+      suggestionsBox.innerHTML = data[1].map(s =>
+        `<div class="suggestion">${s}</div>`
+      ).join("");
+
+      document.querySelectorAll(".suggestion").forEach(el => {
+        el.addEventListener("click", () => {
+          input.value = el.textContent;
+          suggestionsBox.innerHTML = "";
+          document.getElementById('search-form').dispatchEvent(new Event('submit'));
         });
-      } catch (err) {
-        console.error("Error al obtener sugerencias:", err);
-        suggestionsBox.innerHTML = "<div style='color: red;'>Error</div>";
-      }
-    });
-  </script>
+      });
+    } catch (err) {
+      console.error("Error al obtener sugerencias:", err);
+      suggestionsBox.innerHTML = "<div style='color: red;'>Error</div>";
+    }
+  });
+</script>
 </body>
 </html>
