@@ -138,10 +138,10 @@
   </header>
 
   <div class="search-bar-container">
-    <button class="back-button"><i class="fas fa-arrow-left"></i></button>
-    <input type="text" class="search-input" id="searchInput" placeholder="Buscar musica...">
-    <button class="clear-button"><i class="fas fa-times"></i></button>
-  </div>
+  <button class="back-button"><i class="fas fa-arrow-left"></i></button>
+  <input type="text" class="search-input" id="searchInput" placeholder="Buscar música...">
+  <button class="clear-button" id="clearBtn"><i class="fas fa-times"></i></button>
+</div>
 
   <div class="suggestions-container hidden" id="suggestionsBox">
     </div>
@@ -223,6 +223,14 @@
         suggestionsBox.classList.remove("hidden");
       }
     });
+
+const searchInput = document.getElementById("searchInput");
+  const clearBtn = document.getElementById("clearBtn");
+
+  clearBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    searchInput.focus(); // Opcional: vuelve a enfocar el input
+  });
   </script>
 
 </body>
