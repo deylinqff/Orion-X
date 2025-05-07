@@ -1,205 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orión X - Buscador de Música</title>
-  <meta name="description" content="Orion X es un potente buscador de música que te permite encontrar, reproducir y disfrutar tus canciones favoritas al instante.">
-  <meta name="keywords" content="Orion X, buscador de música, escuchar música, mp3, canciones online, música gratis, música rápida">
-  <meta name="author" content="Orion X">
-  <link rel="icon" href="https://i.postimg.cc/jSV7cH1J/favicon-32x32.png" type="image/png">
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-  <style>
-    #audio-player {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 800px;
-      background-color: #222;
-      padding: 12px;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
-      z-index: 1000;
-    }
-
-    .suggestions {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-top: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 999;
-  max-height: 250px;
-  overflow-y: auto;
-  font-family: sans-serif;
-}
-
-.suggestion {
-  padding: 12px 16px;
-  font-size: 16px;
-  color: #212121;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-}
-
-.suggestion:last-child {
-  border-bottom: none;
-}
-
-.suggestion:hover {
-  background-color: #f1f1f1;
-}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de Búsqueda</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <h1>Resultados de búsqueda para: <span id="query-text"></span></h1>
+        <button onclick="window.history.back()">Volver</button>
+    </header>
 
-  <header class="header">
-    <h1 class="logo">
-      <i class="fas fa-music"></i> Orion-X
-    </h1>
-  </header>
+    <main id="results-container">
+        <!-- Los resultados se generarán aquí -->
+    </main>
 
-  <div class="container">
-    <form id="search-form">
-      <div style="position: relative; display: inline-block; width: 100%;">
-        <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
-        <button type="button" id="voice-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
-          <i class="fas fa-microphone" id="mic-icon"></i>
-        </button>
-        <div class="suggestions" id="suggestionsBox"></div>
-      </div>
-      <button type="submit">Buscar</button>
-    </form>
+    <script>
+        // Obtener el término de búsqueda de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q');
+        document.getElementById('query-text').textContent = query;
 
-    <div id="loading-message" style="display: none;">
-      <div class="loader">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <p id="loading-text">Buscando música...</p>
-    </div>
+        // Simulación de resultados de búsqueda (Aquí es donde agregarías tus resultados dinámicos)
+        const results = [
+            { title: "Canción 1", thumbnail: "thumbnail1.jpg", url: "reproduc.html?video_id=1" },
+            { title: "Canción 2", thumbnail: "thumbnail2.jpg", url: "reproduc.html?video_id=2" },
+            { title: "Canción 3", thumbnail: "thumbnail3.jpg", url: "reproduc.html?video_id=3" }
+        ];
 
-    <div class="music-list" id="music-list">
-      <!-- Aquí se insertarán las canciones -->
-    </div>
-  </div>
+        const resultsContainer = document.getElementById("results-container");
 
-  <audio id="audio-player" controls></audio>
-
-<script src="api.js"></script>
-  <script>
-  window.onload = function() {
-    const textoRecibido = localStorage.getItem('textoCompartido');
-    if (textoRecibido) {
-      const searchInput = document.getElementById('search-input');
-      searchInput.value = textoRecibido;
-      document.getElementById('search-form').dispatchEvent(new Event('submit'));
-    }
-  };
-
-  const audioPlayer = document.getElementById("audio-player");
-
-  function reproducirCancion(url) {
-    audioPlayer.src = url;
-    audioPlayer.style.display = "block";
-    audioPlayer.play();
-  }
-
-  audioPlayer.addEventListener("ended", () => {
-    audioPlayer.style.display = "none";
-  });
-
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js');
-  }
-
-  const micIcon = document.getElementById('mic-icon');
-  const voiceBtn = document.getElementById('voice-btn');
-  let isRecording = false;
-  let reconocimiento;
-
-  voiceBtn.onclick = () => {
-    if (isRecording) {
-      reconocimiento.stop();
-      return;
-    }
-
-    reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-    reconocimiento.lang = 'es-ES';
-    reconocimiento.interimResults = false;
-
-    reconocimiento.onstart = () => {
-      isRecording = true;
-      micIcon.classList.remove('fa-microphone');
-      micIcon.classList.add('fa-microphone-lines');
-    };
-
-    reconocimiento.onresult = (e) => {
-      const texto = e.results[0][0].transcript;
-      document.getElementById('search-input').value = texto;
-      document.getElementById('search-form').dispatchEvent(new Event('submit'));
-    };
-
-    reconocimiento.onerror = (e) => {
-      alert("Error al reconocer la voz: " + e.error);
-    };
-
-    reconocimiento.onend = () => {
-      isRecording = false;
-      micIcon.classList.remove('fa-microphone-lines');
-      micIcon.classList.add('fa-microphone');
-    };
-
-    reconocimiento.start();
-  };
-
-  const loadingText = document.getElementById('loading-text');
-  let dotCount = 0;
-  setInterval(() => {
-    dotCount = (dotCount + 1) % 4;
-    loadingText.textContent = `Buscando música${'.'.repeat(dotCount)}`;
-  }, 500);
-
-  // Autocompletado YouTube
-  const input = document.getElementById("search-input");
-  const suggestionsBox = document.getElementById("suggestionsBox");
-
-  input.addEventListener("input", async () => {
-    const query = input.value.trim();
-    if (!query) return suggestionsBox.innerHTML = "";
-
-    try {
-      const proxyUrl = "https://corsproxy.io/?";
-      const youtubeSuggestUrl = `https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(query)}`;
-      const res = await fetch(proxyUrl + youtubeSuggestUrl);
-      const data = await res.json();
-
-      suggestionsBox.innerHTML = data[1].map(s =>
-        `<div class="suggestion">${s}</div>`
-      ).join("");
-
-      document.querySelectorAll(".suggestion").forEach(el => {
-        el.addEventListener("click", () => {
-          input.value = el.textContent;
-          suggestionsBox.innerHTML = "";
-          document.getElementById('search-form').dispatchEvent(new Event('submit'));
+        // Generar los elementos de los resultados
+        results.forEach(result => {
+            const div = document.createElement("div");
+            div.classList.add("result-item");
+            div.innerHTML = `
+                <img src="${result.thumbnail}" alt="${result.title}">
+                <p>${result.title}</p>
+                <a href="${result.url}">Ver más</a>
+            `;
+            resultsContainer.appendChild(div);
         });
-      });
-    } catch (err) {
-      console.error("Error al obtener sugerencias:", err);
-      suggestionsBox.innerHTML = "<div style='color: red;'>Error</div>";
-    }
-  });
-</script>
+    </script>
 </body>
 </html>
