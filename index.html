@@ -4,14 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Orión X - Buscador de Música</title>
-  <meta name="description" content="Orion X es un potente buscador de música que te permite encontrar, reproducir y disfrutar tus canciones favoritas al instante.">
-  <meta name="keywords" content="Orion X, buscador de música, escuchar música, mp3, canciones online, música gratis, música rápida">
-  <meta name="author" content="Orion X">
-  <link rel="icon" href="https://i.postimg.cc/jSV7cH1J/favicon-32x32.png" type="image/png">
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <style>
+  <style>
     body {
       font-family: sans-serif;
       margin: 0;
@@ -21,7 +15,7 @@
     }
 
     .header {
-      background-color: #007bff; /* Un color azul similar al logo */
+      background-color: #007bff; /* El color azul del encabezado */
       color: white;
       padding: 15px;
       text-align: center;
@@ -38,12 +32,10 @@
     }
 
     .search-bar-container {
-      background: #fff;
+      background: #007bff; /* Fondo azul */
       padding: 10px 15px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
-      margin-top: 10px; /* Añadimos un margen superior para separarlo del header */
     }
 
     .back-button {
@@ -53,7 +45,7 @@
       margin-right: 10px;
       cursor: pointer;
       font-size: 20px;
-      color: #555;
+      color: white; /* Texto blanco para el fondo azul */
     }
 
     .search-input {
@@ -61,9 +53,14 @@
       padding: 10px;
       border: none;
       border-radius: 5px;
-      background: #eee;
+      background: #2c8aff; /* Un tono más claro del azul */
       font-size: 16px;
       outline: none;
+      color: white;
+    }
+
+    .search-input::placeholder {
+      color: #d0e7ff; /* Placeholder más claro */
     }
 
     .clear-button {
@@ -73,19 +70,16 @@
       margin-left: 10px;
       cursor: pointer;
       font-size: 20px;
-      color: #555;
+      color: white; /* Texto blanco para el fondo azul */
     }
 
     .suggestions-container {
-      position: absolute;
-      top: 65px; /* Ajustamos la posición para que esté debajo de la barra de búsqueda */
-      left: 15px;
-      right: 15px;
-      background: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      background: white; /* Fondo blanco para las sugerencias */
       border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       overflow: hidden;
       z-index: 10;
+      margin: 10px 15px 0 15px; /* Márgenes superior y laterales para separarlo */
     }
 
     .suggestion-item {
@@ -94,6 +88,7 @@
       padding: 12px 15px;
       cursor: pointer;
       border-bottom: 1px solid #eee;
+      color: #333; /* Color de texto para las sugerencias */
     }
 
     .suggestion-item:last-child {
@@ -108,7 +103,6 @@
 
     .suggestion-text {
       font-size: 16px;
-      color: #333;
     }
 
     .suggestion-item:hover {
@@ -145,8 +139,6 @@
       display: none;
     }
   </style>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
 
@@ -180,7 +172,7 @@
     </a>
   </div>
 
-  <script>
+      <script>
     const input = document.getElementById("searchInput");
     const suggestionsBox = document.getElementById("suggestionsBox");
 
@@ -199,7 +191,7 @@
         const data = await res.json();
 
         suggestionsBox.innerHTML = data[1].map(s =>
-          `<div class="suggestion-item">
+          `<div class="suggestion-item" data-suggestion="${s}">
              <i class="fas fa-search suggestion-icon"></i>
              <span class="suggestion-text">${s}</span>
            </div>`
@@ -209,7 +201,9 @@
 
         document.querySelectorAll(".suggestion-item").forEach(el => {
           el.addEventListener("click", () => {
-            window.location.href = `results.html?q=${encodeURIComponent(el.querySelector('.suggestion-text').textContent)}`;
+            const suggestionText = el.getAttribute("data-suggestion");
+            input.value = suggestionText; // Coloca el texto en la barra de búsqueda
+            window.location.href = `results.html?q=${encodeURIComponent(suggestionText)}`; // Inicia la búsqueda
           });
         });
       } catch (err) {
@@ -230,7 +224,6 @@
 
     // Ocultar las sugerencias al perder el foco del input (opcional)
     input.addEventListener("blur", () => {
-      // Retraso para permitir el clic en una sugerencia
       setTimeout(() => {
         suggestionsBox.classList.add("hidden");
       }, 200);
@@ -243,13 +236,11 @@
       }
     });
 
-const searchInput = document.getElementById("searchInput");
-  const clearBtn = document.getElementById("clearBtn");
-
-  clearBtn.addEventListener("click", () => {
-    searchInput.value = "";
-    searchInput.focus(); // Opcional: vuelve a enfocar el input
-  });
+    const clearBtn = document.getElementById("clearBtn");
+    clearBtn.addEventListener("click", () => {
+      searchInput.value = "";
+      searchInput.focus();
+    });
   </script>
 
 </body>
