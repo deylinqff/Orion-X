@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <style>
+    <style>
     body {
       font-family: sans-serif;
       margin: 0;
@@ -20,12 +20,30 @@
       color: #333;
     }
 
+    .header {
+      background-color: #007bff; /* Un color azul similar al logo */
+      color: white;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      font-size: 1.5em;
+      margin: 0;
+    }
+
+    .logo i {
+      margin-right: 8px;
+    }
+
     .search-bar-container {
       background: #fff;
       padding: 10px 15px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
+      margin-top: 10px; /* Añadimos un margen superior para separarlo del header */
     }
 
     .back-button {
@@ -60,7 +78,7 @@
 
     .suggestions-container {
       position: absolute;
-      top: 55px; /* Ajusta según la altura de la barra de búsqueda */
+      top: 65px; /* Ajustamos la posición para que esté debajo de la barra de búsqueda */
       left: 15px;
       right: 15px;
       background: #fff;
@@ -127,6 +145,7 @@
       display: none;
     }
   </style>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
