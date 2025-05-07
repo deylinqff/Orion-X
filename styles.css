@@ -1,3 +1,71 @@
+
+    .suggestions-container {
+      background: white; /* Fondo blanco para las sugerencias */
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      overflow: hidden;
+      z-index: 10;
+      margin: 10px 15px 0 15px; /* Márgenes superior y laterales para separarlo */
+    }
+
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+      color: #333; /* Color de texto para las sugerencias */
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    .suggestion-icon {
+      color: #777;
+      margin-right: 10px;
+      font-size: 18px;
+    }
+
+    .suggestion-text {
+      font-size: 16px;
+    }
+
+    .suggestion-item:hover {
+      background-color: #f0f0f0;
+    }
+
+    .bottom-navigation {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #f9f9f9;
+      box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #777;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .suggestions-container.hidden {
+      display: none;
+    }
+
+
 /* Lista de música */
 .music-list {
   display: grid;
