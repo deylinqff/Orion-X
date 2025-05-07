@@ -8,9 +8,11 @@
 </head>
 <body>
     <header>
-        <h1>Resultados de búsqueda para: <span id="query-text"></span></h1>
-        <button onclick="window.history.back()">Volver</button>
-    </header>
+  <h1>Resultados para: <span id="query-text"></span></h1>
+</header>
+<main id="results-container">
+  <p>Cargando resultados...</p>
+</main>
 
     <main id="results-container">
         <!-- Los resultados se generarán aquí -->
@@ -20,26 +22,34 @@
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get('q');
-    document.getElementById('query-text').textContent = query;
 
+    document.getElementById("query-text").textContent = query;
     const resultsContainer = document.getElementById("results-container");
 
-    // Llamar a la API para buscar música
-    buscarMusica(query).then(results => {
-        results.forEach(result => {
-            const div = document.createElement("div");
-            div.classList.add("result-item");
-            div.innerHTML = `
-                <img src="${result.thumbnail}" alt="${result.title}">
-                <p>${result.title}</p>
-                <a href="reproduc.html?video_id=${result.id}">Ver más</a>
-            `;
-            resultsContainer.appendChild(div);
+    buscarMusica(query)
+        .then(results => {
+            resultsContainer.innerHTML = "";
+
+            if (results.length === 0) {
+                resultsContainer.innerHTML = "<p>No se encontraron resultados.</p>";
+                return;
+            }
+
+            results.forEach(item => {
+                const div = document.createElement("div");
+                div.classList.add("result-item");
+                div.innerHTML = `
+                    <img src="${item.thumbnail}" alt="${item.title}">
+                    <p>${item.title}</p>
+                    <a href="reproduc.html?video_id=${item.id}">Reproducir</a>
+                `;
+                resultsContainer.appendChild(div);
+            });
+        })
+        .catch(error => {
+            resultsContainer.innerHTML = "<p>Error al buscar.</p>";
+            console.error(error);
         });
-    }).catch(error => {
-        resultsContainer.innerHTML = `<p>Error al buscar resultados.</p>`;
-        console.error(error);
-    });
 </script>
 </body>
 </html>
