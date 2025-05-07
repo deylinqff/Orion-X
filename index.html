@@ -1,195 +1,216 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Orión X - Buscador de Música</title>
-  <meta name="description" content="Orion X es un potente buscador de música que te permite encontrar, reproducir y disfrutar tus canciones favoritas al instante.">
-  <meta name="keywords" content="Orion X, buscador de música, escuchar música, mp3, canciones online, música gratis, música rápida">
-  <meta name="author" content="Orion X">
-  <link rel="icon" href="https://i.postimg.cc/jSV7cH1J/favicon-32x32.png" type="image/png">
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <title>Buscar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    #audio-player {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 800px;
-      background-color: #222;
-      padding: 12px;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
-      z-index: 1000;
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
     }
 
-    .suggestions {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background: #fff;
-  border: 1px solid #ccc;
-  border-top: none;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 999;
-  max-height: 250px;
-  overflow-y: auto;
-  font-family: sans-serif;
-}
+    .search-bar-container {
+      background: #fff;
+      padding: 10px 15px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+    }
 
-.suggestion {
-  padding: 12px 16px;
-  font-size: 16px;
-  color: #212121;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-}
+    .back-button {
+      border: none;
+      background: none;
+      padding: 8px;
+      margin-right: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      color: #555;
+    }
 
-.suggestion:last-child {
-  border-bottom: none;
-}
+    .search-input {
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background: #eee;
+      font-size: 16px;
+      outline: none;
+    }
 
-.suggestion:hover {
-  background-color: #f1f1f1;
-}
+    .clear-button {
+      border: none;
+      background: none;
+      padding: 8px;
+      margin-left: 10px;
+      cursor: pointer;
+      font-size: 20px;
+      color: #555;
+    }
+
+    .suggestions-container {
+      position: absolute;
+      top: 55px; /* Ajusta según la altura de la barra de búsqueda */
+      left: 15px;
+      right: 15px;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 5px;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .suggestion-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      cursor: pointer;
+      border-bottom: 1px solid #eee;
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
+    }
+
+    .suggestion-icon {
+      color: #777;
+      margin-right: 10px;
+      font-size: 18px;
+    }
+
+    .suggestion-text {
+      font-size: 16px;
+      color: #333;
+    }
+
+    .suggestion-item:hover {
+      background-color: #f0f0f0;
+    }
+
+    .bottom-navigation {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #f9f9f9;
+      box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #777;
+      text-decoration: none;
+      font-size: 12px;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    .suggestions-container.hidden {
+      display: none;
+    }
   </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
 
-  <header class="header">
-    <h1 class="logo">
-      <i class="fas fa-music"></i> Orion-X
-    </h1>
-  </header>
-
-  <div class="container">
-    <form id="search-form">
-      <div style="position: relative; display: inline-block; width: 100%;">
-        <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
-        <button type="button" id="voice-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
-          <i class="fas fa-microphone" id="mic-icon"></i>
-        </button>
-        <div class="suggestions" id="suggestionsBox"></div>
-      </div>
-      <button type="submit">Buscar</button>
-    </form>
-
-    <div id="loading-message" style="display: none;">
-      <div class="loader">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <p id="loading-text">Buscando música...</p>
-    </div>
-
-    <div class="music-list" id="music-list">
-      <!-- Aquí se insertarán las canciones -->
-    </div>
+  <div class="search-bar-container">
+    <button class="back-button"><i class="fas fa-arrow-left"></i></button>
+    <input type="text" class="search-input" id="searchInput" placeholder="as">
+    <button class="clear-button"><i class="fas fa-times"></i></button>
   </div>
 
-  <audio id="audio-player" controls></audio>
+  <div class="suggestions-container hidden" id="suggestionsBox">
+    </div>
+
+  <div class="bottom-navigation">
+    <a href="#" class="nav-item">
+      <i class="fas fa-arrow-down nav-icon"></i>
+      Descargar
+    </a>
+    <a href="#" class="nav-item">
+      <i class="fas fa-play nav-icon"></i>
+      Reproducir
+    </a>
+    <a href="#" class="nav-item">
+      <i class="fas fa-cog nav-icon"></i>
+      Configuración
+    </a>
+  </div>
 
   <script>
-    const audioPlayer = document.getElementById("audio-player");
-
-    function reproducirCancion(url) {
-      audioPlayer.src = url;
-      audioPlayer.style.display = "block";
-      audioPlayer.play();
-    }
-
-    audioPlayer.addEventListener("ended", () => {
-      audioPlayer.style.display = "none";
-    });
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
-
-    const micIcon = document.getElementById('mic-icon');
-    const voiceBtn = document.getElementById('voice-btn');
-    let isRecording = false;
-    let reconocimiento;
-
-    voiceBtn.onclick = () => {
-      if (isRecording) {
-        reconocimiento.stop();
-        return;
-      }
-
-      reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      reconocimiento.lang = 'es-ES';
-      reconocimiento.interimResults = false;
-
-      reconocimiento.onstart = () => {
-        isRecording = true;
-        micIcon.classList.remove('fa-microphone');
-        micIcon.classList.add('fa-microphone-lines');
-      };
-
-      reconocimiento.onresult = (e) => {
-        const texto = e.results[0][0].transcript;
-        document.getElementById('search-input').value = texto;
-        document.getElementById('search-form').dispatchEvent(new Event('submit'));
-      };
-
-      reconocimiento.onerror = (e) => {
-        alert("Error al reconocer la voz: " + e.error);
-      };
-
-      reconocimiento.onend = () => {
-        isRecording = false;
-        micIcon.classList.remove('fa-microphone-lines');
-        micIcon.classList.add('fa-microphone');
-      };
-
-      reconocimiento.start();
-    };
-
-    const loadingText = document.getElementById('loading-text');
-    let dotCount = 0;
-    setInterval(() => {
-      dotCount = (dotCount + 1) % 4;
-      loadingText.textContent = `Buscando música${'.'.repeat(dotCount)}`;
-    }, 500);
-
-    // Autocompletado YouTube
-    const input = document.getElementById("search-input");
+    const input = document.getElementById("searchInput");
     const suggestionsBox = document.getElementById("suggestionsBox");
 
     input.addEventListener("input", async () => {
       const query = input.value.trim();
-      if (!query) return suggestionsBox.innerHTML = "";
+      if (!query) {
+        suggestionsBox.innerHTML = "";
+        suggestionsBox.classList.add("hidden");
+        return;
+      }
 
       try {
         const proxyUrl = "https://corsproxy.io/?";
-        const youtubeSuggestUrl = `https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(query)}`;
-        const res = await fetch(proxyUrl + youtubeSuggestUrl);
+        const url = `https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(query)}`;
+        const res = await fetch(proxyUrl + url);
         const data = await res.json();
 
         suggestionsBox.innerHTML = data[1].map(s =>
-          `<div class="suggestion">${s}</div>`
+          `<div class="suggestion-item">
+             <i class="fas fa-search suggestion-icon"></i>
+             <span class="suggestion-text">${s}</span>
+           </div>`
         ).join("");
 
-        document.querySelectorAll(".suggestion").forEach(el => {
+        suggestionsBox.classList.remove("hidden");
+
+        document.querySelectorAll(".suggestion-item").forEach(el => {
           el.addEventListener("click", () => {
-            input.value = el.textContent;
-            suggestionsBox.innerHTML = "";
-            document.getElementById('search-form').dispatchEvent(new Event('submit'));
+            window.location.href = `results.html?q=${encodeURIComponent(el.querySelector('.suggestion-text').textContent)}`;
           });
         });
       } catch (err) {
-        console.error("Error al obtener sugerencias:", err);
-        suggestionsBox.innerHTML = "<div style='color: red;'>Error</div>";
+        suggestionsBox.innerHTML = "<div style='padding: 10px; color: red;'>Error al cargar sugerencias</div>";
+        suggestionsBox.classList.remove("hidden");
+      }
+    });
+
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const value = input.value.trim();
+        if (value) {
+          window.location.href = `results.html?q=${encodeURIComponent(value)}`;
+        }
+      }
+    });
+
+    // Ocultar las sugerencias al perder el foco del input (opcional)
+    input.addEventListener("blur", () => {
+      // Retraso para permitir el clic en una sugerencia
+      setTimeout(() => {
+        suggestionsBox.classList.add("hidden");
+      }, 200);
+    });
+
+    // Mostrar las sugerencias al enfocar el input
+    input.addEventListener("focus", () => {
+      if (suggestionsBox.innerHTML) {
+        suggestionsBox.classList.remove("hidden");
       }
     });
   </script>
+
 </body>
 </html>
