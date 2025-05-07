@@ -97,6 +97,35 @@
   <audio id="audio-player" controls></audio>
 
   <script>
+  
+    // ... (Tu código JavaScript existente) ...
+
+    window.onload = function() {
+      // Intenta acceder al input del "otro código"
+      const otroInput = document.getElementById('texto-del-otro-codigo');
+
+      // Si se encuentra el input
+      if (otroInput) {
+        // Obtiene el texto de ese input
+        const textoRecibido = otroInput.value;
+
+        // Establece el valor del input de búsqueda actual
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+          searchInput.value = textoRecibido;
+          // Opcionalmente, puedes disparar la búsqueda automáticamente al cargar:
+          // document.getElementById('search-form').dispatchEvent(new Event('submit'));
+        } else {
+          console.log("No se encontró el input de búsqueda en esta página.");
+        }
+      } else {
+        console.log("No se encontró el input con ID 'texto-del-otro-codigo'. Asegúrate de que exista en el otro código.");
+      }
+    };
+
+    // ... (El resto de tu código JavaScript existente) ...
+
+
     const audioPlayer = document.getElementById("audio-player");
 
     function reproducirCancion(url) {
