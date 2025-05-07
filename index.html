@@ -207,6 +207,57 @@
     if (window.matchMedia('(display-mode: standalone)').matches) {
       installBtn.style.display = 'none';
     }
+
+const searchInput = document.getElementById("search-input");
+const form = document.getElementById("search-form");
+
+// Crear contenedor para sugerencias
+const suggestionsBox = document.createElement("div");
+suggestionsBox.style.position = "absolute";
+suggestionsBox.style.background = "white";
+suggestionsBox.style.border = "1px solid #ccc";
+suggestionsBox.style.maxHeight = "200px";
+suggestionsBox.style.overflowY = "auto";
+suggestionsBox.style.width = "100%";
+suggestionsBox.style.zIndex = "999";
+suggestionsBox.id = "suggestions-box";
+searchInput.parentElement.appendChild(suggestionsBox);
+
+searchInput.addEventListener("input", async () => {
+  const query = searchInput.value.trim();
+  if (!query) {
+    suggestionsBox.innerHTML = "";
+    return;
+  }
+
+  try {
+    const proxyUrl = "https://corsproxy.io/?";
+    const ytSuggestUrl = `https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(query)}`;
+    const res = await fetch(proxyUrl + ytSuggestUrl);
+    const data = await res.json();
+
+    suggestionsBox.innerHTML = data[1].map(s =>
+      `<div class="suggestion-item" style="padding: 6px; cursor: pointer;">${s}</div>`
+    ).join("");
+
+    document.querySelectorAll(".suggestion-item").forEach(el => {
+      el.addEventListener("click", () => {
+        searchInput.value = el.textContent;
+        suggestionsBox.innerHTML = "";
+        form.dispatchEvent(new Event('submit'));
+      });
+    });
+  } catch (err) {
+    suggestionsBox.innerHTML = "<div style='padding: 6px; color: red;'>Error al cargar</div>";
+  }
+});
+
+// Ocultar sugerencias si se hace clic fuera
+document.addEventListener("click", (e) => {
+  if (!searchInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+    suggestionsBox.innerHTML = "";
+  }
+});
   </script>
 </body>
 </html>
