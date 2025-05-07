@@ -11,6 +11,33 @@
   <link rel="manifest" href="manifest.json" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
+.bottom-info-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con ligera transparencia */
+  color: #555;
+  padding: 12px 0;
+  text-align: center;
+  font-size: 0.9em;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.08); /* Sutil sombra superior */
+  z-index: 10; /* Asegura que esté sobre otros elementos */
+  font-weight: 400; /* Peso de fuente normal */
+}
+
+.bottom-info-bar p {
+  margin: 0; /* Elimina márgenes innecesarios del párrafo */
+}
+
+/* Opcional: Para mejorar la legibilidad en fondos oscuros */
+body.dark-theme .bottom-info-bar {
+  background-color: rgba(30, 30, 30, 0.9);
+  color: #eee;
+  box-shadow: 0 -2px 5px rgba(255, 255, 255, 0.08);
+}
+
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
@@ -180,9 +207,10 @@ body {
   <div class="suggestions-container hidden" id="suggestionsBox">
     </div>
 
-  <div class="bottom-navigation-info">
-  <p style="text-align: center; color: #555; font-size: 0.9em; margin: 10px 0;">Orion-X uno de los mejores buscadores</p>
+  <div class="bottom-info-bar">
+  <p>Orion-X uno de los mejores buscadores</p>
 </div>
+
 
 
       <script>
