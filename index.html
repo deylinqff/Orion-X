@@ -214,95 +214,76 @@ body {
 
 
       <script>
-    const input = document.getElementById("searchInput");
-    const suggestionsBox = document.getElementById("suggestionsBox");
+  const input = document.getElementById("searchInput");
+  const suggestionsBox = document.getElementById("suggestionsBox");
+  const clearBtn = document.getElementById("clearBtn");
 
-    input.addEventListener("input", async () => {
-      const query = input.value.trim();
-      if (!query) {
-        suggestionsBox.innerHTML = "";
-        suggestionsBox.classList.add("hidden");
-        return;
-      }
+  input.addEventListener("input", async () => {
+    const query = input.value.trim();
+    if (!query) {
+      suggestionsBox.innerHTML = "";
+      suggestionsBox.classList.add("hidden");
+      return;
+    }
 
-      try {
-        const proxyUrl = "https://corsproxy.io/?";
-        const url = `https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(query)}`;
-        const res = await fetch(proxyUrl + url);
-        const data = await res.json();
+    try {
+      const proxyUrl = "https://corsproxy.io/?";
+      const url = `https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(query)}`;
+      const res = await fetch(proxyUrl + url);
+      const data = await res.json();
 
-        suggestionsBox.innerHTML = data[1].map(s =>
-          `<div class="suggestion-item" data-suggestion="${s}">
-             <i class="fas fa-search suggestion-icon"></i>
-             <span class="suggestion-text">${s}</span>
-           </div>`
-        ).join("");
+      suggestionsBox.innerHTML = data[1].map(s =>
+        `<div class="suggestion-item" data-suggestion="${s}">
+           <i class="fas fa-search suggestion-icon"></i>
+           <span class="suggestion-text">${s}</span>
+         </div>`
+      ).join("");
 
-        suggestionsBox.classList.remove("hidden");
+      suggestionsBox.classList.remove("hidden");
 
-        document.querySelectorAll(".suggestion-item").forEach(el => {
-          el.addEventListener("click", () => {
-            const suggestionText = el.getAttribute("data-suggestion");
-            input.value = suggestionText; // Coloca el texto en la barra de búsqueda
-            window.location.href = `results.html?q=${encodeURIComponent(suggestionText)}`; // Inicia la búsqueda
-          });
+      document.querySelectorAll(".suggestion-item").forEach(el => {
+        el.addEventListener("click", () => {
+          const suggestionText = el.getAttribute("data-suggestion");
+          localStorage.setItem('textoCompartido', suggestionText);
+          window.location.href = `results.html`;
         });
-      } catch (err) {
-        suggestionsBox.innerHTML = "<div style='padding: 10px; color: red;'>Error al cargar sugerencias</div>";
-        suggestionsBox.classList.remove("hidden");
+      });
+    } catch (err) {
+      suggestionsBox.innerHTML = "<div style='padding: 10px; color: red;'>Error al cargar sugerencias</div>";
+      suggestionsBox.classList.remove("hidden");
+    }
+  });
+
+  input.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const value = input.value.trim();
+      if (value) {
+        localStorage.setItem('textoCompartido', value);
+        window.location.href = `results.html`;
       }
-    });
+    }
+  });
 
-    input.addEventListener("keydown", e => {
-      if (e.key === "Enter") {
-        e.preventDefault();
-        const value = input.value.trim();
-        if (value) {
-          window.location.href = `results.html?q=${encodeURIComponent(value)}`;
-        }
-      }
-    });
+  input.addEventListener("blur", () => {
+    setTimeout(() => {
+      suggestionsBox.classList.add("hidden");
+    }, 200);
+  });
 
-    // Ocultar las sugerencias al perder el foco del input (opcional)
-    input.addEventListener("blur", () => {
-      setTimeout(() => {
-        suggestionsBox.classList.add("hidden");
-      }, 200);
-    });
+  input.addEventListener("focus", () => {
+    if (suggestionsBox.innerHTML) {
+      suggestionsBox.classList.remove("hidden");
+    }
+  });
 
-    // Mostrar las sugerencias al enfocar el input
-    input.addEventListener("focus", () => {
-      if (suggestionsBox.innerHTML) {
-        suggestionsBox.classList.remove("hidden");
-      }
-    });
-
-    const clearBtn = document.getElementById("clearBtn");
-    clearBtn.addEventListener("click", () => {
-      searchInput.value = "";
-      searchInput.focus();
-    });
-const textoParaEnviar = document.getElementById('mi-otro-input').value;
-window.location.href = `tu-pagina-actual.html?texto=${encodeURIComponent(textoParaEnviar)}`;
-
-const textoParaGuardar = document.getElementById('mi-otro-input').value;
-localStorage.setItem('textoCompartido', textoParaGuardar);
-// O sessionStorage.setItem('textoCompartido', textoParaGuardar);
-
-if (e.key === "Enter") {
-  e.preventDefault();
-  const value = input.value.trim();
-  if (value) {
-    localStorage.setItem('textoCompartido', value);
-    window.location.href = `results.html`;
-  }
-}
-el.addEventListener("click", () => {
-  const suggestionText = el.getAttribute("data-suggestion");
-  localStorage.setItem('textoCompartido', suggestionText);
-  window.location.href = `results.html`; // sin `?q=` aquí, lo manejará la segunda página
-});
-  </script>
+  clearBtn.addEventListener("click", () => {
+    input.value = "";
+    input.focus();
+    suggestionsBox.innerHTML = "";
+    suggestionsBox.classList.add("hidden");
+  });
+</script>
 
 </body>
 </html>
