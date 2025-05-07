@@ -13,8 +13,11 @@
     </header>
 
     <main>
-        <input type="text" id="search-input" placeholder="Buscar videos o canciones">
-        <button onclick="search()">Buscar</button>
+            <input type="text" id="search-input" placeholder="-Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
+    <button type="button" id="voice-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
+      <i class="fas fa-microphone" id="mic-icon"></i>
+    </button>
+  </div>
     </main>
 
     <script>
