@@ -27,6 +27,14 @@
                 alert("Por favor ingresa un término de búsqueda.");
             }
         }
+function search() {
+    const query = document.getElementById("search-input").value;
+    if (query) {
+        window.location.href = `results.html?q=${encodeURIComponent(query)}`;
+    } else {
+        alert("Por favor ingresa un término de búsqueda.");
+    }
+}
     </script>
 </body>
 </html>
