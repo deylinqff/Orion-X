@@ -282,6 +282,13 @@ body {
       searchInput.value = "";
       searchInput.focus();
     });
+const textoParaEnviar = document.getElementById('mi-otro-input').value;
+window.location.href = `tu-pagina-actual.html?texto=${encodeURIComponent(textoParaEnviar)}`;
+
+const textoParaGuardar = document.getElementById('mi-otro-input').value;
+localStorage.setItem('textoCompartido', textoParaGuardar);
+// O sessionStorage.setItem('textoCompartido', textoParaGuardar);
+
   </script>
 
 </body>
