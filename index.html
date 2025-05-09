@@ -7,24 +7,36 @@
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
   <style>
-    #suggestions {
-      position: absolute;
-      background: white;
-      border: 1px solid #ccc;
-      width: 100%;
-      z-index: 1000;
-      max-height: 200px;
-      overflow-y: auto;
-      display: none;
-    }
-    #suggestions div {
-      padding: 8px 10px;
-      cursor: pointer;
-    }
-    #suggestions div:hover {
-      background: #f0f0f0;
-    }
-  </style>
+  #suggestions {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    width: 100%;
+    z-index: 1000;
+    max-height: 250px;
+    overflow-y: auto;
+    display: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+  }
+  #suggestions div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    font-weight: 500;
+    color: #222;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  #suggestions div:hover {
+    background: #f1f1f1;
+  }
+  .suggestion-icon {
+    color: #666;
+    margin-left: 12px;
+  }
+</style>
 </head>
 <body>
   <header class="header">
