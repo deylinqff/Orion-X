@@ -33,12 +33,17 @@
 
   <script src="api.js"></script>
   <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchForm = document.getElementById("search-form");
+    const searchInput = document.getElementById("search-input");
+
     const urlParams = new URLSearchParams(window.location.search);
-const query = urlParams.get("q");
-if (query) {
-  document.getElementById("search-input").value = query;
-  searchSongs(query); // tu función que muestra resultados
-}
+    const query = urlParams.get("q");
+
+    if (query) {
+      searchInput.value = query;
+      searchSongs(query); // tu función de búsqueda
+    }
 
     searchForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -47,6 +52,7 @@ if (query) {
         window.location.href = `resultados.html?q=${encodeURIComponent(q)}`;
       }
     });
-  </script>
+  });
+</script>
 </body>
 </html>
