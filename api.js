@@ -4,6 +4,16 @@ const musicList = document.getElementById("music-list");
 const loadingMessage = document.getElementById("loading-message");
 const audioPlayer = document.getElementById("audio-player");
 
+async function searchSongs(query) {
+  searchInput.value = query;
+  musicList.innerHTML = "";
+  loadingMessage.style.display = "block";
+  audioPlayer.style.display = "none";
+
+  const event = new Event("submit", { bubbles: true, cancelable: true });
+  searchForm.dispatchEvent(event);
+}
+
 const audioApis = [
   (url) => `https://api.siputzx.my.id/api/d/ytmp3?url=${url}`,
   (url) => `https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`
