@@ -34,32 +34,16 @@
   <script src="api.js"></script>
  <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const searchForm = document.getElementById("search-form");
-    const searchInput = document.getElementById("search-input");
-
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get("q");
-
-    // Solo intenta buscar si la función ya está cargada
     if (query) {
-      searchInput.value = query;
-
-      // Espera a que la función esté definida
-      const trySearch = setInterval(() => {
+      const interval = setInterval(() => {
         if (typeof searchSongs === "function") {
-          clearInterval(trySearch);
+          clearInterval(interval);
           searchSongs(query);
         }
       }, 100);
     }
-
-    searchForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const q = searchInput.value.trim();
-      if (q) {
-        window.location.href = `resultados.html?q=${encodeURIComponent(q)}`;
-      }
-    });
   });
 </script>
 </body>
