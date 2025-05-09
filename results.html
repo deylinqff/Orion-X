@@ -34,14 +34,11 @@
   <script src="api.js"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get("q");
-    const searchInput = document.getElementById("search-input");
-    const searchForm = document.getElementById("search-form");
-
-    if (query) {
-      searchInput.value = query;
-      searchSongs(query); // Función definida en api.js
-    }
+const query = urlParams.get("q");
+if (query) {
+  document.getElementById("search-input").value = query;
+  searchSongs(query); // tu función que muestra resultados
+}
 
     searchForm.addEventListener("submit", (e) => {
       e.preventDefault();
