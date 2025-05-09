@@ -37,7 +37,7 @@ searchForm.addEventListener("submit", async (e) => {
 
   try {
     const proxyUrl = 'https://corsproxy.io/?';
-    const apiUrl = `https://night-api-seven.vercel.app/api/search/youtube?q=${encodeURIComponent(query)}`;
+    const apiUrl = `https://Ytumode-api.vercel.app/api/search?q=${encodeURIComponent(query)}`;
     const searchResults = await fetch(proxyUrl + encodeURIComponent(apiUrl));
     const data = await searchResults.json();
     loadingMessage.style.display = "none";
