@@ -3,8 +3,8 @@
   "short_name": "Orion X",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#000000",
-  "theme_color": "#222222",
+  "background_color": "#FFFFFF",
+  "theme_color": "#000000",
   "description": "Encuentra y escucha tu música favorita al instante.",
   "icons": [
     {
