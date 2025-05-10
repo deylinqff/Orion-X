@@ -33,18 +33,19 @@
 </head>
 <body>
   <header class="header">
-  <a href="index.html" class="home-button">
-    <i class="fas fa-home"></i>
-  </a>
-
-  <form id="search-form" style="width: 100%;">
-    <div style="position: relative; display: inline-block; width: 100%;">
-      <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
-      <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
-        <i class="fas fa-search"></i>
-      </button>
-    </div>
-  </form>
+  <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+    <a href="index.html" class="home-button">
+  <i class="fas fa-home"></i>
+</a>
+    <form id="search-form" style="flex-grow: 1;">
+      <div style="position: relative; width: 100%;">
+        <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
+        <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
 </header>
 
   <div class="container">
