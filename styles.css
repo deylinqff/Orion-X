@@ -1,13 +1,12 @@
 .header {
-  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
   background-color: #1a1a1a;
-  padding: 1rem;
 }
 
 .home-button {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
+  margin-right: 15px;
   font-size: 22px;
   color: white;
   text-decoration: none;
@@ -20,8 +19,8 @@
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.home-button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+#search-form {
+  flex: 1;
 }
 
     .suggestions-container {
