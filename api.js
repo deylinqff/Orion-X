@@ -69,7 +69,7 @@ searchForm.addEventListener("submit", async (e) => {
       })
       .filter(item => item.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 15);
+      .slice(0, 20);
 
     if (resultadosFiltrados.length === 0) {
       musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
