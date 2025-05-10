@@ -17,17 +17,12 @@
 
   <link rel="manifest" href="manifest.json" />
 
-  <!-- Open Graph (OG) tags -->
   <meta property="og:title" content="Orion X - Buscador de Música">
   <meta property="og:description" content="Encuentra, escucha y descarga tu música favorita con Orion X. ¡Fácil, rápido y gratis!">
   <meta property="og:image" content="https://i.postimg.cc/3wM0xh56/Orion-x-icono.png">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://orion-x.vercel.app/"> <!-- Reemplaza con la URL real de tu sitio -->
-  <meta property="fb:app_id" content="1234567890"> <!-- Opcional: crea una app en Facebook Developers y usa su ID -->
+  <meta property="og:url" content="https://orion-x.vercel.app/"> <meta property="fb:app_id" content="1234567890"> <link rel="manifest" href="/manifest.json">
 
-<link rel="manifest" href="/manifest.json">
-
-  <!-- Meta adicional -->
   <meta name="image" content="https://i.postimg.cc/3wM0xh56/Orion-x-icono.png">
 
   <link rel="stylesheet" href="styles.css" />
@@ -62,9 +57,27 @@
     color: #666;
     margin-left: 12px;
   }
-</style>
+
+  /* Estilos para el mensaje de sin conexión */
+  #offline-message {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f44336; /* Rojo */
+    color: white;
+    text-align: center;
+    padding: 10px;
+    z-index: 1001; /* Asegura que esté por encima de otros elementos */
+  }
+  </style>
 </head>
 <body>
+  <div id="offline-message">
+    <i class="fas fa-wifi-slash"></i> Estás sin conexión a internet. Algunas funciones podrían no estar disponibles.
+  </div>
+
   <header class="header">
   <h1 class="logo" style="display: flex; align-items: center;">
     <img src="https://orion-x.vercel.app/favicon.ico" alt="Orion-X Logo" style="width: 28px; height: 28px; margin-right: 10px;">
@@ -80,7 +93,7 @@
           <i class="fas fa-microphone" id="mic-icon"></i>
         </button>
       </div>
-      <button type="submit" style="margin-top: 10px;">Buscar</button>
+      <button type="submit" style="margin-top: 10px;">¤ Buscar</button>
     </form>
   </header>
 
@@ -89,8 +102,27 @@
     const voiceBtn = document.getElementById('voice-btn');
     const searchInput = document.getElementById('search-input');
     const suggestionsBox = document.getElementById('suggestions');
+    const offlineMessage = document.getElementById('offline-message'); // Elemento para el mensaje offline
     let isRecording = false;
     let reconocimiento;
+
+    // Función para mostrar/ocultar el mensaje de sin conexión
+    function updateOfflineMessage() {
+      if (!navigator.onLine) {
+        offlineMessage.style.display = 'block';
+      } else {
+        offlineMessage.style.display = 'none';
+      }
+    }
+
+    // Escuchar el evento 'offline'
+    window.addEventListener('offline', updateOfflineMessage);
+
+    // Escuchar el evento 'online' (por si vuelve la conexión)
+    window.addEventListener('online', updateOfflineMessage);
+
+    // Mostrar el estado inicial al cargar la página
+    updateOfflineMessage();
 
     voiceBtn.onclick = () => {
       if (isRecording) {
@@ -135,6 +167,13 @@
         return;
       }
 
+      // Verificar si hay conexión antes de hacer la petición
+      if (!navigator.onLine) {
+        suggestionsBox.innerHTML = '<div style="padding: 10px; text-align: center; color: #777;">Sin conexión para mostrar sugerencias.</div>';
+        suggestionsBox.style.display = "block";
+        return;
+      }
+
       try {
         const url = `https://corsproxy.io/?https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(query)}`;
         const res = await fetch(url);
@@ -171,7 +210,7 @@
       }
     });
 
-  
+
   if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
