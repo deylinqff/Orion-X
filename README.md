@@ -22,5 +22,5 @@ Orion-X es una plataforma futurista para buscar música al instante. Inspirado e
 ---
 
 ## 🚀 Visítalo ahora:
-[**orion-x potente**](https://orion-x.vercel.app)
+[**orion-x potente**](https://orion-x.vercel.app/favicon.)
 
