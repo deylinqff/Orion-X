@@ -25,6 +25,8 @@
   <meta property="og:url" content="https://orion-x.vercel.app/"> <!-- Reemplaza con la URL real de tu sitio -->
   <meta property="fb:app_id" content="1234567890"> <!-- Opcional: crea una app en Facebook Developers y usa su ID -->
 
+<link rel="manifest" href="/manifest.json">
+
   <!-- Meta adicional -->
   <meta name="image" content="https://i.postimg.cc/3wM0xh56/Orion-x-icono.png">
 
@@ -61,12 +63,6 @@
     margin-left: 12px;
   }
 </style>
-<div id="install-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); color: white; z-index: 10000; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-  <h2>¿Quieres instalar Orion X?</h2>
-  <p>Disfruta de tu música favorita como una app.</p>
-  <button id="install-btn" style="padding: 10px 20px; background: #222; color: white; border: none; border-radius: 6px; margin: 10px;">Instalar</button>
-  <button id="dismiss-btn" style="background: none; color: #ccc; border: none;">No mostrar de nuevo</button>
-</div>
 </head>
 <body>
   <header class="header">
@@ -176,29 +172,13 @@
     });
 
   
-  let deferredPrompt;
-
-  window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    if (!localStorage.getItem('installDismissed')) {
-      document.getElementById('install-modal').style.display = 'flex';
-    }
-
-    document.getElementById('install-btn').onclick = async () => {
-      document.getElementById('install-modal').style.display = 'none';
-      deferredPrompt.prompt();
-      const result = await deferredPrompt.userChoice;
-      console.log(result.outcome);
-      deferredPrompt = null;
-    };
-
-    document.getElementById('dismiss-btn').onclick = () => {
-      document.getElementById('install-modal').style.display = 'none';
-      localStorage.setItem('installDismissed', 'true');
-    };
+  if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => console.log('Service Worker registrado:', registration))
+      .catch(error => console.error('Error al registrar el Service Worker:', error));
   });
+}
 
   </script>
 </body>
