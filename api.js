@@ -41,7 +41,7 @@ searchForm.addEventListener("submit", async (e) => {
       str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     const queryNorm = normalizar(query);
 
-    const resultadosFiltrados = data.result
+    const resultadosFiltrados = data.resultado
       .map(video => {
         const tituloNorm = normalizar(video.titulo);
         const canalNorm = normalizar(video.canal);
