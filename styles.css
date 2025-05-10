@@ -8,6 +8,7 @@
   padding: 8px;
   border-radius: 50%;
   transition: background 0.3s;
+  margin-top: -5px; /* Ajuste vertical */
 }
 
 .home-button:hover {
