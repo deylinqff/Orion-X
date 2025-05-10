@@ -32,7 +32,7 @@ searchForm.addEventListener("submit", async (e) => {
     const data = await searchResults.json();
     loadingMessage.style.display = "none";
 
-    if (!data.status || !data.result || data.result.length === 0) {
+    if (!data.status || !data.resultado || data.resultado.length === 0) {
       musicList.innerHTML = `<p>No se encontraron resultados.</p>`;
       return;
     }
