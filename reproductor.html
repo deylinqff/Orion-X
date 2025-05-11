@@ -1,21 +1,29 @@
 <!DOCTYPE html>
-<video id="player" controls autoplay style="width: 100%"></video>
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  const videoUrl = urlParams.get('url');
+<html>
+<head>
+    <title>Reproductor de Audio</title>
+</head>
+<body>
+    <h1>Reproduciendo: <span id="track-title"></span></h1>
+    <audio id="audio-player" controls autoplay></audio>
 
-  // Usa una API para obtener el link real del video/audio
-  async function cargarVideo(url) {
-    const res = await fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${url}`);
-    const json = await res.json();
-    const finalUrl = json?.data?.dl || json?.result?.download?.url;
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const audioUrl = urlParams.get('audioUrl');
+        const trackTitle = urlParams.get('title');
 
-    if (finalUrl) {
-      document.getElementById("player").src = finalUrl;
-    } else {
-      alert("No se pudo cargar el video.");
-    }
-  }
+        const audioElement = document.getElementById('audio-player');
+        const titleElement = document.getElementById('track-title');
 
-  cargarVideo(videoUrl);
-</script>
+        if (audioUrl) {
+            audioElement.src = audioUrl;
+        } else {
+            titleElement.textContent = "Error: No se proporcionó la URL del audio.";
+        }
+
+        if (trackTitle) {
+            titleElement.textContent = trackTitle;
+        }
+    </script>
+</body>
+</html>
