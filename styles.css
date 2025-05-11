@@ -201,7 +201,7 @@ body {
 }
 
 /* TEXTO FONDO ANIMADO */
-body::before {
+/*body::before {
   content: "Orion-X";
   position: fixed;
   top: 50%;
@@ -236,7 +236,7 @@ body::before {
     opacity: 0.15;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
   }
-}
+}*/
 
 /* CONTENEDOR PRINCIPAL */
 .container {
