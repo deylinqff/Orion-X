@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Orion-X | Buscador de Música</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Estilos base */
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
+      color: #f0f0f0;
+      overflow-x: hidden;
+      animation: fadeIn 1s ease-out;
+    }
+    header {
+      background-color: #111;
+      padding: 20px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeInUp 1s 0.5s forwards;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: #00bcd4;
+    }
+    main {
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
+      opacity: 0;
+      animation: fadeInUp 1s 1s forwards;
+    }
+    .description {
+      font-size: 1.2em;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .features {
+      list-style: none;
+      padding: 0;
+    }
+    .features li {
+      background: #222;
+      margin-bottom: 10px;
+      padding: 15px;
+      border-left: 5px solid #00bcd4;
+      display: flex;
+      align-items: center;
+      opacity: 0;
+      animation: fadeInUp 1s forwards;
+    }
+    .features li i {
+      margin-right: 10px;
+      color: #00bcd4;
+      font-size: 1.2em;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #111;
+      color: #777;
+      opacity: 0;
+      animation: fadeInUp 1s 1.5s forwards;
+    }
+    a {
+      color: #00bcd4;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Animaciones */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-music"></i> Orion-X</h1>
+    <p><i class="fas fa-globe"></i> Tu portal para explorar el universo musical</p>
+  </header>
+  <main>
+    <section class="description">
+      <p><strong>Orion-X</strong> es un avanzado buscador de música que te permite descubrir, reproducir y disfrutar de tus canciones favoritas al instante. Diseñado con una interfaz intuitiva y moderna, Orion-X extrae datos directamente de servicios musicales confiables para ofrecer resultados precisos y actualizados.</p>
+      <p>Este proyecto fue creado por <strong>Deylin</strong>, con el objetivo de brindar a los amantes de la música una herramienta accesible para explorar el mundo musical desde cualquier dispositivo.</p>
+    </section>
+    <section>
+      <h2><i class="fas fa-star"></i> Características Principales</h2>
+      <ul class="features">
+        <li><i class="fas fa-search"></i> Búsqueda rápida y precisa de canciones, artistas y álbumes.</li>
+        <li><i class="fas fa-headphones"></i> Reproducción instantánea de pistas directamente desde la aplicación.</li>
+        <li><i class="fas fa-info-circle"></i> Información detallada sobre cada canción, incluyendo duración y popularidad.</li>
+        <li><i class="fas fa-mobile-alt"></i> Diseño responsivo adaptado a dispositivos móviles y de escritorio.</li>
+        <li><i class="fas fa-rocket"></i> Carga rápida y navegación fluida para una experiencia de usuario óptima.</li>
+      </ul>
+    </section>
+    <section>
+      <p><i class="fas fa-external-link-alt"></i> Visítanos en: <a href="https://orion-x.vercel.app" target="_blank">https://orion-x.vercel.app</a></p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Orion-X. Desarrollado por <i class="fas fa-user-astronaut"></i> Deylin.</p>
+  </footer>
+</body>
+</html>
