@@ -2,17 +2,15 @@ const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const musicList = document.getElementById("music-list");
 const loadingMessage = document.getElementById("loading-message");
+const playerSection = document.getElementById("player-section");
+const videoTitle = document.getElementById("video-title");
 const audioPlayer = document.getElementById("audio-player");
+const videoPlayer = document.getElementById("video-player");
+const modal = document.getElementById("download-modal");
+const modalOptions = document.getElementById("modal-options");
+const closeModalBtn = document.getElementById("close-modal");
 
-async function searchSongs(query) {
-  searchInput.value = query;
-  musicList.innerHTML = "";
-  loadingMessage.style.display = "block";
-  audioPlayer.style.display = "none";
-
-  const event = new Event("submit", { bubbles: true, cancelable: true });
-  searchForm.dispatchEvent(event);
-}
+let currentVideo = null;
 
 const audioApis = [
   (url) => `https://api.siputzx.my.id/api/d/ytmp3?url=${url}`,
@@ -33,7 +31,7 @@ searchForm.addEventListener("submit", async (e) => {
 
   musicList.innerHTML = "";
   loadingMessage.style.display = "block";
-  audioPlayer.style.display = "none";
+  playerSection.style.display = "none";
 
   try {
     const proxyUrl = 'https://corsproxy.io/?';
@@ -47,46 +45,9 @@ searchForm.addEventListener("submit", async (e) => {
       return;
     }
 
-    const normalizar = (str) =>
-      str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    const queryNorm = normalizar(query);
-
-    const resultadosFiltrados = data.resultado
-      .map(video => {
-        const tituloNorm = normalizar(video.titulo);
-        const canalNorm = normalizar(video.canal);
-
-        let score = 0;
-        if (tituloNorm.includes(queryNorm)) score += 2;
-        if (canalNorm.includes(queryNorm)) score += 1;
-
-        const keywords = queryNorm.split(/\s+/);
-        for (let palabra of keywords) {
-          if (tituloNorm.includes(palabra)) score += 1;
-          if (canalNorm.includes(palabra)) score += 0.5;
-        }
-
-        return { video, score };
-      })
-      .filter(item => item.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 1000);
-
-    if (resultadosFiltrados.length === 0) {
-      musicList.innerHTML = `<p>No se encontraron resultados relevantes.</p>`;
-      return;
-    }
-
-    const truncate = (text, maxLength = 30) =>
-      text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-
-    resultadosFiltrados.forEach(({ video }) => {
+    data.resultado.forEach(video => {
       const card = document.createElement("div");
       card.className = "music-card";
-      card.style.cursor = "pointer";
-      card.onclick = () => {
-        window.location.href = `reproductor.html?url=${encodeURIComponent(video.url)}`;
-      };
 
       const image = document.createElement("img");
       image.src = video.miniatura;
@@ -96,25 +57,102 @@ searchForm.addEventListener("submit", async (e) => {
 
       const title = document.createElement("div");
       title.className = "music-title";
-      title.textContent = truncate(video.titulo);
+      title.textContent = video.titulo;
 
       const artist = document.createElement("div");
       artist.className = "music-artist";
-      artist.textContent = truncate(video.canal);
+      artist.textContent = video.canal;
 
-      const channel = document.createElement("div");
+      const playBtn = document.createElement("button");
+      playBtn.className = "play-button";
+      playBtn.textContent = "Reproducir";
+
+      const downloadBtn = document.createElement("button");
+      downloadBtn.className = "download-button";
+      downloadBtn.textContent = "Descargar";
+
+      playBtn.onclick = async () => {
+        videoTitle.textContent = video.titulo;
+        playerSection.style.display = "block";
+        audioPlayer.style.display = "block";
+        videoPlayer.style.display = "none";
+
+        for (let api of audioApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
+            if (audioUrl) {
+              audioPlayer.src = audioUrl;
+              audioPlayer.play();
+              return;
+            }
+          } catch (e) {}
+        }
+
+        alert("No se pudo reproducir el audio.");
+      };
+
+      downloadBtn.onclick = () => {
+        currentVideo = video;
+        openDownloadModal(video.url, video.titulo);
+      };
 
       info.appendChild(title);
       info.appendChild(artist);
-      info.appendChild(channel);
       card.appendChild(image);
       card.appendChild(info);
+      card.appendChild(playBtn);
+      card.appendChild(downloadBtn);
       musicList.appendChild(card);
     });
 
   } catch (err) {
-    console.error(err);
     loadingMessage.style.display = "none";
     musicList.innerHTML = `<p>Ocurrió un error al buscar.</p>`;
   }
 });
+
+function openDownloadModal(url, title) {
+  modalOptions.innerHTML = `
+    <h3>Descargar como:</h3>
+    <div class="option">
+      <button onclick="downloadFile('audio', '128K')">Rápido (128K)</button>
+      <button onclick="downloadFile('audio', 'mp3')">MP3 clásico</button>
+    </div>
+    <div class="option">
+      <button onclick="downloadFile('video', '360p')">Video (360p)</button>
+      <button onclick="downloadFile('video', '720p')">Calidad alta (720p)</button>
+    </div>
+  `;
+  modal.style.display = "block";
+}
+
+function downloadFile(type, quality) {
+  if (!currentVideo) return;
+  const url = currentVideo.url;
+  const title = currentVideo.titulo;
+
+  const apis = type === "audio" ? audioApis : videoApis;
+
+  for (let api of apis) {
+    fetch(api(url))
+      .then(res => res.json())
+      .then(json => {
+        const fileUrl = json?.result?.url || json?.data?.url || json?.data?.dl || json?.downloads?.url;
+        if (fileUrl) {
+          const a = document.createElement("a");
+          a.href = fileUrl;
+          a.download = `${title}.${type === "audio" ? "mp3" : "mp4"}`;
+          a.click();
+          modal.style.display = "none";
+          return;
+        }
+      })
+      .catch(err => console.warn("Descarga fallida:", err));
+  }
+}
+
+closeModalBtn.onclick = () => {
+  modal.style.display = "none";
+};
