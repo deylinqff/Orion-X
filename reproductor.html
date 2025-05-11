@@ -160,7 +160,7 @@
             </div>
         </div>
         <div class="download-section">
-            <button class="download-button" onclick="openDownloadModal()">Descargar</button>
+            <button class="download-confirm-button" onclick="downloadSelected()">Descargar</button>
         </div>
 
         <div class="download-modal" id="downloadModal">
@@ -189,7 +189,7 @@
             </div>
         </div>
     </div>
-
+<script src="API.js"></script>
     <script>
         function openDownloadModal() {
             document.getElementById("downloadModal").style.display = "block";
