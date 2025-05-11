@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<video id="player" controls autoplay style="width: 100%"></video>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const videoUrl = urlParams.get('url');
+
+  // Usa una API para obtener el link real del video/audio
+  async function cargarVideo(url) {
+    const res = await fetch(`https://api.siputzx.my.id/api/d/ytmp4?url=${url}`);
+    const json = await res.json();
+    const finalUrl = json?.data?.dl || json?.result?.download?.url;
+
+    if (finalUrl) {
+      document.getElementById("player").src = finalUrl;
+    } else {
+      alert("No se pudo cargar el video.");
+    }
+  }
+
+  cargarVideo(videoUrl);
+</script>
