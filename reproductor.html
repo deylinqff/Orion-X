@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Reproductor de Audio</title>
+    <title>Reproductor de Video</title>
 </head>
 <body>
     <h1>Reproduciendo: <span id="track-title"></span></h1>
-    <audio id="audio-player" controls autoplay></audio>
+    <video id="video-player" controls autoplay width="640" height="360"></video>
 
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const audioUrl = urlParams.get('audioUrl');
+        const videoUrl = urlParams.get('videoUrl');
         const trackTitle = urlParams.get('title');
 
-        const audioElement = document.getElementById('audio-player');
+        const videoElement = document.getElementById('video-player');
         const titleElement = document.getElementById('track-title');
 
-        if (audioUrl) {
-            audioElement.src = audioUrl;
+        if (videoUrl) {
+            videoElement.src = videoUrl;
         } else {
-            titleElement.textContent = "Error: No se proporcionó la URL del audio.";
+            titleElement.textContent = "Error: No se proporcionó la URL del video.";
         }
 
         if (trackTitle) {
