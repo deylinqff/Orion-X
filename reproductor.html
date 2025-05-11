@@ -3,93 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscador de Música</title>
+    <title>Buscador de Música y Videos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
+        /* Estilos CSS (puedes ajustarlos) */
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
+        #search-form { display: flex; margin-bottom: 20px; }
+        /* ... otros estilos ... */
+        .music-card { /* ... estilos de la tarjeta ... */ position: relative; } /* Para posicionar el reproductor dentro */
+        #video-player-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: none; /* Oculto inicialmente */
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-radius: 8px;
         }
-        #search-form {
-            display: flex;
-            margin-bottom: 20px;
+        #video-player-container video {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 5px;
         }
-        #search-input {
-            flex-grow: 1;
+        .download-options {
+            display: none; /* Oculto inicialmente */
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 5px;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px 0 0 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-        button {
-            padding: 10px 15px;
+        .download-options button {
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .download-button-main {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-        }
-        #loading-message {
-            display: none;
-            margin-top: 10px;
-            font-style: italic;
-            color: #777;
-        }
-        #music-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .music-card {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-        .music-card img {
-            width: 100%;
-            height: auto;
-            max-height: 150px;
-            object-fit: cover;
-        }
-        .music-info {
-            padding: 10px;
-        }
-        .music-title {
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .music-artist, .music-channel {
-            color: #555;
-            font-size: 0.9em;
-            margin-bottom: 3px;
-        }
-        .download-buttons {
-            display: flex;
-            justify-content: space-around;
-            padding: 10px;
-            border-top: 1px solid #eee;
-        }
-        .download-button {
-            flex-grow: 1;
-            margin: 0 5px;
-            padding: 8px 12px;
-            border: 1px solid #ccc;
             border-radius: 5px;
-            background-color: #f9f9f9;
-            color: #333;
+            padding: 10px 20px;
             cursor: pointer;
-            font-size: 0.9em;
-            text-align: center;
-        }
-        .download-button i {
-            margin-right: 5px;
-        }
-        .download-button:hover {
-            background-color: #eee;
+            z-index: 5; /* Asegurar que esté encima de la imagen */
         }
     </style>
 </head>
@@ -103,5 +72,6 @@
     <div id="music-list">
         </div>
 
-    <script src="script.js"></script> </body>
+    <script src="script.js"></script>
+</body>
 </html>
