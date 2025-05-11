@@ -28,6 +28,33 @@
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
+.btn-info {
+    display: inline-block;
+    padding: 12px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #00bcd4;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+    box-shadow: 0 4px 12px rgba(0, 188, 212, 0.3);
+  }
+
+  .btn-info i {
+    margin-right: 8px;
+  }
+
+  .btn-info:hover {
+    background-color: #0097a7;
+    transform: translateY(-2px);
+  }
+
+  .btn-info:active {
+    transform: translateY(1px);
+  }
+
   #suggestions {
     position: absolute;
     background: #fff;
@@ -97,7 +124,9 @@
     </form>
   </header>
 
-<h1> https</h1>
+<a href="info.html" class="btn-info">
+  <i class="fas fa-info-circle"></i> Información de Orion-X
+</a>
 
   <script>
     const micIcon = document.getElementById('mic-icon');
