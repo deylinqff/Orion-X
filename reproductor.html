@@ -1,29 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Reproductor de Video</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Música</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        #search-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        #search-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        #loading-message {
+            display: none;
+            margin-top: 10px;
+            font-style: italic;
+            color: #777;
+        }
+        #music-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .music-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .music-card img {
+            width: 100%;
+            height: auto;
+            max-height: 150px;
+            object-fit: cover;
+        }
+        .music-info {
+            padding: 10px;
+        }
+        .music-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .music-artist, .music-channel {
+            color: #555;
+            font-size: 0.9em;
+            margin-bottom: 3px;
+        }
+        .download-buttons {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        .download-button {
+            flex-grow: 1;
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            color: #333;
+            cursor: pointer;
+            font-size: 0.9em;
+            text-align: center;
+        }
+        .download-button i {
+            margin-right: 5px;
+        }
+        .download-button:hover {
+            background-color: #eee;
+        }
+    </style>
 </head>
 <body>
-    <h1>Reproduciendo: <span id="track-title"></span></h1>
-    <video id="video-player" controls autoplay width="640" height="360"></video>
+    <h1>Buscador de Música y Videos</h1>
+    <form id="search-form">
+        <input type="text" id="search-input" placeholder="Buscar canción o artista">
+        <button type="submit">Buscar</button>
+    </form>
+    <div id="loading-message">Cargando resultados...</div>
+    <div id="music-list">
+        </div>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const videoUrl = urlParams.get('videoUrl');
-        const trackTitle = urlParams.get('title');
-
-        const videoElement = document.getElementById('video-player');
-        const titleElement = document.getElementById('track-title');
-
-        if (videoUrl) {
-            videoElement.src = videoUrl;
-        } else {
-            titleElement.textContent = "Error: No se proporcionó la URL del video.";
-        }
-
-        if (trackTitle) {
-            titleElement.textContent = trackTitle;
-        }
-    </script>
-</body>
+    <script src="script.js"></script> </body>
 </html>
