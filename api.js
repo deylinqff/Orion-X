@@ -115,9 +115,7 @@ searchForm.addEventListener("submit", async (e) => {
             const json = await res.json();
             const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
             if (audioUrl) {
-              audioPlayer.src = audioUrl;
-              audioPlayer.style.display = "block";
-              audioPlayer.play();
+              window.open(`player.html?url=${encodeURIComponent(audioUrl)}`, "_blank");
               playBtn.textContent = "audio";
               return;
             }
