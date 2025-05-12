@@ -77,13 +77,13 @@ videoPlayer.addEventListener("ended", () => {
   videoPlayer.style.display = "none";
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const query = urlParams.get("q");
-  if (query) {
-    searchSongs(query);
-  }
-});
+document.addEventListener("DOMContentLoaded", function () {
+   const urlParams = new URLSearchParams(window.location.search);
+   const query = urlParams.get("q");
+   if (query) {
+     const interval = setInterval(() => {
+       if (typeof searchSongs === "function") {
+
           clearInterval(interval);
           searchSongs(query);
         }
