@@ -54,15 +54,14 @@
       <p id="loading-text">Buscando música...</p>
     </div>
     <div class="music-list" id="music-list">
-      <!-- Resultados aparecerán aquí -->
-    </div>
-  </div>
+  <!-- Resultados aparecerán aquí -->
+</div>
 
-  <!-- <video id="video-player" controls></video> -->
+<video id="video-player" controls style="display:none; width: 100%; max-width: 600px; margin: 20px auto;"></video>
 
   <script src="api.js"></script>
  <script>
-  /*document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const query = urlParams.get("q");
     if (query) {
@@ -73,7 +72,7 @@
         }
       }, 100);
     }
-  });*/
+  });
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
