@@ -77,19 +77,19 @@ videoPlayer.addEventListener("ended", () => {
   videoPlayer.style.display = "none";
 });
 
-document.addEventListener("DOMContentLoaded", function () {
-   const urlParams = new URLSearchParams(window.location.search);
-   const query = urlParams.get("q");
-   if (query) {
-     const interval = setInterval(() => {
-       if (typeof searchSongs === "function") {
+document.addEventListener("DOMContentLoaded", function () document.addEventListener("DOMContentLoaded", function () {
+  const urlParams = new URLSearchParams(window.location.search);
+  const query = urlParams.get("q");
 
-          clearInterval(interval);
-          searchSongs(query);
-        }
-      }, 100);
-    }
-  });
+  if (query) {
+    const interval = setInterval(() => {
+      if (typeof searchSongs === "function") {
+        clearInterval(interval);
+        searchSongs(query); // Llamamos a la función con el valor de q
+      }
+    }, 100); // Revisa cada 100 ms si la función está disponible
+  }
+});
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
