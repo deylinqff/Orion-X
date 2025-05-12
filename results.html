@@ -18,45 +18,54 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    #fixed-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: #0f0f13;
-      z-index: 10000;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-    }
+  #fixed-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: #0f0f13;
+    z-index: 10000;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+  }
 
-    #video-player {
-      width: 100%;
-      max-height: 200px;
-      margin-bottom: 10px;
-      background: #000;
-      display: none;
-    }
+  #video-player {
+    position: absolute; /* Changed to absolute */
+    top: 60px; /* Adjust as needed */
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    margin-bottom: 10px; /* Adjust or remove */
+    background: #000;
+    display: none;
+    z-index: 10001;
+  }
 
-    .search-bar {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-    }
+  .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+  }
 
-    .home-button {
-      font-size: 1.5rem;
-      color: white;
-      text-decoration: none;
-    }
+  .home-button {
+    font-size: 1.5rem;
+    color: white;
+    text-decoration: none;
+  }
 
-    .container {
-      padding-top: 300px; /* Asegura que el contenido no quede detrás del header fijo */
-    }
-  </style>
+  .container {
+    padding-top: 70px; /* Adjusted padding-top (header height + some spacing) */
+  }
+</style>
+
+</head>
+
 <body>
   <!-- Header fijo -->
   <div id="fixed-header">
+    <video id="video-player" controls></video>
+
     <div class="search-bar">
       <a href="index.html" class="home-button">
         <i class="fas fa-home"></i>
@@ -72,10 +81,6 @@
     </div>
   </div>
 
-  <div id="video-wrapper" style="height: 0; overflow: hidden; transition: height 0.3s ease;">
-  <video id="video-player" controls style="width: 100%; background: #000;"></video>
-</div>
-
   <!-- Contenido principal -->
   <div class="container">
     <div id="loading-message" style="display: none;">
@@ -86,48 +91,46 @@
     </div>
   </div>
 
-  <!-- Script -->
- <script src="api.js"></script>
+  <!-- Scripts -->
+  <script src="api.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-  const videoPlayer = document.getElementById("video-player");
-  const videoWrapper = document.getElementById("video-wrapper");
+      const videoPlayer = document.getElementById("video-player");
 
-  function reproducirVideo(url) {
-    videoPlayer.src = url;
-    videoPlayer.play();
-
-    videoWrapper.style.height = "200px"; // altura visible del video
-  }
-
-  videoPlayer.addEventListener("ended", () => {
-    videoWrapper.style.height = "0"; // se oculta suavemente
-  });
-
-  window.reproducirVideo = reproducirVideo;
-
-  // Búsqueda automática si hay ?q=
-  const urlParams = new URLSearchParams(window.location.search);
-  const query = urlParams.get("q");
-
-  if (query) {
-    const interval = setInterval(() => {
-      if (typeof searchSongs === "function") {
-        clearInterval(interval);
-        searchSongs(query);
+      function reproducirVideo(url) {
+        videoPlayer.src = url;
+        videoPlayer.style.display = "block";
+        videoPlayer.play();
       }
-    }, 100);
-  }
 
-  // Service Worker
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then(registration => console.log('Service Worker registrado:', registration))
-        .catch(error => console.error('Error al registrar el Service Worker:', error));
+      videoPlayer.addEventListener("ended", () => {
+        videoPlayer.style.display = "none";
+      });
+
+      window.reproducirVideo = reproducirVideo;
+
+      // Búsqueda automática si hay ?q= en la URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const query = urlParams.get("q");
+
+      if (query) {
+        const interval = setInterval(() => {
+          if (typeof searchSongs === "function") {
+            clearInterval(interval);
+            searchSongs(query);
+          }
+        }, 100);
+      }
+
+      // Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => console.log('Service Worker registrado:', registration))
+            .catch(error => console.error('Error al registrar el Service Worker:', error));
+        });
+      }
     });
-  }
-});
   </script>
 </body>
 </html>
