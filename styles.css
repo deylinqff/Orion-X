@@ -1,17 +1,27 @@
-/* Estilos base para el player (ya no arrastrable) */
 #video-player {
-    background-color: #0f0f13;
+  background-color: #0f0f13;
   padding: 20px;
   border-bottom: 1px solid #222;
   text-align: center;
+  display: none; /* Oculto por defecto */
+  max-height: 300px;
+  width: 100%;
+  z-index: 9999;
 }
 
-/* Cuando añadimos la clase .activo, queda fijo arriba */
 #video-player.activo {
   position: fixed;
-  bottom: 0;
+  top: 0;
   left: 0;
   width: 100%;
+  display: block;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+@media screen and (max-width: 768px) {
+  #video-player {
+    padding: 10px;
+  }
 }
 
 
