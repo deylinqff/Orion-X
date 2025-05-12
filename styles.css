@@ -1,4 +1,13 @@
 
+  #video-player {
+    display: none;
+    width: 100%;
+    max-width: 600px;
+    border: 6px double #008080;
+    border-radius: 30px;
+    margin: 20px auto;
+    display: block;
+  }
 
 .home-button {
   margin-right: 15px;
