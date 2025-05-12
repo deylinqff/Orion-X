@@ -1,20 +1,25 @@
 
-  #video-player {
-    display: none;
-    width: 100%;
-    max-width: 600px;
-    border: 6px double #008080;
-    border-radius: 30px;
-    margin: 20px auto;
-    display: block;
-  }
-
+ /* Estilos base para el player */
 #video-player {
-  display: none;
+  display: none;              /* oculto por defecto */
+  width: 320px;
+  height: 180px;
+  border: 6px double #008080;
+  border-radius: 12px;
+  background: #000;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transition: all 0.3s ease;
 }
 
+/* Cuando añadimos la clase .activo, queremos que además sea flotante */
 #video-player.activo {
   display: block;
+  position: fixed;            /* Fija en pantalla */
+  bottom: 20px;               /* 20px desde abajo */
+  right: 20px;                /* 20px desde la derecha */
+  z-index: 9999;              /* Por encima de todo */
+  width: 360px;               /* Tamaño fijo o relativo */
+  height: 202px;              /* Mantén la relación 16:9 */
 }
 
 .home-button {
