@@ -32,7 +32,7 @@ searchForm.addEventListener("submit", async (e) => {
 
   musicList.innerHTML = "";
   loadingMessage.style.display = "block";
-  videooPlayer.style.display = "none";
+  videoPlayer.style.display = "none";
 
   try {
     const proxyUrl = 'https://corsproxy.io/?';
@@ -107,7 +107,27 @@ searchForm.addEventListener("submit", async (e) => {
       downloadAudioBtn.className = "download-button";
       downloadAudioBtn.innerHTML = `<i class="fas fa-music"></i> audio`;
 
-      
+      playBtn.onclick = async () => {
+        playBtn.textContent = "Carg...";
+        for (let api of videoApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
+            if (audioUrl) {
+              videoPlayer.src = audioUrl;
+              videoPlayer.style.display = "block";
+              audioPlayer.play();
+              playBtn.textContent = "audio";
+              return;
+            }
+          } catch (e) {
+            console.warn("API audio falló:", e.message);
+          }
+        }
+        playBtn.textContent = "Error";
+        alert("No se pudo obtener el audio.");
+      };
 
       downloadAudioBtn.onclick = async () => {
         downloadAudioBtn.textContent = "Busc...";
