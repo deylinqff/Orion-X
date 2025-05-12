@@ -108,26 +108,43 @@ searchForm.addEventListener("submit", async (e) => {
       downloadAudioBtn.innerHTML = `<i class="fas fa-music"></i> audio`;
 
       playBtn.onclick = async () => {
-        playBtn.textContent = "Carg...";
-        for (let api of videoApis) {
-          try {
-            const res = await fetch(api(video.url));
-            const json = await res.json();
-            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
-            if (audioUrl) {
-              videoPlayer.src = audioUrl;
-              videoPlayer.style.display = "block";
-              videoPlayer.play();
-              playBtn.textContent = "video";
-              return;
-            }
-          } catch (e) {
-            console.warn("API video falló:", e.message);
-          }
-        }
-        playBtn.textContent = "Error";
-        alert("No se pudo obtener el video.");
-      };
+  playBtn.textContent = "Cargando…";
+  let found = false;
+
+  for (let api of videoApis) {
+    try {
+      const res = await fetch(api(video.url));
+      const json = await res.json();
+      console.log("Respuesta video API:", json);  // <— para depurar
+
+      // Intentamos varias rutas posibles:
+      const videoUrl =
+        json?.data?.dl ||
+        json?.result?.download?.url ||
+        json?.downloads?.url ||
+        json?.data?.download?.url ||
+        json?.link ||               // si la API usa “link”
+        json?.url;                  // si la API retorna directamente { url: "…" }
+
+      if (videoUrl) {
+        videoPlayer.src = videoUrl;
+        videoPlayer.style.display = "block";
+        videoPlayer.scrollIntoView({ behavior: "smooth" });
+        await videoPlayer.play();
+        playBtn.textContent = "Reproducir";
+        found = true;
+        break;
+      }
+    } catch (e) {
+      console.warn("Fallo API video:", e);
+    }
+  }
+
+  if (!found) {
+    playBtn.textContent = "Error";
+    alert("No se pudo obtener el video. Revisa la consola para más detalles.");
+  }
+};
 
       downloadAudioBtn.onclick = async () => {
         downloadAudioBtn.textContent = "Busc...";
