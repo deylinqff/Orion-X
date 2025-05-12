@@ -1,112 +1,22 @@
+<!-- player.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reproductor</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <title>Reproducción - Orion X</title>
 </head>
 <body>
-    <!-- Contenedor principal del reproductor -->
-    <div class="reproductor-container">
-        <header>
-            <h3>Reproductor</h3>
-        </header>
-        
-        <main>
-            <!-- Contenedor para el reproductor de video -->
-            <div id="video-container" style="display: none;">
-                <video id="videoPlayer" controls></video>
-            </div>
+  <h2>Reproduciendo...</h2>
+  <audio id="player" controls autoplay style="width: 100%; max-width: 600px;"></audio>
 
-            <!-- Contenedor para el reproductor de audio -->
-            <div id="audio-container" style="display: none;">
-                <audio id="audio-player" controls></audio>
-            </div>
-        </main>
-    </div>
-
-    <!-- Script que gestiona la carga y reproducción del contenido -->
-    <script>
-        document.addEventListener("DOMContentLoaded", cargarVideo);
-
-        function cargarVideo() {
-            // Recupera los datos del video desde localStorage
-            const videoData = JSON.parse(localStorage.getItem("videoSeleccionado"));
-
-            if (!videoData) {
-                alert("No se encontró el video.");
-                return;
-            }
-
-            // Establece el título del reproductor
-            document.querySelector("header h3").textContent = videoData.titulo;
-
-            // Obtiene los elementos de video y audio
-            const player = document.getElementById("videoPlayer");
-            const audioPlayer = document.getElementById("audio-player");
-
-            let found = false;
-
-            // Verifica si hay una URL de video
-            const videoUrl = videoData.url;
-            if (videoUrl) {
-                // Si es un video, muestra el reproductor de video
-                document.getElementById("video-container").style.display = 'block';
-                document.getElementById("audio-container").style.display = 'none';
-                player.src = videoUrl;
-                player.play();
-                found = true;
-            }
-
-            // Si no es un video, verifica si es un archivo de audio
-            const audioUrl = videoData.audioUrl;
-            if (!found && audioUrl) {
-                // Si es solo audio, muestra el reproductor de audio
-                document.getElementById("video-container").style.display = 'none';
-                document.getElementById("audio-container").style.display = 'block';
-                audioPlayer.src = audioUrl;
-                audioPlayer.play();
-                found = true;
-            }
-
-            if (!found) {
-                alert("No se pudo cargar el video o el audio.");
-            }
-        }
-    </script>
-
-    <style>
-        /* Estilos básicos para el reproductor */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
-
-        .reproductor-container {
-            text-align: center;
-            padding: 20px;
-        }
-
-        header h3 {
-            font-size: 2em;
-            margin-bottom: 20px;
-        }
-
-        video, audio {
-            width: 80%;
-            max-width: 800px;
-            margin: 20px auto;
-            display: block;
-        }
-
-        @media (max-width: 600px) {
-            video, audio {
-                width: 100%;
-            }
-        }
-    </style>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const audioUrl = urlParams.get("url");
+    if (audioUrl) {
+      document.getElementById("player").src = decodeURIComponent(audioUrl);
+    } else {
+      document.body.innerHTML = "<p>No se encontró una URL de audio válida.</p>";
+    }
+  </script>
 </body>
 </html>
