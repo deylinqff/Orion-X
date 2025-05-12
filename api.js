@@ -1,8 +1,9 @@
-const searchForm = document.getElementById("search-form");
+3const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const musicList = document.getElementById("music-list");
 const loadingMessage = document.getElementById("loading-message");
 const audioPlayer = document.getElementById("audio-player");
+const videoPlayer = document.getElementById("video-player");
 async function searchSongs(query) {
   searchInput.value = query;
   musicList.innerHTML = "";
