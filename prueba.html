@@ -85,13 +85,13 @@
   <script src="api.js"></script>
   <script>
     function reproducirCancion(url) {
-      audioPlayer.src = url;
-      audioPlayer.style.display = "block";
-      audioPlayer.play();
+      videoPlayer.src = url;
+      videoPlayer.style.display = "block";
+      videoPlayer.play();
     }
 
-    audioPlayer.addEventListener("ended", () => {
-      audioPlayer.style.display = "none";
+    videoPlayer.addEventListener("ended", () => {
+      videoPlayer.style.display = "none";
     });
 
 if ('serviceWorker' in navigator) {
