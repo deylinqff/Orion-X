@@ -2,7 +2,20 @@ const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const musicList = document.getElementById("music-list");
 const loadingMessage = document.getElementById("loading-message");
+// api.js
 const videoPlayer = document.getElementById("video-player");
+
+function reproducirVideo(url) {
+  videoPlayer.src = url;
+  videoPlayer.classList.add("activo");
+  videoPlayer.play();
+}
+
+videoPlayer.addEventListener("ended", () => {
+  videoPlayer.classList.remove("activo");
+});
+
+// Resto de tu código de búsqueda y botones...
 async function searchSongs(query) {
   searchInput.value = query;
   musicList.innerHTML = "";
