@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Orión X - Buscador de Música</title>
+  <title>Resultados de Búsqueda - Orion X</title>
 
   <meta name="description" content="Orion X es un potente buscador de música que te permite encontrar, reproducir y disfrutar tus canciones favoritas al instante.">
   <meta name="keywords" content="Orion X, buscador de música, escuchar música, mp3, canciones online, música gratis, música rápida">
@@ -13,7 +13,7 @@
   <meta name="google-site-verification" content="Jq3BfRqUzkFAriFIlMQHfhLqa3qlEJObkviaDOdh7E4" />
   <meta name="google-site-verification" content="S2c1UAy1iEwlq4yGKvxzj2dwANjNRqj2sjW1YhF0G9o" />
 
-    <link rel="icon" href="https://i.postimg.cc/jSV7cH1J/favicon-32x32.png" type="image/png">
+    <link rel="icon" href="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
 
   <link rel="manifest" href="manifest.json" />
 
@@ -30,120 +30,75 @@
 
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <style>
-    #audio-player {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 800px;
-      background-color: #222;
-      padding: 12px;
-      border-top-left-radius: 12px;
-      border-top-right-radius: 12px;
-      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
-      z-index: 1000;
-    }
-  </style>
+<link rel="manifest" href="/manifest.json">
 </head>
 <body>
-
+ <video id="video-player" controls></video>
   <header class="header">
-    <h1 class="logo">
-      <i class="fas fa-music"></i> Orion-X
-    </h1>
-  </header>
+  <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+    <a href="index.html" class="home-button">
+  <i class="fas fa-home"></i>
+</a>
+    <form id="search-form" style="flex-grow: 1;">
+      <div style="position: relative; width: 100%;">
+        <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
+        <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</header>
 
   <div class="container">
-    <form id="search-form">
-  <div style="position: relative; display: inline-block; width: 100%;">
-    <input type="text" id="search-input" placeholder="Byuhuscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
-    <button type="button" id="voice-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
-      <i class="fas fa-microphone" id="mic-icon"></i>
-    </button>
-  </div>
-  <button type="submit">h Buscar</button>
-</form>
-
     <div id="loading-message" style="display: none;">
-  <div class="loader">
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-    <span></span><span></span><span></span><span></span><span></span><span></span>
-  </div>
-  <p id="loading-text">Buscando música...</p>
-</div>
-
+      <p id="loading-text">Buscando música...</p>
+    </div>
     <div class="music-list" id="music-list">
-      <!-- Aquí se insertarán las canciones -->
+      <!-- Resultados aparecerán aquí -->
     </div>
   </div>
 
-  <video id="video-player" controls></video>
+
 
   <script src="api.js"></script>
-  <script>
-    const videoPlayer = document.getElementById('video-player');
-    let isDragging = false;
-    let offsetX, offsetY;
+ <script>
+  function reproducirVideo(url) {
+  const videoPlayer = document.getElementById("video-player");
+  videoPlayer.src = url;
+  videoPlayer.style.display = "block";
+  videoPlayer.scrollIntoView({ behavior: "smooth" }); // Opcional
+  videoPlayer.play();
+}
 
-    function reproducirVideo(url) {
-      videoPlayer.src = url;
-      videoPlayer.classList.add("activo");
-      videoPlayer.style.display = "block";
-      videoPlayer.play();
+const videoPlayer = document.getElementById("video-player");
+
+videoPlayer.addEventListener("ended", () => {
+  videoPlayer.style.display = "none";
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const query = urlParams.get("q");
+  if (query) {
+    searchSongs(query);
+  }
+});
+          clearInterval(interval);
+          searchSongs(query);
+        }
+      }, 100);
     }
+  });
 
-    // Ocultar cuando termine o al cerrarlo manualmente
-    videoPlayer.addEventListener("ended", () => {
-      videoPlayer.classList.remove("activo");
-      videoPlayer.style.display = "none";
-    });
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => console.log('Service Worker registrado:', registration))
+      .catch(error => console.error('Error al registrar el Service Worker:', error));
+  });
+}
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
-    }
-
-    const micIcon = document.getElementById('mic-icon');
-    const voiceBtn = document.getElementById('voice-btn');
-    let isRecording = false;
-    let reconocimiento;
-
-    voiceBtn.onclick = () => {
-      // ... tu lógica de reconocimiento de voz ...
-    };
-
-    // ANIMACIÓN DE CARGA
-    const loadingText = document.getElementById('loading-text');
-    let dotCount = 0;
-    setInterval(() => {
-      // ... tu lógica de animación de carga ...
-    }, 500);
-
-    // ******************* JAVASCRIPT PARA EL ARRASTRE *******************
-    videoPlayer.addEventListener('mousedown', (e) => {
-      if (videoPlayer.classList.contains('activo')) {
-        isDragging = true;
-        offsetX = e.clientX - videoPlayer.getBoundingClientRect().left;
-        offsetY = e.clientY - videoPlayer.getBoundingClientRect().top;
-        videoPlayer.style.cursor = 'grabbing';
-      }
-    });
-
-    document.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      videoPlayer.style.left = e.clientX - offsetX + 'px';
-      videoPlayer.style.top = e.clientY - offsetY + 'px';
-    });
-
-    document.addEventListener('mouseup', () => {
-      if (isDragging) {
-        isDragging = false;
-        videoPlayer.style.cursor = 'grab';
-      }
-    });
-    // ******************* FIN JAVASCRIPT PARA EL ARRASTRE *******************
-  </script>
+</script>
 </body>
 </html>
