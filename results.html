@@ -76,6 +76,14 @@ const videoPlayer = document.getElementById("video-player");
 videoPlayer.addEventListener("ended", () => {
   videoPlayer.style.display = "none";
 });
+
+document.addEventListener("DOMContentLoaded", function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const query = urlParams.get("q");
+  if (query) {
+    searchSongs(query);
+  }
+});
           clearInterval(interval);
           searchSongs(query);
         }
