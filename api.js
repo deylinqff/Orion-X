@@ -14,6 +14,18 @@ async function searchSongs(query) {
   searchForm.dispatchEvent(event);
 }
 
+const audioApis = [
+  (url) => `https://api.siputzx.my.id/api/d/ytmp3?url=${url}`,
+  (url) => `https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`
+];
+
+const videoApis = [
+  (url) => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
+  (url) => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
+  (url) => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
+  (url) => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
+];
+
 searchForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const query = searchInput.value.trim();
@@ -88,18 +100,95 @@ searchForm.addEventListener("submit", async (e) => {
 
       const channel = document.createElement("div");
 
+      const playBtn = document.createElement("button");
+      playBtn.className = "play-button";
+      playBtn.innerHTML = `<i class="fas fa-play"></i> Play`;
+
+      const downloadAudioBtn = document.createElement("button");
+      downloadAudioBtn.className = "download-button";
+      downloadAudioBtn.innerHTML = `<i class="fas fa-music"></i> audio`;
+
+      playBtn.onclick = async () => {
+        playBtn.textContent = "Carg...";
+        for (let api of audioApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
+            if (audioUrl) {
+              audioPlayer.src = audioUrl;
+              audioPlayer.style.display = "block";
+              audioPlayer.play();
+              playBtn.textContent = "audio";
+              return;
+            }
+          } catch (e) {
+            console.warn("API audio falló:", e.message);
+          }
+        }
+        playBtn.textContent = "Error";
+        alert("No se pudo obtener el audio.");
+      };
+
+      downloadAudioBtn.onclick = async () => {
+        downloadAudioBtn.textContent = "Busc...";
+        for (let api of audioApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
+            if (audioUrl) {
+              const a = document.createElement("a");
+              a.href = audioUrl;
+              a.download = `${video.titulo}.mp3`;
+              a.click();
+              downloadAudioBtn.textContent = "audio";
+              return;
+            }
+          } catch (e) {
+            console.warn("API audio (descarga) falló:", e.message);
+          }
+        }
+        downloadAudioBtn.textContent = "Error";
+        alert("No se pudo descargar el audio.");
+      };
+
+      const videoBtn = document.createElement("button");
+      videoBtn.className = "download-button";
+      videoBtn.innerHTML = `<i class="fas fa-video"></i> video`;
+
+      videoBtn.onclick = async () => {
+        videoBtn.textContent = "Busc...";
+        for (let api of videoApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
+            if (videoUrl) {
+              const a = document.createElement("a");
+              a.href = videoUrl;
+              a.download = `${video.titulo}.mp4`;
+              a.click();
+              videoBtn.textContent = "video";
+              return;
+            }
+          } catch (e) {
+            console.warn("API video falló:", e.message);
+          }
+        }
+        videoBtn.textContent = "Error";
+        alert("No se pudo obtener el video.");
+      };
+
       info.appendChild(title);
       info.appendChild(artist);
       info.appendChild(channel);
       card.appendChild(image);
       card.appendChild(info);
+      card.appendChild(playBtn);
+      card.appendChild(downloadAudioBtn);
+      card.appendChild(videoBtn);
       musicList.appendChild(card);
-
-      // Hacer toda la tarjeta clickeable
-      card.style.cursor = "pointer";
-      card.onclick = () => {
-        window.location.href = `reproductor.html?url=${encodeURIComponent(video.url)}`;
-      };
     });
 
   } catch (err) {
