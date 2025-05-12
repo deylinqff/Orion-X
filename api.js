@@ -109,8 +109,23 @@ searchForm.addEventListener("submit", async (e) => {
 
       const videoPlayer = document.getElementById("video-player");
 
+// Oculta el reproductor al terminar o pausar
+videoPlayer.addEventListener("ended", () => {
+  videoPlayer.style.display = "none";
+  videoPlayer.src = ""; // Limpia la fuente
+});
+videoPlayer.addEventListener("pause", () => {
+  // Si está pausado y no es por buscar otro video
+  if (!videoPlayer.ended) {
+    videoPlayer.style.display = "none";
+    videoPlayer.src = "";
+  }
+});
+
 playBtn.onclick = async () => {
-  playBtn.textContent = "Carg...";
+  playBtn.textContent = "Cargando...";
+  videoPlayer.style.display = "none"; // Ocúltalo mientras carga
+
   for (let api of videoApis) {
     try {
       const res = await fetch(api(video.url));
@@ -120,13 +135,14 @@ playBtn.onclick = async () => {
         videoPlayer.src = videoUrl;
         videoPlayer.style.display = "block";
         videoPlayer.play();
-        playBtn.textContent = "Video";
+        playBtn.textContent = "Reproduciendo";
         return;
       }
     } catch (e) {
       console.warn("API video falló:", e.message);
     }
   }
+
   playBtn.textContent = "Error";
   alert("No se pudo reproducir el video.");
 };
