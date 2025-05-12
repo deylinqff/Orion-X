@@ -110,12 +110,11 @@ searchForm.addEventListener("submit", async (e) => {
 
       playBtn.onclick = async () => {
   playBtn.textContent = "Carg...";
-  audioPlayer.style.display = "none";
-  videoPlayer.style.display = "none";
   for (let api of videoApis) {
     try {
       const res = await fetch(api(video.url));
       const json = await res.json();
+      console.log("Respuesta de API:", json); // <-- AGREGADO
       const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
       if (videoUrl) {
         videoPlayer.src = videoUrl;
