@@ -11,9 +11,8 @@
 
 /* Cuando añadimos la clase .activo, queda fijo arriba */
 #video-player.activo {
-  display: block;
-  position: fixed; /* Fijo en la ventana */
-  top: 0;
+  position: fixed;
+  bottom: 0;
   left: 0;
   width: 100%;
 }
