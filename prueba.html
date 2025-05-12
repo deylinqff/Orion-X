@@ -46,35 +46,6 @@
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
       z-index: 1000;
     }
-    #loading-message {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .music-list {
-      margin-top: 20px;
-    }
-    .music-card {
-      margin-bottom: 20px;
-      padding: 15px;
-      background-color: #333;
-      border-radius: 10px;
-    }
-    .music-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #fff;
-    }
-    button {
-      padding: 10px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
   </style>
 </head>
 <body>
@@ -87,22 +58,22 @@
 
   <div class="container">
     <form id="search-form">
-      <div style="position: relative; display: inline-block; width: 100%;">
-        <input type="text" id="search-input" placeholder="hhhBuscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
-        <button type="button" id="voice-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
-          <i class="fas fa-microphone" id="mic-icon"></i>
-        </button>
-      </div>
-      <button type="submit">Buscar</button>
-    </form>
+  <div style="position: relative; display: inline-block; width: 100%;">
+    <input type="text" id="search-input" placeholder="-Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
+    <button type="button" id="voice-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
+      <i class="fas fa-microphone" id="mic-icon"></i>
+    </button>
+  </div>
+  <button type="submit">Buscar</button>
+</form>
 
     <div id="loading-message" style="display: none;">
-      <div class="loader">
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-        <span></span><span></span><span></span><span></span><span></span><span></span>
-      </div>
-      <p id="loading-text">Buscando música...</p>
-    </div>
+  <div class="loader">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <p id="loading-text">Buscando música...</p>
+</div>
 
     <div class="music-list" id="music-list">
       <!-- Aquí se insertarán las canciones -->
@@ -111,68 +82,63 @@
 
   <video id="video-player" controls></video>
 
+  <script src="api.js"></script>
   <script>
-    // Reproducir video al hacer clic
     function reproducirVideo(url) {
-      const videoPlayer = document.getElementById('video-player');
       videoPlayer.src = url;
       videoPlayer.style.display = "block";
       videoPlayer.play();
     }
 
-    // Evento cuando el video termine de reproducirse
-    document.getElementById('video-player').addEventListener("ended", () => {
-      const videoPlayer = document.getElementById('video-player');
+    videoPlayer.addEventListener("ended", () => {
       videoPlayer.style.display = "none";
     });
 
-    // Registro del service worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js');
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+
+  const micIcon = document.getElementById('mic-icon');
+  const voiceBtn = document.getElementById('voice-btn');
+  let isRecording = false;
+  let reconocimiento;
+
+  voiceBtn.onclick = () => {
+    if (isRecording) {
+      reconocimiento.stop(); // detener si ya estaba grabando
+      return;
     }
 
-    // Reconocimiento de voz
-    const micIcon = document.getElementById('mic-icon');
-    const voiceBtn = document.getElementById('voice-btn');
-    let isRecording = false;
-    let reconocimiento;
+    reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    reconocimiento.lang = 'es-ES';
+    reconocimiento.interimResults = false;
 
-    voiceBtn.onclick = () => {
-      if (isRecording) {
-        reconocimiento.stop(); // Detener si ya estaba grabando
-        return;
-      }
-
-      reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      reconocimiento.lang = 'es-ES';
-      reconocimiento.interimResults = false;
-
-      reconocimiento.onstart = () => {
-        isRecording = true;
-        micIcon.classList.remove('fa-microphone');
-        micIcon.classList.add('fa-microphone-lines');
-      };
-
-      reconocimiento.onresult = (e) => {
-        const texto = e.results[0][0].transcript;
-        document.getElementById('search-input').value = texto;
-        document.getElementById('search-form').dispatchEvent(new Event('submit')); // Dispara búsqueda
-      };
-
-      reconocimiento.onerror = (e) => {
-        alert("Error al reconocer la voz: " + e.error);
-      };
-
-      reconocimiento.onend = () => {
-        isRecording = false;
-        micIcon.classList.remove('fa-microphone-lines');
-        micIcon.classList.add('fa-microphone');
-      };
-
-      reconocimiento.start();
+    reconocimiento.onstart = () => {
+      isRecording = true;
+      micIcon.classList.remove('fa-microphone');
+      micIcon.classList.add('fa-microphone-lines');
     };
 
-    // Animación de carga (puntos ...)
+    reconocimiento.onresult = (e) => {
+      const texto = e.results[0][0].transcript;
+      document.getElementById('search-input').value = texto;
+      document.getElementById('search-form').dispatchEvent(new Event('submit')); // dispara búsqueda
+    };
+
+    reconocimiento.onerror = (e) => {
+      alert("Error al reconocer la voz: " + e.error);
+    };
+
+    reconocimiento.onend = () => {
+      isRecording = false;
+      micIcon.classList.remove('fa-microphone-lines');
+      micIcon.classList.add('fa-microphone');
+    };
+
+    reconocimiento.start();
+  };
+
+    // ANIMACIÓN DE CARGA (puntos ...)
     const loadingText = document.getElementById('loading-text');
     let dotCount = 0;
     setInterval(() => {
@@ -180,57 +146,6 @@
       let dots = '.'.repeat(dotCount);
       loadingText.textContent = `Buscando música${dots}`;
     }, 500);
-
-    // Manejo de la búsqueda
-    document.getElementById("search-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const query = document.getElementById("search-input").value.trim();
-      if (!query) return;
-
-      // Mostrar mensaje de carga
-      document.getElementById('loading-message').style.display = "block";
-
-      // Limpiar la lista de resultados
-      document.getElementById('music-list').innerHTML = "";
-
-      try {
-        const apiUrl = `https://Ytumode-api.vercel.app/api/search?q=${encodeURIComponent(query)}`;
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-
-        if (!data.status || !data.resultado || data.resultado.length === 0) {
-          document.getElementById('music-list').innerHTML = "<p>No se encontraron resultados.</p>";
-          return;
-        }
-
-        const musicList = document.getElementById('music-list');
-        data.resultado.forEach(video => {
-          const card = document.createElement("div");
-          card.classList.add("music-card");
-
-          const title = document.createElement("div");
-          title.classList.add("music-title");
-          title.textContent = video.titulo;
-
-          const playButton = document.createElement("button");
-          playButton.textContent = "Reproducir Video";
-          playButton.onclick = () => {
-            reproducirVideo(video.url);
-          };
-
-          card.appendChild(title);
-          card.appendChild(playButton);
-          musicList.appendChild(card);
-        });
-
-      } catch (err) {
-        console.error('Error al buscar música', err);
-        document.getElementById('music-list').innerHTML = "<p>Hubo un error al buscar la música.</p>";
-      } finally {
-        // Ocultar mensaje de carga
-        document.getElementById('loading-message').style.display = "none";
-      }
-    });
   </script>
 </body>
 </html>
