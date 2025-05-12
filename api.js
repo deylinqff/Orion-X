@@ -131,7 +131,7 @@ searchForm.addEventListener("submit", async (e) => {
         videoPlayer.style.display = "block";
         videoPlayer.scrollIntoView({ behavior: "smooth" });
         await videoPlayer.play();
-        playBtn.textContent = "Reproducir";
+        playBtn.textContent = "Reproduciendo";
         found = true;
         break;
       }
