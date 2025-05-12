@@ -117,16 +117,16 @@ searchForm.addEventListener("submit", async (e) => {
             if (audioUrl) {
               videoPlayer.src = audioUrl;
               videoPlayer.style.display = "block";
-              audioPlayer.play();
-              playBtn.textContent = "audio";
+              videoPlayer.play();
+              playBtn.textContent = "video";
               return;
             }
           } catch (e) {
-            console.warn("API audio falló:", e.message);
+            console.warn("API video falló:", e.message);
           }
         }
         playBtn.textContent = "Error";
-        alert("No se pudo obtener el audio.");
+        alert("No se pudo obtener el video.");
       };
 
       downloadAudioBtn.onclick = async () => {
