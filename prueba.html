@@ -13,7 +13,7 @@
   <meta name="google-site-verification" content="Jq3BfRqUzkFAriFIlMQHfhLqa3qlEJObkviaDOdh7E4" />
   <meta name="google-site-verification" content="S2c1UAy1iEwlq4yGKvxzj2dwANjNRqj2sjW1YhF0G9o" />
 
-  <link rel="icon" href="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
+    <link rel="icon" href="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
 
   <link rel="manifest" href="manifest.json" />
 
@@ -30,24 +30,24 @@
 
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="/manifest.json">
 </head>
 <body>
   <header class="header">
-    <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
-      <a href="index.html" class="home-button">
-        <i class="fas fa-home"></i>
-      </a>
-      <form id="search-form" style="flex-grow: 1;">
-        <div style="position: relative; width: 100%;">
-          <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
-          <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </form>
-    </div>
-  </header>
+  <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+    <a href="index.html" class="home-button">
+  <i class="fas fa-home"></i>
+</a>
+    <form id="search-form" style="flex-grow: 1;">
+      <div style="position: relative; width: 100%;">
+        <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
+        <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</header>
 
   <div class="container">
     <div id="loading-message" style="display: none;">
@@ -58,71 +58,31 @@
     </div>
   </div>
 
+  <!-- <video id="video-player" controls></video> -->
+
   <script src="api.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const urlParams = new URLSearchParams(window.location.search);
-      const query = urlParams.get("q");
-
-      if (query) {
-        const interval = setInterval(() => {
-          // Verificar si la función searchSongs está disponible
-          if (typeof searchSongs === "function") {
-            clearInterval(interval);
-            searchSongs(query); // Llamar a la función de búsqueda
-          }
-        }, 100);
-      }
-    });
-
-    // Mostrar mensaje de carga y realizar búsqueda
-    function searchSongs(query) {
-      // Mostrar mensaje de carga
-      document.getElementById("loading-message").style.display = "block";
-      
-      // Realizar la búsqueda
-      fetch(`https://api.example.com/search?q=${encodeURIComponent(query)}`)
-        .then(response => response.json())
-        .then(data => {
-          // Ocultar mensaje de carga
-          document.getElementById("loading-message").style.display = "none";
-
-          // Verificar si hay resultados
-          if (data && data.results && data.results.length > 0) {
-            const musicList = document.getElementById("music-list");
-            musicList.innerHTML = ''; // Limpiar lista de música
-
-            // Crear y mostrar los resultados
-            data.results.forEach(song => {
-              const songElement = document.createElement("div");
-              songElement.classList.add("song");
-              songElement.innerHTML = `
-                <img src="${song.thumbnail}" alt="${song.title}" />
-                <div class="song-info">
-                  <h3>${song.title}</h3>
-                  <p>${song.artist}</p>
-                </div>
-              `;
-              musicList.appendChild(songElement);
-            });
-          } else {
-            document.getElementById("music-list").innerHTML = "<p>No se encontraron resultados.</p>";
-          }
-        })
-        .catch(error => {
-          console.error("Error al realizar la búsqueda:", error);
-          document.getElementById("loading-message").style.display = "none";
-        });
+ <script>
+  /*document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const query = urlParams.get("q");
+    if (query) {
+      const interval = setInterval(() => {
+        if (typeof searchSongs === "function") {
+          clearInterval(interval);
+          searchSongs(query);
+        }
+      }, 100);
     }
+  });*/
 
-    // Registrar Service Worker
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(registration => console.log('Service Worker registrado:', registration))
-          .catch(error => console.error('Error al registrar el Service Worker:', error));
-      });
-    }
-  </script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => console.log('Service Worker registrado:', registration))
+      .catch(error => console.error('Error al registrar el Service Worker:', error));
+  });
+}
+
+</script>
 </body>
 </html>
