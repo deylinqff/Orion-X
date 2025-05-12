@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Reproductor de Música/Video</title>
   <style>
-    body {
+        body {
       font-family: sans-serif;
       margin: 0;
       background-color: #f0f0f0;
@@ -166,18 +166,18 @@
 <body>
   <div class="header">
     <button onclick="window.history.back()">←</button>
-    <h3>Lady Gaga & Bruno Mars - Die With A Smile</h3>
+    <h3 id="videoTitle">Cargando...</h3>
   </div>
 
   <div class="player-container">
     <div class="video-player">
-      <video id="videoPlayer" src="tu_video.mp4" controls></video>
+      <video id="videoPlayer" controls></video>
     </div>
 
     <div class="player-controls">
-      <span class="time">00:12</span>
-      <input type="range" class="progress-range" value="12" max="100" />
-      <span class="time">04:13</span>
+      <span class="time">00:00</span>
+      <input type="range" class="progress-range" value="0" max="100" />
+      <span class="time">00:00</span>
     </div>
 
     <div class="download-section">
@@ -201,16 +201,51 @@
     <h2>Descargar como:</h2>
     <div class="download-options">
       <h3>Música</h3>
-      <label><input type="radio" name="format" value="mp3_rapido" checked /> Rápido (128K) <span style="color:gold;">✓</span></label>
-      <label><input type="radio" name="format" value="mp3_clasico" /> MP3 clásico</label>
+      <label><input type="radio" name="format" value="mp3" checked /> Audio (MP3)</label>
       <h3>Video</h3>
-      <label><input type="radio" name="format" value="mp4_360" /> Rápido (360p)</label>
-      <label><input type="radio" name="format" value="mp4_720" /> Calidad alta (720p)</label>
+      <label><input type="radio" name="format" value="mp4" /> Video (MP4)</label>
       <button class="download-confirm-button" onclick="downloadSelected()">Descargar</button>
     </div>
   </div>
 
   <script>
+    // APIs de audio/video igual que en tu archivo API.js
+    const audioApis = [
+      url => `https://api.siputzx.my.id/api/d/ytmp3?url=${url}`,
+      url => `https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`
+    ];
+
+    const videoApis = [
+      url => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
+      url => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
+      url => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
+      url => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
+    ];
+
+    const params = new URLSearchParams(window.location.search);
+    const videoUrl = params.get("url");
+    const title = params.get("title") || "Reproducción";
+    const thumbnail = params.get("thumb");
+
+    document.getElementById("videoTitle").textContent = title;
+
+    async function playVideoFromApis(url) {
+      for (let api of videoApis) {
+        try {
+          const res = await fetch(api(url));
+          const json = await res.json();
+          const videoFile = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
+          if (videoFile) {
+            document.getElementById("videoPlayer").src = videoFile;
+            return;
+          }
+        } catch (err) {
+          console.warn("Error al cargar video desde API:", err.message);
+        }
+      }
+      alert("No se pudo cargar el video.");
+    }
+
     function openDownloadModal() {
       document.getElementById("downloadModal").style.display = "block";
     }
@@ -219,10 +254,35 @@
       document.getElementById("downloadModal").style.display = "none";
     }
 
-    function downloadSelected() {
-      const selected = document.querySelector('input[name="format"]:checked');
-      alert("Iniciando descarga en formato: " + selected.value);
-      closeDownloadModal();
+    async function downloadSelected() {
+      const selectedFormat = document.querySelector('input[name="format"]:checked').value;
+      const apiList = selectedFormat === "mp3" ? audioApis : videoApis;
+
+      for (let api of apiList) {
+        try {
+          const res = await fetch(api(videoUrl));
+          const json = await res.json();
+          const fileUrl = json?.result?.url || json?.data?.url || json?.data?.dl || json?.result?.download?.url;
+          if (fileUrl) {
+            const a = document.createElement("a");
+            a.href = fileUrl;
+            a.download = `${title}.${selectedFormat}`;
+            a.click();
+            closeDownloadModal();
+            return;
+          }
+        } catch (err) {
+          console.warn("Descarga falló:", err.message);
+        }
+      }
+      alert("No se pudo iniciar la descarga.");
+    }
+
+    // Inicia la reproducción
+    if (videoUrl) {
+      playVideoFromApis(videoUrl);
+    } else {
+      alert("No se especificó un video para reproducir.");
     }
   </script>
 </body>
