@@ -3,86 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Resultados de Búsqueda - Orion X</title>
 
-  <meta name="description" content="Orion X es un potente buscador de música que te permite encontrar, reproducir y disfrutar tus canciones favoritas al instante.">
-  <meta name="keywords" content="Orion X, buscador de música, escuchar música, mp3, canciones online, música gratis, música rápida">
+  <!-- META -->
+  <meta name="description" content="Orion X es un potente buscador de música...">
+  <meta name="keywords" content="Orion X, buscador de música, escuchar música...">
   <meta name="author" content="Orion X">
 
-  <meta name="google-site-verification" content="Jq3BfRqUzkFAriFIlMQHfhLqa3qlEJObkviaDOdh7E4" />
-  <meta name="google-site-verification" content="S2c1UAy1iEwlq4yGKvxzj2dwANjNRqj2sjW1YhF0G9o" />
+  <!-- Favicon -->
+  <link rel="icon" href="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
 
-    <link rel="icon" href="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
-
-  <link rel="manifest" href="manifest.json" />
-
-  <!-- Open Graph (OG) tags -->
-  <meta property="og:title" content="Orion X - Buscador de Música">
-  <meta property="og:description" content="Encuentra, escucha y descarga tu música favorita con Orion X. ¡Fácil, rápido y gratis!">
-  <meta property="og:image" content="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://orion-x.vercel.app/"> <!-- Reemplaza con la URL real de tu sitio -->
-  <meta property="fb:app_id" content="1234567890"> <!-- Opcional: crea una app en Facebook Developers y usa su ID -->
-
-  <!-- Meta adicional -->
-  <meta name="image" content="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
-
+  <!-- CSS y Fuentes -->
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<link rel="manifest" href="/manifest.json">
+
   <style>
-#fixed-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background: #0f0f13;
-  z-index: 10000;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-}
+    #fixed-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #0f0f13;
+      z-index: 10000;
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    }
 
-#video-player {
-  width: 100%;
-  max-height: 200px;
-  margin-bottom: 10px;
-  background: #000;
-}
+    #video-player {
+      width: 100%;
+      max-height: 200px;
+      margin-bottom: 10px;
+      background: #000;
+      display: none;
+    }
 
-.search-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-}
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
 
-.home-button {
-  font-size: 1.5rem;
-  color: white;
-  text-decoration: none;
-}
+    .home-button {
+      font-size: 1.5rem;
+      color: white;
+      text-decoration: none;
+    }
+
+    .container {
+      padding-top: 300px; /* Asegura que el contenido no quede detrás del header fijo */
+    }
   </style>
 </head>
+
 <body>
- <div id="fixed-header">
-  <video id="video-player" controls></video>
+  <!-- Header fijo -->
+  <div id="fixed-header">
+    <video id="video-player" controls></video>
 
-  <div class="search-bar">
-    <a href="index.html" class="home-button">
-      <i class="fas fa-home"></i>
-    </a>
-    <form id="search-form" style="flex-grow: 1;">
-      <div style="position: relative; width: 100%;">
-        <input type="text" id="search-input" placeholder="■Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
-        <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-    </form>
+    <div class="search-bar">
+      <a href="index.html" class="home-button">
+        <i class="fas fa-home"></i>
+      </a>
+      <form id="search-form" style="flex-grow: 1;">
+        <div style="position: relative; width: 100%;">
+          <input type="text" id="search-input" placeholder="■Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
+          <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-</header>
 
+  <!-- Contenido principal -->
   <div class="container">
     <div id="loading-message" style="display: none;">
       <p id="loading-text">Buscando música...</p>
@@ -92,50 +86,46 @@
     </div>
   </div>
 
- 
-
+  <!-- Scripts -->
   <script src="api.js"></script>
- <script>
-  document.addEventListener("DOMContentLoaded", function () {
-  const videoPlayer = document.getElementById("video-player");
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const videoPlayer = document.getElementById("video-player");
 
-  function reproducirVideo(url) {
-    videoPlayer.src = url;
-    videoPlayer.classList.add("activo"); // Hace que quede fijo en la parte superior
-    videoPlayer.style.display = "block";
-    videoPlayer.play();
-  }
+      function reproducirVideo(url) {
+        videoPlayer.src = url;
+        videoPlayer.style.display = "block";
+        videoPlayer.play();
+      }
 
-  videoPlayer.addEventListener("ended", () => {
-    videoPlayer.classList.remove("activo"); // Lo oculta al terminar
-    videoPlayer.style.display = "none";
-  });
+      videoPlayer.addEventListener("ended", () => {
+        videoPlayer.style.display = "none";
+      });
 
-  // Exportar si es necesario
-  window.reproducirVideo = reproducirVideo;
-});
+      window.reproducirVideo = reproducirVideo;
 
-  document.addEventListener("DOMContentLoaded", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get("q");
+      // Búsqueda automática si hay ?q= en la URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const query = urlParams.get("q");
 
-    if (query) {
-      const interval = setInterval(() => {
-        if (typeof searchSongs === "function") {
-          clearInterval(interval);
-          searchSongs(query); // Llamamos a la función con el valor de q
-        }
-      }, 100); // Revisa cada 100 ms si la función está disponible
-    }
-  });
+      if (query) {
+        const interval = setInterval(() => {
+          if (typeof searchSongs === "function") {
+            clearInterval(interval);
+            searchSongs(query);
+          }
+        }, 100);
+      }
 
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/service-worker.js')
-        .then(registration => console.log('Service Worker registrado:', registration))
-        .catch(error => console.error('Error al registrar el Service Worker:', error));
+      // Service Worker
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => console.log('Service Worker registrado:', registration))
+            .catch(error => console.error('Error al registrar el Service Worker:', error));
+        });
+      }
     });
-  }
-</script>
+  </script>
 </body>
 </html>
