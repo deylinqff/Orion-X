@@ -108,24 +108,24 @@ searchForm.addEventListener("submit", async (e) => {
       downloadAudioBtn.innerHTML = `<i class="fas fa-music"></i> audio`;
 
       playBtn.onclick = async () => {
-        playBtn.textContent = "Carg...";
-        for (let api of audioApis) {
-          try {
-            const res = await fetch(api(video.url));
-            const json = await res.json();
-            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
-            if (audioUrl) {
-              window.open(`reproductor.html?url=${encodeURIComponent(audioUrl)}`, "_blank");
-              playBtn.textContent = "audio";
-              return;
-            }
-          } catch (e) {
-            console.warn("API audio falló:", e.message);
-          }
-        }
-        playBtn.textContent = "Error";
-        alert("No se pudo obtener el audio.");
-      };
+  playBtn.textContent = "Carg...";
+  for (let api of videoApis) {
+    try {
+      const res = await fetch(api(video.url));
+      const json = await res.json();
+      const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
+      if (videoUrl) {
+        window.open(`player.html?url=${encodeURIComponent(videoUrl)}`, "_blank");
+        playBtn.textContent = "Play";
+        return;
+      }
+    } catch (e) {
+      console.warn("API video falló:", e.message);
+    }
+  }
+  playBtn.textContent = "Error";
+  alert("No se pudo obtener el video.");
+};
 
       downloadAudioBtn.onclick = async () => {
         downloadAudioBtn.textContent = "Busc...";
