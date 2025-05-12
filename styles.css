@@ -1,28 +1,21 @@
-/* Estilos base para el player (puedes ajustarlos a tu gusto) */
+/* Estilos base para el player (ya no arrastrable) */
 #video-player {
   display: none;
-  width: 320px; /* O el ancho que desees */
-  height: 180px; /* O la altura que desees */
-  border: 6px double #008080; /* Coincide con el borde turquesa */
-  border-radius: 12px; /* Si tienes bordes redondeados */
-  background: #000; /* O el color de fondo */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5); /* Si tienes sombra */
+  height: 200px;               /* Ajusta la altura que quieras */
+  border: 6px double #008080;  /* Borde turquesa */
+  background: #000;            /* Fondo negro */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   transition: all 0.3s ease;
-  cursor: grab; /* Indica que se puede arrastrar */
-  /* Inicialmente podría estar posicionado de alguna manera si no está activo */
+  z-index: 9999;
 }
 
-/* Cuando añadimos la clase .activo, queremos que sea flotante y arrastrable */
+/* Cuando añadimos la clase .activo, queda fijo arriba */
 #video-player.activo {
   display: block;
-  position: absolute; /* Posicionamiento absoluto para poder moverlo */
-  z-index: 9999; /* Para que esté por encima de otros elementos */
-  /* Puedes establecer una posición inicial si lo deseas, por ejemplo: */
-  /* left: 20px; */
-  /* top: 50%; */
-  /* transform: translateY(-50%); */
-  width: 360px; /* Ajusta el ancho si es necesario */
-  height: 202px; /* Ajusta la altura si es necesario */
+  position: fixed; /* Fijo en la ventana */
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 
