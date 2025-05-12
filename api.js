@@ -7,7 +7,7 @@ async function searchSongs(query) {
   searchInput.value = query;
   musicList.innerHTML = "";
   loadingMessage.style.display = "block";
-  audioPlayer.style.display = "none";
+  videoPlayer.style.display = "none";
 
   const event = new Event("submit", { bubbles: true, cancelable: true });
   searchForm.dispatchEvent(event);
