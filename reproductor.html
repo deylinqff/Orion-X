@@ -2,20 +2,20 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Reproducción - Orion X</title>
+  <meta charset="UTF-8">
+  <title>Reproducción de Video - Orion X</title>
 </head>
 <body>
-  <h2>Reproduciendo...</h2>
-  <audio id="player" controls autoplay style="width: 100%; max-width: 600px;"></audio>
+  <h2>Reproduciendo video...</h2>
+  <video id="player" controls autoplay style="width: 100%; max-width: 800px;"></video>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
-    const audioUrl = urlParams.get("url");
-    if (audioUrl) {
-      document.getElementById("player").src = decodeURIComponent(audioUrl);
+    const videoUrl = urlParams.get("url");
+    if (videoUrl) {
+      document.getElementById("player").src = decodeURIComponent(videoUrl);
     } else {
-      document.body.innerHTML = "<p>No se encontró una URL de audio válida.</p>";
+      document.body.innerHTML = "<p>No se encontró una URL de video válida.</p>";
     }
   </script>
 </body>
