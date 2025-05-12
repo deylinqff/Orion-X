@@ -54,13 +54,9 @@
       padding-top: 300px; /* Asegura que el contenido no quede detrás del header fijo */
     }
   </style>
-</head>
-
 <body>
   <!-- Header fijo -->
   <div id="fixed-header">
-    <video id="video-player" controls></video>
-
     <div class="search-bar">
       <a href="index.html" class="home-button">
         <i class="fas fa-home"></i>
@@ -76,6 +72,11 @@
     </div>
   </div>
 
+  <!-- Reproductor (ahora parte del flujo normal) -->
+  <div id="video-container" style="display: none;">
+    <video id="video-player" controls style="width: 100%; max-height: 200px; background: #000;"></video>
+  </div>
+
   <!-- Contenido principal -->
   <div class="container">
     <div id="loading-message" style="display: none;">
@@ -86,25 +87,25 @@
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="api.js"></script>
+  <!-- Script -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const videoPlayer = document.getElementById("video-player");
+      const videoContainer = document.getElementById("video-container");
 
       function reproducirVideo(url) {
         videoPlayer.src = url;
-        videoPlayer.style.display = "block";
+        videoContainer.style.display = "block";
         videoPlayer.play();
       }
 
       videoPlayer.addEventListener("ended", () => {
-        videoPlayer.style.display = "none";
+        videoPlayer.pause();
+        videoContainer.style.display = "none";
       });
 
       window.reproducirVideo = reproducirVideo;
 
-      // Búsqueda automática si hay ?q= en la URL
       const urlParams = new URLSearchParams(window.location.search);
       const query = urlParams.get("q");
 
@@ -117,7 +118,6 @@
         }, 100);
       }
 
-      // Service Worker
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/service-worker.js')
