@@ -107,35 +107,27 @@ searchForm.addEventListener("submit", async (e) => {
       downloadAudioBtn.className = "download-button";
       downloadAudioBtn.innerHTML = `<i class="fas fa-music"></i> audio`;
 
-      const videoPlayer = document.getElementById("video-player");
-
-videoPlayer.classList.add("activo");   // cuando empieza
-videoPlayer.classList.remove("activo"); // cuando termina o se pausa
-
-playBtn.onclick = async () => {
-  playBtn.textContent = "Cargando...";
-  videoPlayer.style.display = "none"; // Ocúltalo mientras carga
-
-  for (let api of videoApis) {
-    try {
-      const res = await fetch(api(video.url));
-      const json = await res.json();
-      const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
-      if (videoUrl) {
-        videoPlayer.src = videoUrl;
-        videoPlayer.style.display = "block";
-        videoPlayer.play();
-        playBtn.textContent = "Reproduciendo";
-        return;
-      }
-    } catch (e) {
-      console.warn("API video falló:", e.message);
-    }
-  }
-
-  playBtn.textContent = "Error";
-  alert("No se pudo reproducir el video.");
-};
+      playBtn.onclick = async () => {
+        playBtn.textContent = "Carg...";
+        for (let api of audioApis) {
+          try {
+            const res = await fetch(api(video.url));
+            const json = await res.json();
+            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
+            if (audioUrl) {
+              audioPlayer.src = audioUrl;
+              audioPlayer.style.display = "block";
+              audioPlayer.play();
+              playBtn.textContent = "audio";
+              return;
+            }
+          } catch (e) {
+            console.warn("API audio falló:", e.message);
+          }
+        }
+        playBtn.textContent = "Error";
+        alert("No se pudo obtener el audio.");
+      };
 
       downloadAudioBtn.onclick = async () => {
         downloadAudioBtn.textContent = "Busc...";
