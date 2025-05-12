@@ -109,18 +109,8 @@ searchForm.addEventListener("submit", async (e) => {
 
       const videoPlayer = document.getElementById("video-player");
 
-// Oculta el reproductor al terminar o pausar
-videoPlayer.addEventListener("ended", () => {
-  videoPlayer.style.display = "none";
-  videoPlayer.src = ""; // Limpia la fuente
-});
-videoPlayer.addEventListener("pause", () => {
-  // Si está pausado y no es por buscar otro video
-  if (!videoPlayer.ended) {
-    videoPlayer.style.display = "none";
-    videoPlayer.src = "";
-  }
-});
+videoPlayer.classList.add("activo");   // cuando empieza
+videoPlayer.classList.remove("activo"); // cuando termina o se pausa
 
 playBtn.onclick = async () => {
   playBtn.textContent = "Cargando...";
