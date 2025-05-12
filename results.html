@@ -63,19 +63,24 @@
 
   <script src="api.js"></script>
  <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const videoPlayer = document.getElementById("video-player");
+
   function reproducirVideo(url) {
-    const videoPlayer = document.getElementById("video-player");
     videoPlayer.src = url;
+    videoPlayer.classList.add("activo"); // Hace que quede fijo en la parte superior
     videoPlayer.style.display = "block";
-    videoPlayer.scrollIntoView({ behavior: "smooth" });
     videoPlayer.play();
   }
 
-  const videoPlayer = document.getElementById("video-player");
-
   videoPlayer.addEventListener("ended", () => {
+    videoPlayer.classList.remove("activo"); // Lo oculta al terminar
     videoPlayer.style.display = "none";
   });
+
+  // Exportar si es necesario
+  window.reproducirVideo = reproducirVideo;
+});
 
   document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
