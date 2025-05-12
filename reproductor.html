@@ -209,81 +209,79 @@
   </div>
 
   <script>
-    // APIs de audio/video igual que en tu archivo API.js
-    const audioApis = [
-      url => `https://api.siputzx.my.id/api/d/ytmp3?url=${url}`,
-      url => `https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`
-    ];
+  const videoData = JSON.parse(localStorage.getItem("videoSeleccionado"));
 
-    const videoApis = [
+  async function cargarVideo() {
+    if (!videoData) {
+      alert("No se encontró el video.");
+      return;
+    }
+
+    document.querySelector(".header h3").textContent = videoData.titulo;
+
+    const videoPlayer = document.getElementById("videoPlayer");
+    let found = false;
+
+    for (let api of [
       url => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
       url => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
       url => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
       url => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
-    ];
-
-    const params = new URLSearchParams(window.location.search);
-    const videoUrl = params.get("url");
-    const title = params.get("title") || "Reproducción";
-    const thumbnail = params.get("thumb");
-
-    document.getElementById("videoTitle").textContent = title;
-
-    async function playVideoFromApis(url) {
-      for (let api of videoApis) {
-        try {
-          const res = await fetch(api(url));
-          const json = await res.json();
-          const videoFile = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
-          if (videoFile) {
-            document.getElementById("videoPlayer").src = videoFile;
-            return;
-          }
-        } catch (err) {
-          console.warn("Error al cargar video desde API:", err.message);
+    ]) {
+      try {
+        const res = await fetch(api(videoData.url));
+        const json = await res.json();
+        const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
+        if (videoUrl) {
+          videoPlayer.src = videoUrl;
+          found = true;
+          break;
         }
+      } catch (err) {
+        console.warn("Fallo al cargar video:", err.message);
       }
-      alert("No se pudo cargar el video.");
     }
 
-    function openDownloadModal() {
-      document.getElementById("downloadModal").style.display = "block";
-    }
+    if (!found) alert("No se pudo cargar el video.");
+  }
 
-    function closeDownloadModal() {
-      document.getElementById("downloadModal").style.display = "none";
-    }
+  async function downloadSelected() {
+    const selected = document.querySelector('input[name="format"]:checked').value;
+    const isAudio = selected.includes("mp3");
+    const apis = isAudio
+      ? [
+          url => `https://api.siputzx.my.id/api/d/ytmp3?url=${url}`,
+          url => `https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`
+        ]
+      : [
+          url => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
+          url => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
+          url => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
+          url => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
+        ];
 
-    async function downloadSelected() {
-      const selectedFormat = document.querySelector('input[name="format"]:checked').value;
-      const apiList = selectedFormat === "mp3" ? audioApis : videoApis;
-
-      for (let api of apiList) {
-        try {
-          const res = await fetch(api(videoUrl));
-          const json = await res.json();
-          const fileUrl = json?.result?.url || json?.data?.url || json?.data?.dl || json?.result?.download?.url;
-          if (fileUrl) {
-            const a = document.createElement("a");
-            a.href = fileUrl;
-            a.download = `${title}.${selectedFormat}`;
-            a.click();
-            closeDownloadModal();
-            return;
-          }
-        } catch (err) {
-          console.warn("Descarga falló:", err.message);
+    for (let api of apis) {
+      try {
+        const res = await fetch(api(videoData.url));
+        const json = await res.json();
+        const dlUrl = json?.result?.url || json?.data?.url || json?.data?.dl || json?.result?.download?.url;
+        if (dlUrl) {
+          const a = document.createElement("a");
+          a.href = dlUrl;
+          a.download = `${videoData.titulo}.${isAudio ? "mp3" : "mp4"}`;
+          a.click();
+          closeDownloadModal();
+          return;
         }
+      } catch (err) {
+        console.warn("Fallo al descargar:", err.message);
       }
-      alert("No se pudo iniciar la descarga.");
     }
 
-    // Inicia la reproducción
-    if (videoUrl) {
-      playVideoFromApis(videoUrl);
-    } else {
-      alert("No se especificó un video para reproducir.");
-    }
-  </script>
+    alert("No se pudo descargar el archivo.");
+  }
+
+  cargarVideo();
+</script>
 </body>
 </html>
