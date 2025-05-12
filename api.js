@@ -109,13 +109,17 @@ searchForm.addEventListener("submit", async (e) => {
 
       playBtn.onclick = async () => {
   playBtn.textContent = "Carg...";
+  audioPlayer.style.display = "none";
+  videoPlayer.style.display = "none";
   for (let api of videoApis) {
     try {
       const res = await fetch(api(video.url));
       const json = await res.json();
       const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
       if (videoUrl) {
-        window.open(`player.html?url=${encodeURIComponent(videoUrl)}`, "_blank");
+        videoPlayer.src = videoUrl;
+        videoPlayer.style.display = "block";
+        videoPlayer.play();
         playBtn.textContent = "Play";
         return;
       }
