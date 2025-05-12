@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Orión X - Buscador de Música</title>
+  <title>Resultados de Búsqueda - Orion X</title>
 
   <meta name="description" content="Orion X es un potente buscador de música que te permite encontrar, reproducir y disfrutar tus canciones favoritas al instante.">
   <meta name="keywords" content="Orion X, buscador de música, escuchar música, mp3, canciones online, música gratis, música rápida">
@@ -13,196 +13,109 @@
   <meta name="google-site-verification" content="Jq3BfRqUzkFAriFIlMQHfhLqa3qlEJObkviaDOdh7E4" />
   <meta name="google-site-verification" content="S2c1UAy1iEwlq4yGKvxzj2dwANjNRqj2sjW1YhF0G9o" />
 
-  <link rel="icon" href="https://orion-x.vercel.app/favicon.ico">
+  <link rel="icon" href="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
 
   <link rel="manifest" href="manifest.json" />
 
   <!-- Open Graph (OG) tags -->
   <meta property="og:title" content="Orion X - Buscador de Música">
   <meta property="og:description" content="Encuentra, escucha y descarga tu música favorita con Orion X. ¡Fácil, rápido y gratis!">
-  <meta property="og:image" content="https://i.postimg.cc/3wM0xh56/Orion-x-icono.png">
+  <meta property="og:image" content="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://orion-x.vercel.app/"> <!-- Reemplaza con la URL real de tu sitio -->
   <meta property="fb:app_id" content="1234567890"> <!-- Opcional: crea una app en Facebook Developers y usa su ID -->
 
+  <!-- Meta adicional -->
+  <meta name="image" content="https://i.postimg.cc/d1mPf57h/tech-letter-x-logo-futuristic-logo-template-with-green-and-blue-gradient-color-geometric-shape-usabl.jpg">
+
   <link rel="stylesheet" href="styles.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-  <style>
-  #suggestions {
-    position: absolute;
-    background: #fff;
-    border: 1px solid #ccc;
-    width: 100%;
-    z-index: 1000;
-    max-height: 250px;
-    overflow-y: auto;
-    display: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    border-radius: 6px;
-  }
-  #suggestions div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 12px;
-    font-weight: 500;
-    color: #222;
-    cursor: pointer;
-    transition: background 0.2s ease;
-  }
-  #suggestions div:hover {
-    background: #f1f1f1;
-  }
-  .suggestion-icon {
-    color: #666;
-    margin-left: 12px;
-  }
-
-  #video-player {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 800px;
-    background-color: #222;
-    padding: 12px;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.4);
-    z-index: 1000;
-  }
-
-  #loading-message {
-    display: none;
-    text-align: center;
-    font-size: 18px;
-  }
-  </style>
+  <link rel="manifest" href="/manifest.json">
 </head>
 <body>
   <header class="header">
-    <h1 class="logo" style="display: flex; align-items: center;">
-      <img src="https://orion-x.vercel.app/favicon.ico" alt="Orion-X Logo" style="width: 28px; height: 28px; margin-right: 10px;">
-      Orion-X
-    </h1>
+    <div style="display: flex; align-items: center; gap: 10px; width: 100%;">
+      <a href="index.html" class="home-button">
+        <i class="fas fa-home"></i>
+      </a>
+      <form id="search-form" style="flex-grow: 1;">
+        <div style="position: relative; width: 100%;">
+          <input type="text" id="search-input" placeholder="Buscar canciones o artistas..." required style="width: 100%; padding-right: 40px;">
+          <button type="submit" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+    </div>
   </header>
 
   <div class="container">
-    <form id="search-form" action="results.html" method="GET" style="margin-top: 1rem;">
-      <div style="position: relative; display: inline-block; width: 100%;">
-        <input type="text" id="search-input" name="q" placeholder="Buscar canciones o artistas..." required autocomplete="off" style="width: 100%; padding: 10px; padding-right: 40px; font-size: 16px;">
-        <div id="suggestions"></div>
-        <button type="button" id="voice-btn" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none;">
-          <i class="fas fa-microphone" id="mic-icon"></i>
-        </button>
-      </div>
-      <button type="submit" style="margin-top: 10px;">Buscar</button>
-    </form>
-
     <div id="loading-message" style="display: none;">
-      <p>Buscando música...</p>
+      <p id="loading-text">Buscando música...</p>
     </div>
-
     <div class="music-list" id="music-list">
-      <!-- Aquí se insertarán las canciones -->
+      <!-- Resultados aparecerán aquí -->
     </div>
   </div>
 
-  <video id="video-player" controls></video>
-
+  <script src="api.js"></script>
   <script>
-    const micIcon = document.getElementById('mic-icon');
-    const voiceBtn = document.getElementById('voice-btn');
-    const searchInput = document.getElementById('search-input');
-    const suggestionsBox = document.getElementById('suggestions');
-    const loadingMessage = document.getElementById('loading-message');
-    const videoPlayer = document.getElementById('video-player');
-    let isRecording = false;
-    let reconocimiento;
+    document.addEventListener("DOMContentLoaded", function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const query = urlParams.get("q");
 
-    voiceBtn.onclick = () => {
-      if (isRecording) {
-        reconocimiento.stop();
-        return;
-      }
-
-      reconocimiento = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-      reconocimiento.lang = 'es-ES';
-      reconocimiento.interimResults = false;
-
-      reconocimiento.onstart = () => {
-        isRecording = true;
-        micIcon.classList.remove('fa-microphone');
-        micIcon.classList.add('fa-microphone-lines');
-      };
-
-      reconocimiento.onresult = (e) => {
-        const texto = e.results[0][0].transcript;
-        searchInput.value = texto;
-        document.getElementById('search-form').submit();
-      };
-
-      reconocimiento.onerror = (e) => {
-        alert("Error al reconocer la voz: " + e.error);
-      };
-
-      reconocimiento.onend = () => {
-        isRecording = false;
-        micIcon.classList.remove('fa-microphone-lines');
-        micIcon.classList.add('fa-microphone');
-      };
-
-      reconocimiento.start();
-    };
-
-    searchInput.addEventListener('input', async () => {
-      const query = searchInput.value.trim();
-      if (!query) {
-        suggestionsBox.style.display = "none";
-        return;
-      }
-
-      loadingMessage.style.display = "block"; // Mostrar mensaje de carga
-
-      try {
-        const url = `https://corsproxy.io/?https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q=${encodeURIComponent(query)}`;
-        const res = await fetch(url);
-        const data = await res.json();
-
-        const sugerencias = data[1];
-        suggestionsBox.innerHTML = "";
-
-        if (sugerencias.length > 0) {
-          sugerencias.forEach(s => {
-            const div = document.createElement("div");
-            div.textContent = s;
-            div.onclick = () => {
-              searchInput.value = s;
-              suggestionsBox.style.display = "none";
-              document.getElementById('search-form').submit();
-            };
-            suggestionsBox.appendChild(div);
-          });
-          suggestionsBox.style.display = "block";
-        } else {
-          suggestionsBox.style.display = "none";
-        }
-      } catch (err) {
-        console.warn("Error al obtener sugerencias:", err.message);
-        suggestionsBox.style.display = "none";
-      }
-
-      loadingMessage.style.display = "none"; // Ocultar mensaje de carga
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!document.getElementById("search-form").contains(e.target)) {
-        suggestionsBox.style.display = "none";
+      if (query) {
+        const interval = setInterval(() => {
+          // Verificar si la función searchSongs está disponible
+          if (typeof searchSongs === "function") {
+            clearInterval(interval);
+            searchSongs(query); // Llamar a la función de búsqueda
+          }
+        }, 100);
       }
     });
 
+    // Mostrar mensaje de carga y realizar búsqueda
+    function searchSongs(query) {
+      // Mostrar mensaje de carga
+      document.getElementById("loading-message").style.display = "block";
+      
+      // Realizar la búsqueda
+      fetch(`https://api.example.com/search?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+          // Ocultar mensaje de carga
+          document.getElementById("loading-message").style.display = "none";
+
+          // Verificar si hay resultados
+          if (data && data.results && data.results.length > 0) {
+            const musicList = document.getElementById("music-list");
+            musicList.innerHTML = ''; // Limpiar lista de música
+
+            // Crear y mostrar los resultados
+            data.results.forEach(song => {
+              const songElement = document.createElement("div");
+              songElement.classList.add("song");
+              songElement.innerHTML = `
+                <img src="${song.thumbnail}" alt="${song.title}" />
+                <div class="song-info">
+                  <h3>${song.title}</h3>
+                  <p>${song.artist}</p>
+                </div>
+              `;
+              musicList.appendChild(songElement);
+            });
+          } else {
+            document.getElementById("music-list").innerHTML = "<p>No se encontraron resultados.</p>";
+          }
+        })
+        .catch(error => {
+          console.error("Error al realizar la búsqueda:", error);
+          document.getElementById("loading-message").style.display = "none";
+        });
+    }
+
+    // Registrar Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
@@ -210,17 +123,6 @@
           .catch(error => console.error('Error al registrar el Service Worker:', error));
       });
     }
-
-    // Función para reproducir un video
-    function reproducirVideo(url) {
-      videoPlayer.src = url;
-      videoPlayer.style.display = "block";
-      videoPlayer.play();
-    }
-
-    videoPlayer.addEventListener("ended", () => {
-      videoPlayer.style.display = "none";
-    });
   </script>
 </body>
 </html>
