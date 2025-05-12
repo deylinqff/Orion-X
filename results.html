@@ -62,12 +62,19 @@
 
   <script src="api.js"></script>
  <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const query = urlParams.get("q");
-    if (query) {
-      const interval = setInterval(() => {
-        if (typeof searchSongs === "function") {
+  function reproducirVideo(url) {
+  const videoPlayer = document.getElementById("video-player");
+  videoPlayer.src = url;
+  videoPlayer.style.display = "block";
+  videoPlayer.scrollIntoView({ behavior: "smooth" }); // Opcional
+  videoPlayer.play();
+}
+
+const videoPlayer = document.getElementById("video-player");
+
+videoPlayer.addEventListener("ended", () => {
+  videoPlayer.style.display = "none";
+});
           clearInterval(interval);
           searchSongs(query);
         }
