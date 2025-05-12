@@ -1,4 +1,4 @@
-3const searchForm = document.getElementById("search-form");
+const searchForm = document.getElementById("search-form");
 const searchInput = document.getElementById("search-input");
 const musicList = document.getElementById("music-list");
 const loadingMessage = document.getElementById("loading-message");
