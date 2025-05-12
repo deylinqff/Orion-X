@@ -89,7 +89,7 @@
         }
 
         .download-modal {
-            display: none; /* Inicialmente oculto */
+            display: none;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -101,6 +101,7 @@
             width: 80%;
             max-width: 300px;
             text-align: left;
+            z-index: 999;
         }
 
         .download-modal h2 {
@@ -156,11 +157,18 @@
                 <span class="time">00:00</span>
                 <div class="progress-bar"></div>
                 <span class="time">04:13</span>
-                <span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="21 15 15 21 21 21"/><path d="M21 3v6h-6m-10 8v6h6m-6-3l6 3-6 3"/></svg></span>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 3 21 3 21 9"/>
+                        <polyline points="21 15 15 21 21 21"/>
+                        <path d="M21 3v6h-6m-10 8v6h6m-6-3l6 3-6 3"/>
+                    </svg>
+                </span>
             </div>
         </div>
+
         <div class="download-section">
-            <button class="download-confirm-button" onclick="downloadSelected()">Descargar</button>
+            <button class="download-button" onclick="openDownloadModal()">Descargar</button>
         </div>
 
         <div class="download-modal" id="downloadModal">
@@ -169,27 +177,27 @@
             <div class="download-options">
                 <h3>Música</h3>
                 <label>
-                    <input type="radio" name="audio_format" value="mp3_rapido" checked>
+                    <input type="radio" name="format" value="mp3_rapido" checked>
                     Rápido (128K) <span style="color: #777;">3,9MB</span> <span style="color: gold;">✓</span>
                 </label>
                 <label>
-                    <input type="radio" name="audio_format" value="mp3_clasico">
+                    <input type="radio" name="format" value="mp3_clasico">
                     MP3 clásico <span style="color: #777;">4,8MB</span>
                 </label>
                 <h3>Video</h3>
                 <label>
-                    <input type="radio" name="video_format" value="mp4_360">
+                    <input type="radio" name="format" value="mp4_360">
                     Rápido (360p) <span style="color: #777;">11,6MB</span>
                 </label>
                 <label>
-                    <input type="radio" name="video_format" value="mp4_720">
+                    <input type="radio" name="format" value="mp4_720">
                     Calidad alta (720p) <span style="color: #777;">13,2MB</span>
                 </label>
-                <button class="download-confirm-button">Descargar</button>
+                <button class="download-confirm-button" onclick="downloadSelected()">Descargar</button>
             </div>
         </div>
     </div>
-<script src="API.js"></script>
+
     <script>
         function openDownloadModal() {
             document.getElementById("downloadModal").style.display = "block";
@@ -197,6 +205,23 @@
 
         function closeDownloadModal() {
             document.getElementById("downloadModal").style.display = "none";
+        }
+
+        function downloadSelected() {
+            const selectedOption = document.querySelector('input[name="format"]:checked');
+            if (!selectedOption) {
+                alert("Selecciona un formato para descargar.");
+                return;
+            }
+            const format = selectedOption.value;
+
+            // Simulación de descarga
+            alert("Iniciando descarga en formato: " + format);
+
+            // Aquí podrías redirigir a una URL real de descarga
+            // window.location.href = `/descargas/${format}.mp4`;
+
+            closeDownloadModal();
         }
     </script>
 </body>
