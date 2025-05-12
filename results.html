@@ -72,10 +72,10 @@
     </div>
   </div>
 
-  <!-- Reproductor (ahora parte del flujo normal) -->
-  <div id="video-container" style="display: none;">
-    <video id="video-player" controls style="width: 100%; max-height: 200px; background: #000;"></video>
-  </div>
+  <!-- Reproductor de video: oculto sin ocupar espacio -->
+<div id="video-container" style="visibility: hidden; height: 0; overflow: hidden; transition: height 0.3s ease;">
+  <video id="video-player" controls style="width: 100%; max-height: 200px; background: #000;"></video>
+</div>
 
   <!-- Contenido principal -->
   <div class="container">
@@ -91,42 +91,46 @@
  <script src="api.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      const videoPlayer = document.getElementById("video-player");
-      const videoContainer = document.getElementById("video-container");
+  const videoPlayer = document.getElementById("video-player");
+  const videoContainer = document.getElementById("video-container");
 
-      function reproducirVideo(url) {
-        videoPlayer.src = url;
-        videoContainer.style.display = "block";
-        videoPlayer.play();
+  function reproducirVideo(url) {
+    videoPlayer.src = url;
+    videoPlayer.play();
+
+    videoContainer.style.visibility = "visible";
+    videoContainer.style.height = "200px";
+    videoContainer.style.overflow = "visible";
+  }
+
+  videoPlayer.addEventListener("ended", () => {
+    videoContainer.style.visibility = "hidden";
+    videoContainer.style.height = "0";
+    videoContainer.style.overflow = "hidden";
+  });
+
+  window.reproducirVideo = reproducirVideo;
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const query = urlParams.get("q");
+
+  if (query) {
+    const interval = setInterval(() => {
+      if (typeof searchSongs === "function") {
+        clearInterval(interval);
+        searchSongs(query);
       }
+    }, 100);
+  }
 
-      videoPlayer.addEventListener("ended", () => {
-        videoPlayer.pause();
-        videoContainer.style.display = "none";
-      });
-
-      window.reproducirVideo = reproducirVideo;
-
-      const urlParams = new URLSearchParams(window.location.search);
-      const query = urlParams.get("q");
-
-      if (query) {
-        const interval = setInterval(() => {
-          if (typeof searchSongs === "function") {
-            clearInterval(interval);
-            searchSongs(query);
-          }
-        }, 100);
-      }
-
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/service-worker.js')
-            .then(registration => console.log('Service Worker registrado:', registration))
-            .catch(error => console.error('Error al registrar el Service Worker:', error));
-        });
-      }
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => console.log('Service Worker registrado:', registration))
+        .catch(error => console.error('Error al registrar el Service Worker:', error));
     });
+  }
+});
   </script>
 </body>
 </html>
