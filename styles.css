@@ -1,6 +1,6 @@
-/* Estilos base para el player */
+/* creative.css */
 #video-player {
-  display: none;              /* oculto por defecto */
+  display: none;
   width: 320px;
   height: 180px;
   border: 6px double #008080;
@@ -8,7 +8,16 @@
   background: #000;
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   transition: all 0.3s ease;
-  cursor: grab; /* Indica que se puede arrastrar */
+}
+
+#video-player.activo {
+  display: block;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  width: 360px;
+  height: 202px; /* relación 16:9 */
 }
 
 /* Cuando añadimos la clase .activo, queremos que sea flotante y arrastrable */
