@@ -9,6 +9,14 @@
     display: block;
   }
 
+#video-player {
+  display: none;
+}
+
+#video-player.activo {
+  display: block;
+}
+
 .home-button {
   margin-right: 15px;
   font-size: 22px;
