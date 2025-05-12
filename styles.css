@@ -1,33 +1,30 @@
-/* creative.css */
+/* Estilos base para el player (puedes ajustarlos a tu gusto) */
 #video-player {
   display: none;
-  width: 320px;
-  height: 180px;
-  border: 6px double #008080;
-  border-radius: 12px;
-  background: #000;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  width: 320px; /* O el ancho que desees */
+  height: 180px; /* O la altura que desees */
+  border: 6px double #008080; /* Coincide con el borde turquesa */
+  border-radius: 12px; /* Si tienes bordes redondeados */
+  background: #000; /* O el color de fondo */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5); /* Si tienes sombra */
   transition: all 0.3s ease;
-}
-
-#video-player.activo {
-  display: block;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-  width: 360px;
-  height: 202px; /* relación 16:9 */
+  cursor: grab; /* Indica que se puede arrastrar */
+  /* Inicialmente podría estar posicionado de alguna manera si no está activo */
 }
 
 /* Cuando añadimos la clase .activo, queremos que sea flotante y arrastrable */
 #video-player.activo {
   display: block;
-  position: absolute;            /* Posicionamiento absoluto para poder moverlo */
-  z-index: 9999;              /* Por encima de todo */
-  width: 360px;               /* Tamaño fijo o relativo */
-  height: 202px;              /* Mantén la relación 16:9 */
+  position: absolute; /* Posicionamiento absoluto para poder moverlo */
+  z-index: 9999; /* Para que esté por encima de otros elementos */
+  /* Puedes establecer una posición inicial si lo deseas, por ejemplo: */
+  /* left: 20px; */
+  /* top: 50%; */
+  /* transform: translateY(-50%); */
+  width: 360px; /* Ajusta el ancho si es necesario */
+  height: 202px; /* Ajusta la altura si es necesario */
 }
+
 
 
 .home-button {
