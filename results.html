@@ -72,9 +72,8 @@
     </div>
   </div>
 
-  <!-- Reproductor de video: oculto sin ocupar espacio -->
-<div id="video-container" style="visibility: hidden; height: 0; overflow: hidden; transition: height 0.3s ease;">
-  <video id="video-player" controls style="width: 100%; max-height: 200px; background: #000;"></video>
+  <div id="video-wrapper" style="height: 0; overflow: hidden; transition: height 0.3s ease;">
+  <video id="video-player" controls style="width: 100%; background: #000;"></video>
 </div>
 
   <!-- Contenido principal -->
@@ -92,25 +91,22 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
   const videoPlayer = document.getElementById("video-player");
-  const videoContainer = document.getElementById("video-container");
+  const videoWrapper = document.getElementById("video-wrapper");
 
   function reproducirVideo(url) {
     videoPlayer.src = url;
     videoPlayer.play();
 
-    videoContainer.style.visibility = "visible";
-    videoContainer.style.height = "200px";
-    videoContainer.style.overflow = "visible";
+    videoWrapper.style.height = "200px"; // altura visible del video
   }
 
   videoPlayer.addEventListener("ended", () => {
-    videoContainer.style.visibility = "hidden";
-    videoContainer.style.height = "0";
-    videoContainer.style.overflow = "hidden";
+    videoWrapper.style.height = "0"; // se oculta suavemente
   });
 
   window.reproducirVideo = reproducirVideo;
 
+  // Búsqueda automática si hay ?q=
   const urlParams = new URLSearchParams(window.location.search);
   const query = urlParams.get("q");
 
@@ -123,6 +119,7 @@
     }, 100);
   }
 
+  // Service Worker
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/service-worker.js')
