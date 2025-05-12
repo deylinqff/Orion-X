@@ -84,13 +84,16 @@
 
   <script src="api.js"></script>
   <script>
-    function reproducirCancion(url) {
-      videoPlayer.src = url;
-      videoPlayer.style.display = "block";
-      videoPlayer.play();
-    }
+    function reproducirVideo(url) {
+  videoPlayer.src = url;
+  videoPlayer.classList.add("activo");
+  videoPlayer.play();
+}
 
-    videoPlayer.addEventListener("ended", () => {
+// Ocultar cuando termine o al cerrarlo manualmente
+videoPlayer.addEventListener("ended", () => {
+  videoPlayer.classList.remove("activo");
+});
       videoPlayer.style.display = "none";
     });
 
