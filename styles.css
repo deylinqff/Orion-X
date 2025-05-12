@@ -1,12 +1,9 @@
 /* Estilos base para el player (ya no arrastrable) */
 #video-player {
-  display: none;
-  height: 200px;               /* Ajusta la altura que quieras */
-  border: 6px double #008080;  /* Borde turquesa */
-  background: #000;            /* Fondo negro */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  transition: all 0.3s ease;
-  z-index: 9999;
+    background-color: #0f0f13;
+  padding: 20px;
+  border-bottom: 1px solid #222;
+  text-align: center;
 }
 
 /* Cuando añadimos la clase .activo, queda fijo arriba */
