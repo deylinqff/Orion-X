@@ -32,7 +32,7 @@ searchForm.addEventListener("submit", async (e) => {
 
   musicList.innerHTML = "";
   loadingMessage.style.display = "block";
-  audioPlayer.style.display = "none";
+  videooPlayer.style.display = "none";
 
   try {
     const proxyUrl = 'https://corsproxy.io/?';
