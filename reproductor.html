@@ -1,287 +1,112 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Reproductor de Música/Video</title>
-  <style>
-        body {
-      font-family: sans-serif;
-      margin: 0;
-      background-color: #f0f0f0;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      background-color: #000;
-      color: #fff;
-    }
-
-    .header button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 20px;
-      margin-right: 10px;
-      cursor: pointer;
-    }
-
-    .player-container {
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      margin: 20px auto;
-      max-width: 400px;
-    }
-
-    .video-player {
-      background-color: #000;
-      position: relative;
-      padding-top: 56.25%; /* 16:9 Aspect Ratio */
-    }
-
-    video {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .player-controls {
-      display: flex;
-      align-items: center;
-      padding: 10px 15px;
-      background-color: #fff;
-    }
-
-    .time {
-      font-size: 0.8em;
-      color: #555;
-    }
-
-    .progress-range {
-      flex-grow: 1;
-      margin: 0 10px;
-      accent-color: #ffdd00;
-    }
-
-    .download-section {
-      text-align: center;
-      padding: 15px;
-      background-color: #eee;
-    }
-
-    .download-button {
-      background-color: #ffdd00;
-      color: #222;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .download-modal {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      padding: 20px;
-      width: 80%;
-      max-width: 300px;
-      z-index: 999;
-    }
-
-    .download-modal h2 {
-      margin-top: 0;
-    }
-
-    .download-options label {
-      display: block;
-      margin: 8px 0;
-      color: #555;
-    }
-
-    .download-confirm-button {
-      background-color: #ffdd00;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      border-radius: 5px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .close-modal-button {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: none;
-      border: none;
-      font-size: 1.2em;
-      cursor: pointer;
-      color: #777;
-    }
-
-    .next-video {
-      padding: 15px;
-    }
-
-    .next-video h4 {
-      margin-bottom: 10px;
-    }
-
-    .next-suggestion {
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .next-suggestion img {
-      width: 100px;
-      height: auto;
-      border-radius: 5px;
-      margin-right: 10px;
-    }
-
-    .next-suggestion p {
-      margin: 0;
-    }
-
-    .next-suggestion p:last-child {
-      color: gray;
-      font-size: 0.9em;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="header">
-    <button onclick="window.history.back()">←</button>
-    <h3 id="videoTitle">Cargando...</h3>
-  </div>
+    <!-- Contenedor principal del reproductor -->
+    <div class="reproductor-container">
+        <header>
+            <h3>Reproductor</h3>
+        </header>
+        
+        <main>
+            <!-- Contenedor para el reproductor de video -->
+            <div id="video-container" style="display: none;">
+                <video id="videoPlayer" controls></video>
+            </div>
 
-  <div class="player-container">
-    <div class="video-player">
-      <video id="videoPlayer" controls></video>
+            <!-- Contenedor para el reproductor de audio -->
+            <div id="audio-container" style="display: none;">
+                <audio id="audio-player" controls></audio>
+            </div>
+        </main>
     </div>
 
-    <div class="player-controls">
-      <span class="time">00:00</span>
-      <input type="range" class="progress-range" value="0" max="100" />
-      <span class="time">00:00</span>
-    </div>
+    <!-- Script que gestiona la carga y reproducción del contenido -->
+    <script>
+        document.addEventListener("DOMContentLoaded", cargarVideo);
 
-    <div class="download-section">
-      <button class="download-button" onclick="openDownloadModal()">Descargar</button>
-    </div>
+        function cargarVideo() {
+            // Recupera los datos del video desde localStorage
+            const videoData = JSON.parse(localStorage.getItem("videoSeleccionado"));
 
-    <div class="next-video">
-      <h4>Siguiente</h4>
-      <div class="next-suggestion">
-        <img src="https://i.ytimg.com/vi/2Vv-BfVoq4g/maxresdefault.jpg" alt="Perfect - Ed Sheeran" />
-        <div>
-          <p><strong>Perfect - Ed Sheeran</strong></p>
-          <p>Lyrics || Mix Lyrics</p>
-        </div>
-      </div>
-    </div>
-  </div>
+            if (!videoData) {
+                alert("No se encontró el video.");
+                return;
+            }
 
-  <div class="download-modal" id="downloadModal">
-    <button class="close-modal-button" onclick="closeDownloadModal()">×</button>
-    <h2>Descargar como:</h2>
-    <div class="download-options">
-      <h3>Música</h3>
-      <label><input type="radio" name="format" value="mp3" checked /> Audio (MP3)</label>
-      <h3>Video</h3>
-      <label><input type="radio" name="format" value="mp4" /> Video (MP4)</label>
-      <button class="download-confirm-button" onclick="downloadSelected()">Descargar</button>
-    </div>
-  </div>
+            // Establece el título del reproductor
+            document.querySelector("header h3").textContent = videoData.titulo;
 
-  <script>
-  const videoData = JSON.parse(localStorage.getItem("videoSeleccionado"));
+            // Obtiene los elementos de video y audio
+            const player = document.getElementById("videoPlayer");
+            const audioPlayer = document.getElementById("audio-player");
 
-  async function cargarVideo() {
-    if (!videoData) {
-      alert("No se encontró el video.");
-      return;
-    }
+            let found = false;
 
-    document.querySelector(".header h3").textContent = videoData.titulo;
+            // Verifica si hay una URL de video
+            const videoUrl = videoData.url;
+            if (videoUrl) {
+                // Si es un video, muestra el reproductor de video
+                document.getElementById("video-container").style.display = 'block';
+                document.getElementById("audio-container").style.display = 'none';
+                player.src = videoUrl;
+                player.play();
+                found = true;
+            }
 
-    const videoPlayer = document.getElementById("videoPlayer");
-    let found = false;
+            // Si no es un video, verifica si es un archivo de audio
+            const audioUrl = videoData.audioUrl;
+            if (!found && audioUrl) {
+                // Si es solo audio, muestra el reproductor de audio
+                document.getElementById("video-container").style.display = 'none';
+                document.getElementById("audio-container").style.display = 'block';
+                audioPlayer.src = audioUrl;
+                audioPlayer.play();
+                found = true;
+            }
 
-    for (let api of [
-      url => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
-      url => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
-      url => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
-      url => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
-    ]) {
-      try {
-        const res = await fetch(api(videoData.url));
-        const json = await res.json();
-        const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
-        if (videoUrl) {
-          videoPlayer.src = videoUrl;
-          found = true;
-          break;
+            if (!found) {
+                alert("No se pudo cargar el video o el audio.");
+            }
         }
-      } catch (err) {
-        console.warn("Fallo al cargar video:", err.message);
-      }
-    }
+    </script>
 
-    if (!found) alert("No se pudo cargar el video.");
-  }
-
-  async function downloadSelected() {
-    const selected = document.querySelector('input[name="format"]:checked').value;
-    const isAudio = selected.includes("mp3");
-    const apis = isAudio
-      ? [
-          url => `https://api.siputzx.my.id/api/d/ytmp3?url=${url}`,
-          url => `https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`
-        ]
-      : [
-          url => `https://api.siputzx.my.id/api/d/ytmp4?url=${url}`,
-          url => `https://api.zenkey.my.id/api/download/ytmp4?apikey=zenkey&url=${url}`,
-          url => `https://axeel.my.id/api/download/video?url=${encodeURIComponent(url)}`,
-          url => `https://delirius-apiofc.vercel.app/download/ytmp4?url=${url}`
-        ];
-
-    for (let api of apis) {
-      try {
-        const res = await fetch(api(videoData.url));
-        const json = await res.json();
-        const dlUrl = json?.result?.url || json?.data?.url || json?.data?.dl || json?.result?.download?.url;
-        if (dlUrl) {
-          const a = document.createElement("a");
-          a.href = dlUrl;
-          a.download = `${videoData.titulo}.${isAudio ? "mp3" : "mp4"}`;
-          a.click();
-          closeDownloadModal();
-          return;
+    <style>
+        /* Estilos básicos para el reproductor */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
-      } catch (err) {
-        console.warn("Fallo al descargar:", err.message);
-      }
-    }
 
-    alert("No se pudo descargar el archivo.");
-  }
+        .reproductor-container {
+            text-align: center;
+            padding: 20px;
+        }
 
-  cargarVideo();
-</script>
+        header h3 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        video, audio {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            video, audio {
+                width: 100%;
+            }
+        }
+    </style>
 </body>
 </html>
