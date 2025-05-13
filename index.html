@@ -261,4 +261,49 @@
 
   </script>
 </body>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-app.js";
+  import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/11.7.1/firebase-messaging.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAGklawj-Vi7zugVTDoTobNTyK8TxE5O1U",
+    authDomain: "orion-3e201.firebaseapp.com",
+    projectId: "orion-3e201",
+    storageBucket: "orion-3e201.firebasestorage.app",
+    messagingSenderId: "203473415842",
+    appId: "1:203473415842:web:e4bb8cdfd49c1c3ff731fb",
+    measurementId: "G-PPCLGZNJ3S"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const messaging = getMessaging(app);
+
+  // Solicita permiso para notificaciones push
+  Notification.requestPermission().then(permission => {
+    if (permission === 'granted') {
+      console.log('Permiso de notificación concedido.');
+
+      // Reemplaza esto con tu clave pública de VAPID desde la consola de Firebase
+      getToken(messaging, { vapidKey: 'TU_CLAVE_PUBLICA_DE_VAPID_AQUI' }).then((currentToken) => {
+        if (currentToken) {
+          console.log('Token generado:', currentToken);
+          // Aquí puedes enviarlo a tu backend si deseas enviar notificaciones personalizadas
+        } else {
+          console.warn('No se obtuvo token.');
+        }
+      }).catch(err => {
+        console.error('Error al obtener el token:', err);
+      });
+
+    } else {
+      console.warn('Permiso de notificación denegado.');
+    }
+  });
+
+  // Mostrar notificaciones mientras el sitio está abierto
+  onMessage(messaging, (payload) => {
+    console.log('Mensaje recibido en primer plano:', payload);
+    alert(`Notificación: ${payload.notification.title}`);
+  });
+</script>
 </html>
