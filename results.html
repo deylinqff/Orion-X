@@ -93,14 +93,14 @@
       const videoPlayer = document.getElementById("video-player");
 
       function reproducirVideo(url) {
-        videoPlayer.src = url;
-        videoPlayer.style.display = "block";
-        videoPlayer.play();
-      }
+  videoPlayer.src = url;
+  videoPlayer.classList.add("show");
+  videoPlayer.play();
+}
 
-      videoPlayer.addEventListener("ended", () => {
-        videoPlayer.style.display = "none";
-      });
+videoPlayer.addEventListener("ended", () => {
+  videoPlayer.classList.remove("show");
+});
 
       window.reproducirVideo = reproducirVideo;
 
