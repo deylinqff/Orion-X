@@ -28,8 +28,7 @@ async function searchSongs(query) {
 }
 
 const audioApis = [
-  (url) => `https://api.siputzx.my.id/api/d/ytmp3?url=${url}`,
-  (url) => `https://api.zenkey.my.id/api/download/ytmp3?apikey=zenkey&url=${url}`
+  (url) => `https://mode-api1.onrender.com/download-mp3?url=${url}`
 ];
 
 const videoApis = [
