@@ -16,7 +16,6 @@ videoPlayer.addEventListener("ended", () => {
   videoPlayer.style.display = "none"; // Oculta cuando termina
 });
 
-// Resto de tu código de búsqueda y botones...
 async function searchSongs(query) {
   searchInput.value = query;
   musicList.innerHTML = "";
@@ -121,65 +120,49 @@ searchForm.addEventListener("submit", async (e) => {
       downloadAudioBtn.innerHTML = `<i class="fas fa-music"></i> audio`;
 
       playBtn.onclick = async () => {
-  playBtn.textContent = "Cargando…";
-  let found = false;
+        playBtn.textContent = "Cargando…";
+        let found = false;
 
-  for (let api of videoApis) {
-    try {
-      const res = await fetch(api(video.url));
-      const json = await res.json();
-      console.log("Respuesta video API:", json);  // <— para depurar
-
-      // Intentamos varias rutas posibles:
-      const videoUrl =
-        json?.data?.dl ||
-        json?.result?.download?.url ||
-        json?.downloads?.url ||
-        json?.data?.download?.url ||
-        json?.link ||               // si la API usa “link”
-        json?.url;                  // si la API retorna directamente { url: "…" }
-
-      if (videoUrl) {
-        videoPlayer.src = videoUrl;
-        videoPlayer.style.display = "block";
-        videoPlayer.scrollIntoView({ behavior: "smooth" });
-        await videoPlayer.play();
-        playBtn.textContent = "Reproduciendo";
-        found = true;
-        break;
-      }
-    } catch (e) {
-      console.warn("Fallo API video:", e);
-    }
-  }
-
-  if (!found) {
-    playBtn.textContent = "Error";
-    alert("No se pudo obtener el video. Revisa la consola para más detalles.");
-  }
-};
-
-      downloadAudioBtn.onclick = async () => {
-        downloadAudioBtn.textContent = "Busc...";
-        for (let api of audioApis) {
+        for (let api of videoApis) {
           try {
             const res = await fetch(api(video.url));
             const json = await res.json();
-            const audioUrl = json?.result?.url || json?.data?.url || json?.data?.dl;
-            if (audioUrl) {
-              const a = document.createElement("a");
-              a.href = audioUrl;
-              a.download = `${video.titulo}.mp3`;
-              a.click();
-              downloadAudioBtn.textContent = "audio";
-              return;
+            const videoUrl =
+              json?.data?.dl ||
+              json?.result?.download?.url ||
+              json?.downloads?.url ||
+              json?.data?.download?.url ||
+              json?.link ||
+              json?.url;
+
+            if (videoUrl) {
+              videoPlayer.src = videoUrl;
+              videoPlayer.style.display = "block";
+              videoPlayer.scrollIntoView({ behavior: "smooth" });
+              await videoPlayer.play();
+              playBtn.textContent = "Reproduciendo";
+              found = true;
+              break;
             }
           } catch (e) {
-            console.warn("API audio (descarga) falló:", e.message);
+            console.warn("Fallo API video:", e);
           }
         }
-        downloadAudioBtn.textContent = "Error";
-        alert("No se pudo descargar el audio.");
+
+        if (!found) {
+          playBtn.textContent = "Error";
+          alert("No se pudo obtener el video. Revisa la consola para más detalles.");
+        }
+      };
+
+      // Aquí se actualizó la descarga de audio
+      downloadAudioBtn.onclick = () => {
+        const audioUrl = `https://mode-api1.onrender.com/download-mp3?url=${encodeURIComponent(video.url)}`;
+        const a = document.createElement("a");
+        a.href = audioUrl;
+        a.download = `${video.titulo}.mp3`;
+        a.click();
+        downloadAudioBtn.textContent = "audio";
       };
 
       const videoBtn = document.createElement("button");
@@ -192,7 +175,11 @@ searchForm.addEventListener("submit", async (e) => {
           try {
             const res = await fetch(api(video.url));
             const json = await res.json();
-            const videoUrl = json?.data?.dl || json?.result?.download?.url || json?.downloads?.url || json?.data?.download?.url;
+            const videoUrl =
+              json?.data?.dl ||
+              json?.result?.download?.url ||
+              json?.downloads?.url ||
+              json?.data?.download?.url;
             if (videoUrl) {
               const a = document.createElement("a");
               a.href = videoUrl;
